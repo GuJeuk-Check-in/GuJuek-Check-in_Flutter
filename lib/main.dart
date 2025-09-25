@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
       designSize: const Size(2304, 1440),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Inter'
+        ),
         home: HomeScreen(),
       ),
     );
