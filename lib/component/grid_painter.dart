@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
 
 class GridPainter extends CustomPainter {
+  final double cellSize;
+  final Color lineColor;
+  final double strokeWidth;
+
+  GridPainter({
+    this.cellSize = 30.0,           // 기본 간격
+    this.lineColor = Colors.grey,   // 기본 색
+    this.strokeWidth = 1,         // 기본 두께
+  });
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.grey.withOpacity(0.5)
-      ..strokeWidth = 0.3
+      ..color = lineColor.withOpacity(0.3)
+      ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke;
 
-    const double cellWidth = 3.0; // Fixed cell width
-    const double cellHeight = 3.0; // Fixed cell height
-
-    for (double i = 0; i <= size.width; i += cellWidth) {
-      canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
+    for (double x = 0; x <= size.width; x += cellSize) {
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
     }
 
-    for (double i = 0; i <= size.height; i += cellHeight) {
-      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    for (double y = 0; y <= size.height; y += cellSize) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
     }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
-  }
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
