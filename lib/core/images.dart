@@ -1,11 +1,9 @@
-final String baseSafetyRules = 'assets/images/safety_rules';
-final String baseLogo = 'assets/images/logo';
+const String baseSafetyRules = 'assets/images/safety_rules';
+const String baseLogo = 'assets/images/logo';
 
 class Images {
-  Images_.();
-
   //logo
-  static String guLogo = '$baseLogo/';
+  static String guLogo = '$baseLogo/logo.png';
 
   //safety_rules
   static String accident = '$baseSafetyRules/accident.png';
