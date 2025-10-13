@@ -17,6 +17,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   flutter_dotenv: ^6.0.0
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -31,25 +32,25 @@ flutter:
     - .env
     - assets/images/logo/
     - assets/images/safety_rules/
-    -
+
   fonts:
-    - family: Inter
+    - family: Pretendard
       fonts:
-        - asset: assets/fonts/Inter-Thin.ttf
+        - asset: assets/fonts/Pretendard-Thin.ttf
           weight: 100
-        - asset: assets/fonts/Inter-ExtraLight.ttf
+        - asset: assets/fonts/Pretendard-ExtraLight.ttf
           weight: 200
-        - asset: assets/fonts/Inter-Light.ttf
+        - asset: assets/fonts/Pretendard-Light.ttf
           weight: 300
-        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Pretendard-Regular.ttf
           weight: 400
-        - asset: assets/fonts/Inter-Medium.ttf
+        - asset: assets/fonts/Pretendard-Medium.ttf
           weight: 500
-        - asset: assets/fonts/Inter-SemiBold.ttf
+        - asset: assets/fonts/Pretendard-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/Inter-Bold.ttf
+        - asset: assets/fonts/Pretendard-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Inter-ExtraBold.ttf
+        - asset: assets/fonts/Pretendard-ExtraBold.ttf
           weight: 800
-        - asset: assets/fonts/Inter-Black.ttf
+        - asset: assets/fonts/Pretendard-Black.ttf
           weight: 900
