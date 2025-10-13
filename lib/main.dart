@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          fontFamily: 'Inter',
+          fontFamily: 'Pretendard',
         ),
         home: const HomeScreen(),
       ),
