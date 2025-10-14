@@ -16,6 +16,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_screenutil: ^5.9.3
   flutter_dotenv: ^6.0.0
+  dropdown_button2: ^2.3.9
 
 
 dev_dependencies:
@@ -32,6 +33,7 @@ flutter:
     - .env
     - assets/images/logo/
     - assets/images/safety_rules/
+    - assets/images/icons/
 
   fonts:
     - family: Pretendard
@@ -54,3 +56,7 @@ flutter:
           weight: 800
         - asset: assets/fonts/Pretendard-Black.ttf
           weight: 900
+
+    - family: Jua
+      fonts:
+        - asset: assets/fonts/jua.ttf
