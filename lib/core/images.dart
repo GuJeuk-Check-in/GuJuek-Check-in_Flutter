@@ -22,4 +22,5 @@ class Images {
   static String upDown = '$baseIcon/up_down.png';
   static String lineIcon = '$baseIcon/line_icon.png';
   static String goormIcon = '$baseIcon/goorm_icon.png';
+  static String plusIcon = '$baseIcon/plus.png';
 }
