@@ -23,4 +23,9 @@ class Images {
   static String lineIcon = '$baseIcon/line_icon.png';
   static String goormIcon = '$baseIcon/goorm_icon.png';
   static String plusIcon = '$baseIcon/plus.png';
+  static String calendarIcon = '$baseIcon/calendar.png';
+  static String callIcon = '$baseIcon/Call.png';
+  static String homeIcon = '$baseIcon/home.png';
+  static String locationPinIcon = '$baseIcon/location_pin.png';
+  static String mdiMercury = '$baseIcon/mdi_mercury.png';
 }
