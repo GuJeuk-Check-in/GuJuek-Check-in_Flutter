@@ -7,15 +7,25 @@ class Images {
   static String guLogo = '$baseLogo/logo.png';
 
   //safety_rules
+  //시설 안전 교육
   static String accident = '$baseSafetyRules/accident.png';
   static String clean = '$baseSafetyRules/clean.png';
   static String fire = '$baseSafetyRules/fire.png';
-  static String kind = '$baseSafetyRules/kind.png';
+  static String kind = '$baseSafetyRules/clean.png';
   static String listen = '$baseSafetyRules/listen.png';
   static String sick = '$baseSafetyRules/sick.png';
   static String stair = '$baseSafetyRules/stair.png';
   static String talk = '$baseSafetyRules/talk.png';
   static String trash = '$baseSafetyRules/trash.png';
+
+  //성희롱 예방
+  static String bad = '$baseSafetyRules/bad.png';
+  static String no = '$baseSafetyRules/no.png';
+  static String respect = '$baseSafetyRules/respect.png';
+  static String role = '$baseSafetyRules/role.png';
+
+
+
 
   //icons
   static String personIcon = '$baseIcon/person_icon.png';
@@ -23,4 +33,9 @@ class Images {
   static String lineIcon = '$baseIcon/line_icon.png';
   static String goormIcon = '$baseIcon/goorm_icon.png';
   static String plusIcon = '$baseIcon/plus.png';
+  static String calendarIcon = '$baseIcon/calendar.png';
+  static String callIcon = '$baseIcon/Call.png';
+  static String homeIcon = '$baseIcon/home.png';
+  static String locationPinIcon = '$baseIcon/location_pin.png';
+  static String mdiMercury = '$baseIcon/mdi_mercury.png';
 }
