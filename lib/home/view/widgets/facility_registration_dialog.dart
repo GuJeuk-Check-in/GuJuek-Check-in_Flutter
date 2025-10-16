@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 import 'package:gujuek_check_in_flutter/home/view/widgets/add_companion_dialog.dart';
+import 'package:gujuek_check_in_flutter/sign_up/view/ui/sign_up_dialog.dart';
 
 class FacilityRegistrationDialog extends StatefulWidget {
   const FacilityRegistrationDialog({super.key});
@@ -250,19 +251,24 @@ class _FacilityRegistrationDialogState
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                  color: const Color(0xffA4DFFF), width: 2.h),
+                        child: GestureDetector(
+                          onTap: (){
+                            showDialog(context: context, builder: (_) => const SignUpDialog());
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                    color: const Color(0xffA4DFFF), width: 2.h),
+                              ),
                             ),
-                          ),
-                          child: Text(
-                            '계졍이 없으신가요?',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xffA4DFFF),
+                            child: Text(
+                              '계졍이 없으신가요?',
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w600,
+                                color: const Color(0xffA4DFFF),
+                              ),
                             ),
                           ),
                         ),

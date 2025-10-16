@@ -5,6 +5,7 @@ import 'package:gujuek_check_in_flutter/component/custom_layout.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 import 'package:gujuek_check_in_flutter/home/view/widgets/custom_elevated_button.dart';
 import 'package:gujuek_check_in_flutter/home/view/widgets/facility_registration_dialog.dart';
+import 'package:gujuek_check_in_flutter/sign_up/view/ui/sign_up_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -53,7 +54,9 @@ class HomeScreen extends StatelessWidget {
                       fontSize: 48.sp,
                       fontWeight: FontWeight.w700,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(context: context, builder: (_) => const SignUpDialog());
+                    },
                     backgroundColor: const Color(0xff6C39AE),
                   ),
                 ],
