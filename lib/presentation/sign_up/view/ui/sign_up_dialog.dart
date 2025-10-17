@@ -2,7 +2,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/sign_up/view/widgets/custom_text_field.dart';
+
+import '../widgets/custom_text_field.dart';
 
 class SignUpDialog extends StatefulWidget {
   const SignUpDialog({super.key});

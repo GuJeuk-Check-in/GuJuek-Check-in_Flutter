@@ -2,8 +2,9 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/home/view/widgets/add_companion_dialog.dart';
-import 'package:gujuek_check_in_flutter/sign_up/view/ui/sign_up_dialog.dart';
+
+import '../../../sign_up/view/ui/sign_up_dialog.dart';
+import 'add_companion_dialog.dart';
 
 class FacilityRegistrationDialog extends StatefulWidget {
   const FacilityRegistrationDialog({super.key});
