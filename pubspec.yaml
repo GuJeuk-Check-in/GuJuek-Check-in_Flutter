@@ -18,6 +18,7 @@ dependencies:
   flutter_dotenv: ^6.0.0
   dropdown_button2: ^2.3.9
   json_annotation: ^4.9.0
+  dio: ^5.9.0
 
 dev_dependencies:
   flutter_test:
@@ -36,6 +37,7 @@ flutter:
     - assets/images/logo/
     - assets/images/safety_rules/
     - assets/images/icons/
+    - assets/images/button/
 
   fonts:
     - family: Pretendard
