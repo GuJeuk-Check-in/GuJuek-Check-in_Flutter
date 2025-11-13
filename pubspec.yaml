@@ -19,6 +19,7 @@ dependencies:
   dropdown_button2: ^2.3.9
   json_annotation: ^4.9.0
   dio: ^5.9.0
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -64,3 +65,8 @@ flutter:
     - family: Jua
       fonts:
         - asset: assets/fonts/jua.ttf
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo/logo.png"
