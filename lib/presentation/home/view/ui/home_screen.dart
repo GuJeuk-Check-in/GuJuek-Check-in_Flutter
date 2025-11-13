@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/component/circle_background.dart';
 import 'package:gujuek_check_in_flutter/component/custom_layout.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
+import 'package:gujuek_check_in_flutter/presentation/sign_up/view/ui/sign_up_dialog.dart';
 
-import '../../../sign_up/view/ui/sign_up_dialog.dart';
+import '../../../facility_safety_training/view/ui/facility_safety_training_screen.dart';
+
 import '../widgets/custom_elevated_button.dart';
 import '../widgets/facility_registration_dialog.dart';
 
@@ -21,11 +23,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               SizedBox(height: 80.h),
               Center(
-                child: Image.asset(
-                  Images.guLogo,
-                  width: 758.w,
-                  height: 290.h,
-                ),
+                child: Image.asset(Images.guLogo, width: 758.w, height: 290.h),
               ),
               SizedBox(height: 50.h),
               Row(
@@ -39,11 +37,14 @@ class HomeScreen extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return const FacilityRegistrationDialog();
-                          });
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => FacilitySafetyTrainingScreen(
+                            nextPage: (context) =>
+                                const FacilityRegistrationDialog(),
+                          ),
+                        ),
+                      );
                     },
                     backgroundColor: const Color(0xff3AB9FF),
                   ),
@@ -56,12 +57,18 @@ class HomeScreen extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                     onPressed: () {
-                      showDialog(context: context, builder: (_) => const SignUpDialog());
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => FacilitySafetyTrainingScreen(
+                            nextPage: (context) => const SignUpDialog(),
+                          ),
+                        ),
+                      );
                     },
                     backgroundColor: const Color(0xff6C39AE),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ],

@@ -34,6 +34,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
   int selectedDay = 1;
   String displayDate = '생년월일을 입력해주세요';
   String apiDate = '';
+  String idDate = '';
 
   final List<String> _address = [
     '관평동',
@@ -169,7 +170,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
         if (mounted) {
           showDialog(
             context: context,
-            builder: (_) => const CompleteFacilityRegistration(),
+            builder: (_) => CompleteFacilityRegistration(text: '발급된 아이디는 ${nameController.text}$idDate입니다.',),
           );
         }
       } else if (response.statusCode == 401) {
@@ -332,22 +333,6 @@ class _SignUpDialogState extends State<SignUpDialog> {
                           color: Color(0xff2ABFEC),
                         ),
                       ),
-                      // Positioned(
-                      //   bottom: -120.h,
-                      //   left: -120.w,
-                      //   child: const _CircleDecoration(
-                      //     size: 20,
-                      //     color: Colors.white,
-                      //   ),
-                      // ),
-                      // Positioned(
-                      //   bottom: -120.h,
-                      //   left: -120.w,
-                      //   child: const _CircleDecoration(
-                      //     size: 237,
-                      //     color: Color(0xff2ABFEC),
-                      //   ),
-                      // ),
                       Positioned(
                         bottom: 10.h,
                         right: -180.w,
@@ -937,6 +922,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
 
                     apiDate =
                         '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}';
+                    idDate = '${selectedDate.month.toString().padLeft(2, '0')}${selectedDate.day.toString().padLeft(2, '0')}';
                   });
 
                   debugPrint('화면 표시: $displayDate');
