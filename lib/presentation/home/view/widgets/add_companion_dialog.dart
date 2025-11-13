@@ -72,12 +72,6 @@ class _AddCompanionDialogState extends State<AddCompanionDialog> {
                       ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      IconButton(
-                        icon: Image.asset(Images.plusIcon,
-                            width: 23.w, height: 23.h),
-                        onPressed:
-                        widget.readOnly ? null : addCompanionField,
-                      ),
                       SizedBox(height: 20.h),
                       Text(
                         '동행인이 있으신가요?',
