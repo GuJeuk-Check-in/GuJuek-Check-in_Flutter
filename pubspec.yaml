@@ -6,7 +6,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.5.1
+  sdk: ">=3.9.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -14,13 +14,59 @@ dependencies:
 
 
   cupertino_icons: ^1.0.8
+  flutter_screenutil: ^5.9.3
+  flutter_dotenv: ^6.0.0
+  dropdown_button2: ^2.3.9
+  json_annotation: ^4.9.0
+  dio: ^5.9.0
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^4.0.0
+  build_runner: ^2.9.0
+  json_serializable: ^6.11.1
 
 flutter:
 
   uses-material-design: true
+
+  assets:
+    - .env
+    - assets/images/logo/
+    - assets/images/safety_rules/
+    - assets/images/icons/
+    - assets/images/button/
+
+  fonts:
+    - family: Pretendard
+      fonts:
+        - asset: assets/fonts/Pretendard-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Pretendard-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Pretendard-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Pretendard-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Pretendard-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Pretendard-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Pretendard-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Pretendard-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Pretendard-Black.ttf
+          weight: 900
+
+    - family: Jua
+      fonts:
+        - asset: assets/fonts/jua.ttf
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo/logo.png"
