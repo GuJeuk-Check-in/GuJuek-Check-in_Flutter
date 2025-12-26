@@ -24,7 +24,7 @@ class FacilitySafetyText {
           fontWeight: FontWeight.w700,
         ),
       ),
-      TextSpan(text: '외친 후 외부로 대피해주세요.', style: baseStyle),
+      TextSpan(text: '외친 후\n외부로 대피해주세요.', style: baseStyle),
     ],
   );
 
@@ -32,11 +32,11 @@ class FacilitySafetyText {
     children: [
       TextSpan(text: '활동 중 ', style: baseStyle),
       TextSpan(text: '안전 사고', style: boldStyle),
-      TextSpan(text: '가 발생하면 주변 선생님에게 즉시 알려주세요.', style: baseStyle),
+      TextSpan(text: '가 발생하면\n주변 선생님에게 즉시 알려주세요.', style: baseStyle),
     ],
   );
 
-  static final text3 = TextSpan(text: '활동 중 몸이 아프면 주변 선생님에게 즉시 알려주세요.', style: baseStyle);
+  static final text3 = TextSpan(text: '활동 중 몸이 아프면\n주변 선생님에게 즉시 알려주세요.', style: baseStyle);
 
   static final text4 = TextSpan(text: '계단은 조심조심 이용해주세요.', style: baseStyle);
 
@@ -48,7 +48,7 @@ class FacilitySafetyText {
     children: [
       TextSpan(text: '손은 항상 ', style: baseStyle),
       TextSpan(text: '깨끗하게 ', style: boldStyle),
-      TextSpan(text: '씻고 ', style: baseStyle),
+      TextSpan(text: '씻고\n', style: baseStyle),
       TextSpan(text: '기침 예절', style: boldStyle),
       TextSpan(text: '을 지켜주세요.', style: baseStyle),
     ],
@@ -82,7 +82,7 @@ class FacilitySafetyText {
 
   static final text11 = TextSpan(
     children: [
-      TextSpan(text: '농담이라도 상대방이 불쾌하면 ', style: baseStyle),
+      TextSpan(text: '농담이라도 상대방이 불쾌하면\n', style: baseStyle),
       TextSpan(text: '성희롱', style: boldStyle),
       TextSpan(text: '이에요', style: baseStyle),
     ],
@@ -93,7 +93,7 @@ class FacilitySafetyText {
   static final text13 = TextSpan(
     children: [
       TextSpan(
-        text: '존중하는 말, 배려하는 행동이 ',
+        text: '존중하는 말, 배려하는 행동이\n',
         style: baseStyle,
       ),
       TextSpan(

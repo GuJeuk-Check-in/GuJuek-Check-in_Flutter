@@ -10,6 +10,7 @@ import 'package:gujuek_check_in_flutter/presentation/sign_up/view/widgets/custom
 import 'package:gujuek_check_in_flutter/presentation/sign_up/view/widgets/phone_input_formatter.dart';
 
 import '../../../../data/models/sign_up/user_model.dart';
+import '../../../home/view/widgets/loading_dialog.dart';
 import '../widgets/custom_text_field.dart';
 
 class SignUpDialog extends StatefulWidget {
@@ -35,6 +36,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
   String displayDate = '생년월일을 입력해주세요';
   String apiDate = '';
   String idDate = '';
+  bool _isLoadingDialogVisible = false;
 
   final List<String> _address = [
     '관평동',
@@ -160,7 +162,10 @@ class _SignUpDialogState extends State<SignUpDialog> {
 
       debugPrint('POST 요청: $baseUrl/user/sign-up');
 
+      _showLoadingDialog();
+
       final response = await dio.post('/user/sign-up', data: data);
+      _hideLoadingDialog();
 
       debugPrint('응답 상태코드: ${response.statusCode}');
       debugPrint('응답 데이터: ${response.data}');
@@ -170,44 +175,44 @@ class _SignUpDialogState extends State<SignUpDialog> {
         if (mounted) {
           showDialog(
             context: context,
-            builder: (_) => CompleteFacilityRegistration(text: '발급된 아이디는 ${nameController.text}$idDate입니다.',),
+            builder: (_) =>
+                CompleteFacilityRegistration(
+                  text: '발급된 아이디는 ${nameController.text}$idDate입니다.',
+                ),
           );
         }
       } else if (response.statusCode == 401) {
         debugPrint('유저 중복 에러 401 - 응답 내용: ${response.data}');
         if (mounted) {
-          final message = response.data['message'] ?? '이미 존재하는 회원입니다.';
           Future.microtask(() {
             if (!mounted) return;
             showDialog(
               context: context,
-              builder: (_) => AlertDialog(
-                title: const Text(
-                  '회원가입 실패',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                content: Text(
-                  message,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    height: 1.5.h,
-                  ),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text(
-                      '확인',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+              builder: (_) =>
+                  AlertDialog(
+                    title: const Text(
+                      '회원가입 실패',
+                      style: TextStyle(fontWeight: FontWeight.w700),
                     ),
+                    content: Text(
+                      '이미 존재하는 회원입니다.',
+                      style: TextStyle(fontSize: 16.sp, height: 1.5.h),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          '확인',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
             );
           });
         }
@@ -228,6 +233,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
         }
       }
     } catch (e) {
+      _hideLoadingDialog();
       debugPrint('회원가입 에러: $e');
       if (e is DioException) {
         debugPrint('DioException 상세:');
@@ -243,6 +249,22 @@ class _SignUpDialogState extends State<SignUpDialog> {
         }
       }
     }
+  }
+
+  void _showLoadingDialog() {
+    _isLoadingDialogVisible = true;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const LoadingDialog(),
+    );
+  }
+
+  void _hideLoadingDialog() {
+    if (!_isLoadingDialogVisible) return;
+    _isLoadingDialogVisible = false;
+    if (!mounted) return;
+    Navigator.of(context, rootNavigator: true).pop();
   }
 
   @override
@@ -411,7 +433,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
                                   ),
                                   child: Row(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    CrossAxisAlignment.center,
                                     children: [
                                       Image.asset(
                                         Images.calendarIcon,
@@ -491,7 +513,8 @@ class _SignUpDialogState extends State<SignUpDialog> {
                                 _address,
                                 '거주지를 선택해주세요',
                                 Images.homeIcon,
-                                (val) => setState(() => _selectedAddress = val),
+                                    (val) =>
+                                    setState(() => _selectedAddress = val),
                               ),
                             ),
                           ),
@@ -581,13 +604,11 @@ class _SignUpDialogState extends State<SignUpDialog> {
     );
   }
 
-  Widget buildDropDownButton(
-    String? value,
-    List<String> items,
-    String text,
-    String imagePath,
-    ValueChanged<String?> onChanged,
-  ) {
+  Widget buildDropDownButton(String? value,
+      List<String> items,
+      String text,
+      String imagePath,
+      ValueChanged<String?> onChanged,) {
     final TextEditingController etcController = TextEditingController();
 
     // 현재 선택된 값이 items에 없으면 추가
@@ -625,16 +646,17 @@ class _SignUpDialogState extends State<SignUpDialog> {
                   items: [
                     // 기존 항목들 + 직접 입력된 값
                     ...displayItems.map(
-                      (e) => DropdownMenuItem<String>(
-                        value: e,
-                        child: Text(
-                          e,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.black,
+                          (e) =>
+                          DropdownMenuItem<String>(
+                            value: e,
+                            child: Text(
+                              e,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
                     ),
                     // 직접 입력 항목
                     DropdownMenuItem<String>(
@@ -774,175 +796,187 @@ class _SignUpDialogState extends State<SignUpDialog> {
   Future buildDatePicker() {
     return showDialog(
       context: context,
-      builder: (context) => Dialog(
-        child: Container(
-          width: 440.w,
-          height: 520.h,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.r),
-            color: Colors.white,
-          ),
-          child: Column(
-            children: [
-              SizedBox(height: 40.h),
-              Text(
-                '생년월일',
-                style: TextStyle(
-                  fontSize: 32.sp,
-                  color: const Color(0xff282626),
-                  fontWeight: FontWeight.w500,
-                ),
+      builder: (context) =>
+          Dialog(
+            child: Container(
+              width: 440.w,
+              height: 520.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.r),
+                color: Colors.white,
               ),
-              SizedBox(height: 56.h),
-              SizedBox(
-                height: 200.h,
-                child: Row(
-                  children: [
-                    // 년도 피커
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            '년',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              color: const Color(0xff2E2E32),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Expanded(
-                            child: CupertinoPicker(
-                              itemExtent: 50,
-                              scrollController: FixedExtentScrollController(
-                                initialItem: 8, // 2008년
-                              ),
-                              onSelectedItemChanged: (index) {
-                                selectedYear = 2000 + index;
-                              },
-                              children: List.generate(
-                                100,
-                                (index) => Center(
-                                  child: Text(
-                                    '${2000 + index}',
-                                    style: TextStyle(fontSize: 18.sp),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+              child: Column(
+                children: [
+                  SizedBox(height: 40.h),
+                  Text(
+                    '생년월일',
+                    style: TextStyle(
+                      fontSize: 32.sp,
+                      color: const Color(0xff282626),
+                      fontWeight: FontWeight.w500,
                     ),
-                    // 월 피커
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            '월',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              color: const Color(0xff2E2E32),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Expanded(
-                            child: CupertinoPicker(
-                              itemExtent: 50,
-                              scrollController: FixedExtentScrollController(
-                                initialItem: 0, // 1월
-                              ),
-                              onSelectedItemChanged: (index) {
-                                selectedMonth = index + 1;
-                              },
-                              children: List.generate(
-                                12,
-                                (index) => Center(
-                                  child: Text(
-                                    '${index + 1}',
-                                    style: TextStyle(fontSize: 18.sp),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // 일 피커
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            '일',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              color: const Color(0xff2E2E32),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Expanded(
-                            child: CupertinoPicker(
-                              itemExtent: 50,
-                              scrollController: FixedExtentScrollController(
-                                initialItem: 0, // 1일
-                              ),
-                              onSelectedItemChanged: (index) {
-                                selectedDay = index + 1;
-                              },
-                              children: List.generate(
-                                31,
-                                (index) => Center(
-                                  child: Text(
-                                    '${index + 1}',
-                                    style: TextStyle(fontSize: 18.sp),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 40.h),
-              TextButton(
-                onPressed: () {
-                  // 날짜 저장
-                  DateTime selectedDate = DateTime(
-                    selectedYear,
-                    selectedMonth,
-                    selectedDay,
-                  );
-
-                  setState(() {
-                    displayDate =
-                        '${selectedDate.year}/${selectedDate.month}/${selectedDate.day}';
-
-                    apiDate =
-                        '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}';
-                    idDate = '${selectedDate.month.toString().padLeft(2, '0')}${selectedDate.day.toString().padLeft(2, '0')}';
-                  });
-
-                  debugPrint('화면 표시: $displayDate');
-                  debugPrint('API 전송: $apiDate');
-
-                  Navigator.pop(context); // 다이얼로그 닫기
-                },
-                child: Text(
-                  '확인',
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xff0F50A0),
                   ),
-                ),
+                  SizedBox(height: 56.h),
+                  SizedBox(
+                    height: 200.h,
+                    child: Row(
+                      children: [
+                        // 년도 피커
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                '년',
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  color: const Color(0xff2E2E32),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Expanded(
+                                child: CupertinoPicker(
+                                  itemExtent: 50,
+                                  scrollController: FixedExtentScrollController(
+                                    initialItem: 8, // 2008년
+                                  ),
+                                  onSelectedItemChanged: (index) {
+                                    selectedYear = 2000 + index;
+                                  },
+                                  children: List.generate(
+                                    100,
+                                        (index) =>
+                                        Center(
+                                          child: Text(
+                                            '${2000 + index}',
+                                            style: TextStyle(fontSize: 18.sp),
+                                          ),
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // 월 피커
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                '월',
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  color: const Color(0xff2E2E32),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Expanded(
+                                child: CupertinoPicker(
+                                  itemExtent: 50,
+                                  scrollController: FixedExtentScrollController(
+                                    initialItem: 0, // 1월
+                                  ),
+                                  onSelectedItemChanged: (index) {
+                                    selectedMonth = index + 1;
+                                  },
+                                  children: List.generate(
+                                    12,
+                                        (index) =>
+                                        Center(
+                                          child: Text(
+                                            '${index + 1}',
+                                            style: TextStyle(fontSize: 18.sp),
+                                          ),
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // 일 피커
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                '일',
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  color: const Color(0xff2E2E32),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Expanded(
+                                child: CupertinoPicker(
+                                  itemExtent: 50,
+                                  scrollController: FixedExtentScrollController(
+                                    initialItem: 0, // 1일
+                                  ),
+                                  onSelectedItemChanged: (index) {
+                                    selectedDay = index + 1;
+                                  },
+                                  children: List.generate(
+                                    31,
+                                        (index) =>
+                                        Center(
+                                          child: Text(
+                                            '${index + 1}',
+                                            style: TextStyle(fontSize: 18.sp),
+                                          ),
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 40.h),
+                  TextButton(
+                    onPressed: () {
+                      // 날짜 저장
+                      DateTime selectedDate = DateTime(
+                        selectedYear,
+                        selectedMonth,
+                        selectedDay,
+                      );
+
+                      setState(() {
+                        displayDate =
+                        '${selectedDate.year}/${selectedDate
+                            .month}/${selectedDate.day}';
+
+                        apiDate =
+                        '${selectedDate.year}-${selectedDate.month
+                            .toString()
+                            .padLeft(2, '0')}-${selectedDate.day
+                            .toString()
+                            .padLeft(2, '0')}';
+                        idDate =
+                        '${selectedDate.month.toString().padLeft(
+                            2, '0')}${selectedDate.day.toString().padLeft(
+                            2, '0')}';
+                      });
+
+                      debugPrint('화면 표시: $displayDate');
+                      debugPrint('API 전송: $apiDate');
+
+                      Navigator.pop(context); // 다이얼로그 닫기
+                    },
+                    child: Text(
+                      '확인',
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xff0F50A0),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
     );
   }
 }

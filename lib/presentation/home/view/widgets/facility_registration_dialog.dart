@@ -110,17 +110,15 @@ class _FacilityRegistrationDialogState
 
       if (e.response?.statusCode == 404) {
         final errorData = e.response?.data;
-        if (errorData != null && mounted) {
           // description 필드에서 메시지 추출
-          final description = errorData['description'] ?? '존재하지 않는 동행인 ID입니다.';
-
+          final description = errorData['message']!;
           Future.microtask(() {
-            if (!mounted) return;
+            if (mounted) Navigator.pop(context);
             showDialog(
               context: context,
               builder: (_) => AlertDialog(
                 title: const Text(
-                  '동행인 오류',
+                  '로그인 에러',
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
                 content: Text(
@@ -142,7 +140,7 @@ class _FacilityRegistrationDialogState
               ),
             );
           });
-        }
+
       } else {
         debugPrint('LOGIN ERROR: ${e.message}');
       }

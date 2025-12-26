@@ -39,7 +39,7 @@ class Images {
   static String completeIcon = '$baseIcon/complete_icon.png';
   static String upIcon = '$baseIcon/up_icon.png';
   static String downIcon = '$baseIcon/down_icon.png';
-  static String searchIcon = '$baseIcon/search_icon.png';
+  static String searchIcon = '$baseIcon/serch_icon.png';
   static String timerIcon = '$baseIcon/timer_icon.png';
 
   //button
