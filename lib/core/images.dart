@@ -1,6 +1,7 @@
 const String baseSafetyRules = 'assets/images/safety_rules';
 const String baseLogo = 'assets/images/logo';
 const String baseIcon = 'assets/images/icons';
+const String baseButton = 'assets/images/button';
 
 class Images {
   //logo
@@ -24,9 +25,6 @@ class Images {
   static String respect = '$baseSafetyRules/respect.png';
   static String role = '$baseSafetyRules/role.png';
 
-
-
-
   //icons
   static String personIcon = '$baseIcon/person_icon.png';
   static String upDown = '$baseIcon/up_down.png';
@@ -38,4 +36,14 @@ class Images {
   static String homeIcon = '$baseIcon/home.png';
   static String locationPinIcon = '$baseIcon/location_pin.png';
   static String mdiMercury = '$baseIcon/mdi_mercury.png';
+  static String completeIcon = '$baseIcon/complete_icon.png';
+  static String upIcon = '$baseIcon/up_icon.png';
+  static String downIcon = '$baseIcon/down_icon.png';
+  static String searchIcon = '$baseIcon/serch_icon.png';
+  static String timerIcon = '$baseIcon/timer_icon.png';
+
+  //button
+  static String leftButton ='$baseButton/left_button.png';
+  static String rightButton ='$baseButton/right_button.png';
+  static String coloredLeftButton ='$baseButton/colored_left_button.png';
 }

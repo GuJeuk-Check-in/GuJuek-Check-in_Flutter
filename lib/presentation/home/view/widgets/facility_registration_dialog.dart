@@ -1,0 +1,764 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/presentation/home/view/widgets/custom_drop_down_button.dart';
+import 'package:gujuek_check_in_flutter/core/images.dart';
+import 'package:gujuek_check_in_flutter/data/models/login/login_model.dart';
+import 'package:gujuek_check_in_flutter/presentation/home/view/widgets/complete_facility_registration.dart';
+import 'package:gujuek_check_in_flutter/presentation/home/view/widgets/loading_dialog.dart';
+
+import '../../../sign_up/view/ui/sign_up_dialog.dart';
+import 'add_companion_dialog.dart';
+
+class FacilityRegistrationDialog extends StatefulWidget {
+  const FacilityRegistrationDialog({super.key});
+
+  @override
+  _FacilityRegistrationDialogState createState() =>
+      _FacilityRegistrationDialogState();
+}
+
+class _FacilityRegistrationDialogState
+    extends State<FacilityRegistrationDialog> {
+  late TextEditingController nameController;
+
+  final List<String> companionIds = [];
+
+  int currentStep = 1;
+  String? _selectedPurpose;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
+
+  Future<void> login() async {
+    try {
+      debugPrint('=== 로그인 시작 ===');
+      debugPrint('userId: ${nameController.text}');
+      debugPrint('purpose: $_selectedPurpose');
+      debugPrint('companionIds: $companionIds');
+      debugPrint('companionIds 길이: ${companionIds.length}');
+
+      if (nameController.text.isEmpty) {
+        debugPrint('userId가 비어있음');
+        return;
+      }
+
+      if (_selectedPurpose == null || _selectedPurpose!.isEmpty) {
+        debugPrint('purpose가 선택되지 않음');
+        return;
+      }
+
+      final user = LoginModel(
+        userId: nameController.text,
+        purpose: _selectedPurpose!,
+        companionIds: companionIds,
+      );
+
+      final data = user.toJson();
+      debugPrint('LOGIN DATA: $data');
+
+      final baseUrl = dotenv.env['BASE_URL'];
+
+      if (baseUrl == null || baseUrl.isEmpty) {
+        debugPrint('BASE_URL이 설정되지 않음');
+        return;
+      }
+
+      final dio = Dio(
+        BaseOptions(
+          baseUrl: baseUrl,
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
+
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const LoadingDialog(),
+      );
+
+      final response = await dio.post('/user/login', data: data);
+
+      debugPrint('✅ 응답 받음 - 상태코드: ${response.statusCode}');
+      debugPrint('응답 데이터: ${response.data}');
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        debugPrint('SUCCESS LOGIN');
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (_) => const CompleteFacilityRegistration(text: '이용해주셔서 감사합니다.',),
+          );
+        }
+      }
+    } on DioException catch (e) {
+      debugPrint('❌ DioException 발생!');
+      debugPrint('타입: ${e.type}');
+      debugPrint('상태코드: ${e.response?.statusCode}');
+      debugPrint('에러 메시지: ${e.message}');
+      debugPrint('응답 데이터: ${e.response?.data}');
+
+      if (e.response?.statusCode == 404) {
+        final errorData = e.response?.data;
+          // description 필드에서 메시지 추출
+          final description = errorData['message']!;
+          Future.microtask(() {
+            if (mounted) Navigator.pop(context);
+            showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                title: const Text(
+                  '로그인 에러',
+                  style: TextStyle(fontWeight: FontWeight.w700),
+                ),
+                content: Text(
+                  description,
+                  style: const TextStyle(fontSize: 16, height: 1.5),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text(
+                      '확인',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          });
+
+      } else {
+        debugPrint('LOGIN ERROR: ${e.message}');
+      }
+    } catch (error, stackTrace) {
+      debugPrint('일반 에러 발생: $error');
+      debugPrint('스택트레이스: $stackTrace');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(viewInsets: EdgeInsets.zero),
+      child: Dialog(
+        child: Container(
+          width: 920.w,
+          height: 544.h,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.r),
+            child: Row(
+              children: [
+                //왼쪽 영역
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 47.0.w),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 110.w,
+                            top: 206.h,
+                            child: buildDot(),
+                          ),
+                          Positioned(
+                            left: 152.w,
+                            top: 206.h,
+                            child: buildDot(),
+                          ),
+                          Column(
+                            children: [
+                              SizedBox(height: 54.h),
+                              Image.asset(
+                                Images.guLogo,
+                                width: 366.w,
+                                height: 140.h,
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Image.asset(
+                                  Images.goormIcon,
+                                  width: 76.w,
+                                  height: 17.5.h,
+                                ),
+                              ),
+                              SizedBox(height: 8.h),
+                              RichText(
+                                textAlign: TextAlign.left,
+                                text: TextSpan(
+                                  style: null,
+                                  children: [
+                                    TextSpan(
+                                      text: '나의 ',
+                                      style: TextStyle(
+                                        fontFamily: 'Jua',
+                                        color: const Color(0xff2F68C2),
+                                        fontSize: 48.sp,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '미래',
+                                      style: TextStyle(
+                                        fontFamily: 'Jua',
+                                        color: const Color(0xffF86879),
+                                        fontSize: 55.sp,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '는\n      ',
+                                      style: TextStyle(
+                                        fontFamily: 'Jua',
+                                        color: const Color(0xff2F68C2),
+                                        fontSize: 48.sp,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '내가 만드는거야',
+                                      style: TextStyle(
+                                        fontFamily: 'Jua',
+                                        color: const Color(0xff2F68C2),
+                                        fontSize: 48.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 10.h),
+                              Container(
+                                width: 342.w,
+                                height: 23.h,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xff5E97DB),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '미래를 만들어가는 청소년, 구즉청소년문화의집이 함께 하겠습니다.',
+                                    style: TextStyle(
+                                      fontFamily: 'Jua',
+                                      color: Colors.white,
+                                      fontSize: 12.5.sp,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20.h),
+                              buildItem('청소년이 호기심을 발견하는 창의 발전소'),
+                              SizedBox(height: 5.h),
+                              buildItem('청소년이 행복한 문화 다락방'),
+                              SizedBox(height: 5.h),
+                              buildItem('청소년이 재미 있는 놀이 아지트'),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                //오른쪽 영역
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    color: const Color(0xff0F50A0),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 69.h),
+                        Text(
+                          '시설 이용 신청',
+                          style: TextStyle(
+                            fontSize: 40.sp,
+                            fontFamily: 'Jua',
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 52.h),
+                        currentStep == 1
+                            ? Column(
+                                children: [
+                                  SizedBox(
+                                    width: 300.w,
+                                    height: 48.h,
+                                    child: buildTextField(),
+                                  ),
+                                  SizedBox(height: 20.h),
+                                  buildDropDown(),
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  buildAddCompanion(),
+                                  SizedBox(height: 50.h),
+                                ],
+                              ),
+                        SizedBox(height: 44.h),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 80.w),
+                          child: Row(
+                            children: List.generate(2, (index) {
+                              return Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 8.w),
+                                  height: 4.h,
+                                  decoration: BoxDecoration(
+                                    color: currentStep > index
+                                        ? const Color(0xffA4DFFF)
+                                        : const Color(0xff012859),
+                                    borderRadius: BorderRadius.circular(100.r),
+                                  ),
+                                ),
+                              );
+                            }),
+                          ),
+                        ),
+                        SizedBox(height: 60.h),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 160.w),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: Size(140.w, 52.h),
+                              backgroundColor: const Color(0xff3C71B2),
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  width: 2.w,
+                                  color: Colors.white,
+                                ),
+                                borderRadius: BorderRadius.circular(50.r),
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                currentStep < 2 ? currentStep++ : login();
+                              });
+                            },
+                            child: Center(
+                              child: Text(
+                                '다음',
+                                style: TextStyle(
+                                  fontSize: 24.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 35.h),
+                        if (currentStep < 2)
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => const SignUpDialog(),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: const Color(0xffA4DFFF),
+                                      width: 2.h,
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  '계졍이 없으신가요?',
+                                  style: TextStyle(
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xffA4DFFF),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildTextField() {
+    return Container(
+      width: 300.w,
+      height: 48.h,
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30.r),
+        color: Colors.white,
+        border: Border.all(width: 1.w, color: const Color(0xff0F50A0)),
+      ),
+      child: Row(
+        children: [
+          Image.asset(Images.personIcon, width: 22.w, height: 24.h),
+          SizedBox(width: 8.w),
+          Image.asset(Images.lineIcon, width: 1.w, height: 36.h),
+          SizedBox(width: 8.w),
+          Expanded(
+            child: TextField(
+              controller: nameController,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 14.sp,
+                color: const Color(0xff404040),
+              ),
+              decoration: InputDecoration(
+                hintText: 'ex) 김정욱0709',
+                focusColor: Colors.black,
+                hintStyle: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xff6A6A6A),
+                ),
+                fillColor: Colors.white,
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildDropDown() {
+    return CustomDropDownButton(
+      width: 300,
+      height: 48,
+      text: '방문목적 선택',
+      imagePath: Images.upDown,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30.r),
+        color: Colors.white,
+        border: Border.all(width: 1.w, color: const Color(0xff0F50A0)),
+      ),
+      onPurposeSelected: (purpose) {
+        setState(() {
+          _selectedPurpose = purpose!.purpose;
+        });
+      },
+    );
+  }
+
+  Widget buildAddCompanion() {
+    return Column(
+      children: [
+        // 동행인 추가 버튼
+        GestureDetector(
+          onTap: () async {
+            final result = await showDialog<List<String>>(
+              context: context,
+              builder: (_) => const AddCompanionDialog(),
+            );
+
+            if (result != null && result.isNotEmpty) {
+              setState(() {
+                companionIds.addAll(result);
+              });
+            }
+          },
+          child: Container(
+            width: 300.w,
+            height: 48.h,
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 13.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30.r),
+              color: Colors.white,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '동행인 추가',
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: const Color(0xff404040),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Image.asset(Images.plusIcon, width: 25.w, height: 25.h),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: 10.h),
+
+        // 동행인 목록 보기 컨테이너
+        if (companionIds.isNotEmpty)
+          GestureDetector(
+            onTap: () async {
+              final result = await showDialog<List<String>>(
+                context: context,
+                builder: (_) =>
+                    _CompanionListDialog(companionIds: List.from(companionIds)),
+              );
+
+              // 수정된 목록을 반영
+              if (result != null) {
+                setState(() {
+                  companionIds.clear();
+                  companionIds.addAll(result);
+                });
+              }
+            },
+            child: Container(
+              width: 300.w,
+              height: 48.h,
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 13.h),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30.r),
+                color: Colors.white.withOpacity(0.9),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '동행인 보기',
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xff404040),
+                    ),
+                  ),
+                  Image.asset(Images.searchIcon, width: 25.w, height: 25.h),
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget buildItem(String text) {
+    return Row(
+      children: [
+        Container(
+          width: 6.w,
+          height: 6.h,
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            shape: BoxShape.circle,
+          ),
+        ),
+        SizedBox(width: 9.w),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 13.5.sp,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xff232323),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildDot() => Container(
+    width: 11.w,
+    height: 11.h,
+    decoration: const BoxDecoration(
+      shape: BoxShape.circle,
+      color: Color(0xffF86879),
+    ),
+  );
+}
+
+// 동행인 목록 다이얼로그 (슬라이드 삭제 기능)
+class _CompanionListDialog extends StatefulWidget {
+  final List<String> companionIds;
+
+  const _CompanionListDialog({required this.companionIds});
+
+  @override
+  State<_CompanionListDialog> createState() => _CompanionListDialogState();
+}
+
+class _CompanionListDialogState extends State<_CompanionListDialog> {
+  late List<String> _companionIds;
+
+  @override
+  void initState() {
+    super.initState();
+    _companionIds = List.from(widget.companionIds);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
+      child: Container(
+        width: 400.w,
+        padding: EdgeInsets.all(24.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '동행인 목록',
+              style: TextStyle(
+                fontSize: 24.sp,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xff0F50A0),
+              ),
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              '왼쪽으로 슬라이드하여 삭제',
+              style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xff6A6A6A),
+              ),
+            ),
+            SizedBox(height: 20.h),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 300.h),
+              child: _companionIds.isEmpty
+                  ? Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 40.h),
+                        child: Text(
+                          '동행인이 없습니다',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: const Color(0xff6A6A6A),
+                          ),
+                        ),
+                      ),
+                    )
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _companionIds.length,
+                      itemBuilder: (context, index) {
+                        final id = _companionIds[index];
+                        return Dismissible(
+                          key: Key(id),
+                          direction: DismissDirection.endToStart,
+                          onDismissed: (direction) {
+                            setState(() {
+                              _companionIds.removeAt(index);
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('$id 삭제됨'),
+                                duration: const Duration(seconds: 1),
+                              ),
+                            );
+                          },
+                          background: Container(
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.only(right: 20.w),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                              size: 28.sp,
+                            ),
+                          ),
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 8.h),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 12.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xffF5F5F5),
+                              borderRadius: BorderRadius.circular(12.r),
+                              border: Border.all(
+                                width: 1.w,
+                                color: const Color(0xffE0E0E0),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 8.w,
+                                  height: 8.h,
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xff0F50A0),
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                                SizedBox(width: 12.w),
+                                Expanded(
+                                  child: Text(
+                                    id,
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xff404040),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+            ),
+            SizedBox(height: 20.h),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff0F50A0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 14.h),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context, _companionIds);
+                    },
+                    child: Text(
+                      '확인',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
