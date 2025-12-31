@@ -41,6 +41,7 @@ class Images {
   static String downIcon = '$baseIcon/down_icon.png';
   static String searchIcon = '$baseIcon/serch_icon.png';
   static String timerIcon = '$baseIcon/timer_icon.png';
+  static String circlePersonIcon = '$baseIcon/circle_person_icon.png';
 
   //button
   static String leftButton ='$baseButton/left_button.png';

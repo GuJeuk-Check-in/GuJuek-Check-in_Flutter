@@ -9,14 +9,14 @@ part of 'login_model.dart';
 LoginModel _$LoginModelFromJson(Map<String, dynamic> json) => LoginModel(
   userId: json['userId'] as String,
   purpose: json['purpose'] as String,
-  companionIds: (json['companionIds'] as List<dynamic>)
-      .map((e) => e as String)
-      .toList(),
+  maleCount: (json['maleCount'] as num).toInt(),
+  femaleCount: (json['femaleCount'] as num).toInt(),
 );
 
 Map<String, dynamic> _$LoginModelToJson(LoginModel instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'purpose': instance.purpose,
-      'companionIds': instance.companionIds,
+      'maleCount': instance.maleCount,
+      'femaleCount': instance.femaleCount,
     };

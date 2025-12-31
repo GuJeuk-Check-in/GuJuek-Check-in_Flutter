@@ -203,10 +203,10 @@ class _SignUpDialogState extends State<SignUpDialog> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: const Text(
+                        child: Text(
                           '확인',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
