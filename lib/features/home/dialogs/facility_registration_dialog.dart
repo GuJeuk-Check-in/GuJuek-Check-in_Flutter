@@ -1,14 +1,16 @@
+import 'dart:math' as math;
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gujuek_check_in_flutter/presentation/home/view/widgets/custom_drop_down_button.dart';
+import 'package:gujuek_check_in_flutter/features/home/widgets/custom_drop_down_button.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 import 'package:gujuek_check_in_flutter/data/models/login/login_model.dart';
-import 'package:gujuek_check_in_flutter/presentation/home/view/widgets/complete_facility_registration.dart';
-import 'package:gujuek_check_in_flutter/presentation/home/view/widgets/loading_dialog.dart';
+import 'package:gujuek_check_in_flutter/shared/dialogs/complete_facility_registration.dart';
+import 'package:gujuek_check_in_flutter/shared/dialogs/loading_dialog.dart';
 
-import '../../../sign_up/view/ui/sign_up_dialog.dart';
+import 'package:gujuek_check_in_flutter/features/sign_up/dialogs/sign_up_dialog.dart';
 import 'add_companion_dialog.dart';
 
 class FacilityRegistrationDialog extends StatefulWidget {
@@ -152,247 +154,38 @@ class _FacilityRegistrationDialogState
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.sizeOf(context);
+    final horizontalMargin = 24.w;
+    final verticalMargin = 24.h;
+    final dialogWidth = math.min(
+      920.w,
+      math.max(0.0, screenSize.width - horizontalMargin * 2),
+    );
+    final dialogHeight = math.min(
+      544.h,
+      math.max(0.0, screenSize.height - verticalMargin * 2),
+    );
+    final isCompact = dialogWidth < 700.w;
+    final compactFormWidth =
+        math.max(0.0, dialogWidth - (horizontalMargin * 2));
+    final formWidth = isCompact ? math.min(320.w, compactFormWidth) : 300.w;
+
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(viewInsets: EdgeInsets.zero),
       child: Dialog(
         child: Container(
-          width: 920.w,
-          height: 544.h,
+          width: dialogWidth,
+          height: dialogHeight,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: Row(
               children: [
-                //왼쪽 영역
+                Expanded(child: buildLeftPanel(isCompact: isCompact)),
                 Expanded(
-                  flex: 1,
-                  child: Container(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 47.0.w),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 110.w,
-                            top: 206.h,
-                            child: buildDot(),
-                          ),
-                          Positioned(
-                            left: 152.w,
-                            top: 206.h,
-                            child: buildDot(),
-                          ),
-                          Column(
-                            children: [
-                              SizedBox(height: 54.h),
-                              Image.asset(
-                                Images.guLogo,
-                                width: 366.w,
-                                height: 140.h,
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Image.asset(
-                                  Images.goormIcon,
-                                  width: 76.w,
-                                  height: 17.5.h,
-                                ),
-                              ),
-                              SizedBox(height: 8.h),
-                              RichText(
-                                textAlign: TextAlign.left,
-                                text: TextSpan(
-                                  style: null,
-                                  children: [
-                                    TextSpan(
-                                      text: '나의 ',
-                                      style: TextStyle(
-                                        fontFamily: 'Jua',
-                                        color: const Color(0xff2F68C2),
-                                        fontSize: 48.sp,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: '미래',
-                                      style: TextStyle(
-                                        fontFamily: 'Jua',
-                                        color: const Color(0xffF86879),
-                                        fontSize: 55.sp,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: '는\n      ',
-                                      style: TextStyle(
-                                        fontFamily: 'Jua',
-                                        color: const Color(0xff2F68C2),
-                                        fontSize: 48.sp,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: '내가 만드는거야',
-                                      style: TextStyle(
-                                        fontFamily: 'Jua',
-                                        color: const Color(0xff2F68C2),
-                                        fontSize: 48.sp,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 10.h),
-                              Container(
-                                width: 342.w,
-                                height: 23.h,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xff5E97DB),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '미래를 만들어가는 청소년, 구즉청소년문화의집이 함께 하겠습니다.',
-                                    style: TextStyle(
-                                      fontFamily: 'Jua',
-                                      color: Colors.white,
-                                      fontSize: 12.5.sp,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 20.h),
-                              buildItem('청소년이 호기심을 발견하는 창의 발전소'),
-                              SizedBox(height: 5.h),
-                              buildItem('청소년이 행복한 문화 다락방'),
-                              SizedBox(height: 5.h),
-                              buildItem('청소년이 재미 있는 놀이 아지트'),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-                //오른쪽 영역
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    color: const Color(0xff0F50A0),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 69.h),
-                        Text(
-                          '시설 이용 신청',
-                          style: TextStyle(
-                            fontSize: 40.sp,
-                            fontFamily: 'Jua',
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(height: 52.h),
-                        currentStep == 1
-                            ? Column(
-                                children: [
-                                  SizedBox(
-                                    width: 300.w,
-                                    height: 48.h,
-                                    child: buildTextField(),
-                                  ),
-                                  SizedBox(height: 20.h),
-                                  buildDropDown(),
-                                ],
-                              )
-                            : Column(
-                                children: [
-                                  buildAddCompanion(),
-                                  SizedBox(height: 50.h),
-                                ],
-                              ),
-                        SizedBox(height: 44.h),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 80.w),
-                          child: Row(
-                            children: List.generate(2, (index) {
-                              return Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 8.w),
-                                  height: 4.h,
-                                  decoration: BoxDecoration(
-                                    color: currentStep > index
-                                        ? const Color(0xffA4DFFF)
-                                        : const Color(0xff012859),
-                                    borderRadius: BorderRadius.circular(100.r),
-                                  ),
-                                ),
-                              );
-                            }),
-                          ),
-                        ),
-                        SizedBox(height: 60.h),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 160.w),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size(140.w, 52.h),
-                              backgroundColor: const Color(0xff3C71B2),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  width: 2.w,
-                                  color: Colors.white,
-                                ),
-                                borderRadius: BorderRadius.circular(50.r),
-                              ),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                currentStep < 2 ? currentStep++ : login();
-                              });
-                            },
-                            child: Center(
-                              child: Text(
-                                '다음',
-                                style: TextStyle(
-                                  fontSize: 24.sp,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 35.h),
-                        if (currentStep < 2)
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (_) => const SignUpDialog(),
-                                );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: const Color(0xffA4DFFF),
-                                      width: 2.h,
-                                    ),
-                                  ),
-                                ),
-                                child: Text(
-                                  '계졍이 없으신가요?',
-                                  style: TextStyle(
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xffA4DFFF),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
+                  child: buildRightPanel(
+                    isCompact: isCompact,
+                    formWidth: formWidth,
                   ),
                 ),
               ],
@@ -403,9 +196,241 @@ class _FacilityRegistrationDialogState
     );
   }
 
-  Widget buildTextField() {
+  Widget buildLeftPanel({required bool isCompact}) {
+    final sidePadding = isCompact ? 24.w : 47.w;
+    final logoWidth = isCompact ? 260.w : 366.w;
+    final logoHeight = isCompact ? 100.h : 140.h;
+    final dotOffset = isCompact ? null : 206.h;
+
     return Container(
-      width: 300.w,
+      width: double.infinity,
+      color: Colors.white,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: sidePadding),
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              if (!isCompact)
+                Positioned(
+                  left: 110.w,
+                  top: dotOffset,
+                  child: buildDot(),
+                ),
+              if (!isCompact)
+                Positioned(
+                  left: 152.w,
+                  top: dotOffset,
+                  child: buildDot(),
+                ),
+              Column(
+                children: [
+                  SizedBox(height: isCompact ? 32.h : 54.h),
+                  Image.asset(
+                    Images.guLogo,
+                    width: logoWidth,
+                    height: logoHeight,
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      Images.goormIcon,
+                      width: isCompact ? 64.w : 76.w,
+                      height: isCompact ? 14.h : 17.5.h,
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  RichText(
+                    textAlign: TextAlign.left,
+                    text: TextSpan(
+                      style: null,
+                      children: [
+                        TextSpan(
+                          text: '나의 ',
+                          style: TextStyle(
+                            fontFamily: 'Jua',
+                            color: const Color(0xff2F68C2),
+                            fontSize: isCompact ? 36.sp : 48.sp,
+                          ),
+                        ),
+                        TextSpan(
+                          text: '미래',
+                          style: TextStyle(
+                            fontFamily: 'Jua',
+                            color: const Color(0xffF86879),
+                            fontSize: isCompact ? 42.sp : 55.sp,
+                          ),
+                        ),
+                        TextSpan(
+                          text: '는\n      ',
+                          style: TextStyle(
+                            fontFamily: 'Jua',
+                            color: const Color(0xff2F68C2),
+                            fontSize: isCompact ? 36.sp : 48.sp,
+                          ),
+                        ),
+                        TextSpan(
+                          text: '내가 만드는거야',
+                          style: TextStyle(
+                            fontFamily: 'Jua',
+                            color: const Color(0xff2F68C2),
+                            fontSize: isCompact ? 36.sp : 48.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Container(
+                    width: isCompact ? double.infinity : 342.w,
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    height: 23.h,
+                    decoration: const BoxDecoration(
+                      color: Color(0xff5E97DB),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '미래를 만들어가는 청소년, 구즉청소년문화의집이 함께 하겠습니다.',
+                        style: TextStyle(
+                          fontFamily: 'Jua',
+                          color: Colors.white,
+                          fontSize: 12.5.sp,
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  buildItem('청소년이 호기심을 발견하는 창의 발전소'),
+                  SizedBox(height: 5.h),
+                  buildItem('청소년이 행복한 문화 다락방'),
+                  SizedBox(height: 5.h),
+                  buildItem('청소년이 재미 있는 놀이 아지트'),
+                  SizedBox(height: isCompact ? 24.h : 0),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildRightPanel({
+    required bool isCompact,
+    required double formWidth,
+  }) {
+    final stepSpacing = isCompact ? 32.h : 44.h;
+    final progressPadding = isCompact ? 40.w : 80.w;
+    final buttonPadding = isCompact ? 40.w : 160.w;
+
+    return Container(
+      width: double.infinity,
+      color: const Color(0xff0F50A0),
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: isCompact ? 24.w : 0),
+        child: Column(
+          children: [
+            SizedBox(height: isCompact ? 32.h : 69.h),
+            Text(
+              '시설 이용 신청',
+              style: TextStyle(
+                fontSize: isCompact ? 32.sp : 40.sp,
+                fontFamily: 'Jua',
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: isCompact ? 32.h : 52.h),
+            currentStep == 1
+                ? Column(
+                    children: [
+                      buildTextField(width: formWidth),
+                      SizedBox(height: 20.h),
+                      buildDropDown(width: formWidth),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      buildAddCompanion(width: formWidth),
+                      SizedBox(height: isCompact ? 32.h : 50.h),
+                    ],
+                  ),
+            SizedBox(height: isCompact ? 40.h : 60.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: buttonPadding),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(140.w, 52.h),
+                  backgroundColor: const Color(0xff3C71B2),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 2.w,
+                      color: Colors.white,
+                    ),
+                    borderRadius: BorderRadius.circular(50.r),
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    currentStep < 2 ? currentStep++ : login();
+                  });
+                },
+                child: Center(
+                  child: Text(
+                    '확인',
+                    style: TextStyle(
+                      fontSize: 24.sp,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: isCompact ? 24.h : 35.h),
+            if (currentStep < 2)
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => const SignUpDialog(),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: const Color(0xffA4DFFF),
+                          width: 2.h,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      '계정이 없으신가요?',
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xffA4DFFF),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            SizedBox(height: isCompact ? 24.h : 0),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildTextField({required double width}) {
+    return Container(
+      width: width,
       height: 48.h,
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       decoration: BoxDecoration(
@@ -447,10 +472,10 @@ class _FacilityRegistrationDialogState
     );
   }
 
-  Widget buildDropDown() {
+  Widget buildDropDown({required double width}) {
     return CustomDropDownButton(
-      width: 300,
-      height: 48,
+      width: width,
+      height: 48.h,
       text: '방문목적 선택',
       imagePath: Images.upDown,
       decoration: BoxDecoration(
@@ -466,7 +491,7 @@ class _FacilityRegistrationDialogState
     );
   }
 
-  Widget buildAddCompanion() {
+  Widget buildAddCompanion({required double width}) {
     return Column(
       children: [
         // 동행인 추가 버튼
@@ -484,7 +509,7 @@ class _FacilityRegistrationDialogState
             }
           },
           child: Container(
-            width: 300.w,
+            width: width,
             height: 48.h,
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 13.h),
             decoration: BoxDecoration(
@@ -528,7 +553,7 @@ class _FacilityRegistrationDialogState
               }
             },
             child: Container(
-              width: 300.w,
+              width: width,
               height: 48.h,
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 13.h),
               decoration: BoxDecoration(

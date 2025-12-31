@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gujuek_check_in_flutter/component/circle_background.dart';
-import 'package:gujuek_check_in_flutter/component/custom_layout.dart';
+import 'package:gujuek_check_in_flutter/shared/widgets/circle_background.dart';
+import 'package:gujuek_check_in_flutter/shared/widgets/custom_layout.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/presentation/sign_up/view/ui/sign_up_dialog.dart';
-
-import '../../../facility_safety_training/view/ui/facility_safety_training_screen.dart';
+import 'package:gujuek_check_in_flutter/features/sign_up/dialogs/sign_up_dialog.dart';
+import 'package:gujuek_check_in_flutter/presentation/facility_safety_training/view/ui/facility_safety_training_screen.dart';
 
 import '../widgets/custom_elevated_button.dart';
-import '../widgets/facility_registration_dialog.dart';
+import '../dialogs/facility_registration_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -50,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   SizedBox(width: 108.w),
                   CustomElevatedButton(
-                    text: '회원가입',
+                    text: '처음 방문 등록',
                     textStyle: TextStyle(
                       color: Colors.white,
                       fontSize: 48.sp,

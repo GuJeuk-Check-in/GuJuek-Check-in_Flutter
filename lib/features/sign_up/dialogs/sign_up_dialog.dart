@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/presentation/home/view/widgets/complete_facility_registration.dart';
-import 'package:gujuek_check_in_flutter/presentation/sign_up/view/widgets/custom_drop_down_button.dart';
-import 'package:gujuek_check_in_flutter/presentation/sign_up/view/widgets/phone_input_formatter.dart';
+import 'package:gujuek_check_in_flutter/shared/dialogs/complete_facility_registration.dart';
+import 'package:gujuek_check_in_flutter/shared/dialogs/loading_dialog.dart';
+import 'package:gujuek_check_in_flutter/features/sign_up/widgets/custom_drop_down_button.dart';
+import 'package:gujuek_check_in_flutter/features/sign_up/widgets/phone_input_formatter.dart';
 
-import '../../../../data/models/sign_up/user_model.dart';
-import '../../../home/view/widgets/loading_dialog.dart';
+import 'package:gujuek_check_in_flutter/data/models/sign_up/user_model.dart';
 import '../widgets/custom_text_field.dart';
 
 class SignUpDialog extends StatefulWidget {
