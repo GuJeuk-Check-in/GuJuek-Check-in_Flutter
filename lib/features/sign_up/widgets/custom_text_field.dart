@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final String imagePath;
   final List<TextInputFormatter>? inputFormatters; // 추가
+  final TextInputType? keyboardType;
 
   const CustomTextField({
     super.key,
@@ -16,6 +17,7 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
     required this.imagePath,
     this.inputFormatters, // 추가
+    this.keyboardType,
   });
 
   @override
@@ -36,6 +38,7 @@ class CustomTextField extends StatelessWidget {
             child: TextField(
               controller: controller,
               inputFormatters: inputFormatters, // 추가
+              keyboardType: keyboardType,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 14.sp,

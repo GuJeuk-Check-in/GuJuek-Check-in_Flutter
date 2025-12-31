@@ -374,9 +374,9 @@ class _SignUpDialogState extends State<SignUpDialog> {
                       Center(
                         child: Column(
                           children: [
-                            SizedBox(height: 120.h),
+                            SizedBox(height: 100.h),
                             Text(
-                              '회원가입',
+                              '처음 방문 등록',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 48.sp,
@@ -467,6 +467,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
                           hintText: '연락처를 입력해주세요(010-1234-5678)',
                           imagePath: Images.callIcon,
                           inputFormatters: [PhoneInputFormatter()],
+                          keyboardType: TextInputType.number,
                         ),
                       ),
                       SizedBox(height: 10.h),
@@ -543,7 +544,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
                         ],
                       ),
                       Text(
-                        '(이름,연락처,나이,성별,cctv촬영)',
+                        '(이름,생년월일,연락처,방문 목적,성별,cctv 촬영,거주지)',
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
@@ -837,20 +838,19 @@ class _SignUpDialogState extends State<SignUpDialog> {
                                 child: CupertinoPicker(
                                   itemExtent: 50,
                                   scrollController: FixedExtentScrollController(
-                                    initialItem: 8, // 2008년
+                                    initialItem: selectedYear - 1950,
                                   ),
                                   onSelectedItemChanged: (index) {
-                                    selectedYear = 2000 + index;
+                                    selectedYear = 1950 + index;
                                   },
                                   children: List.generate(
-                                    100,
-                                        (index) =>
-                                        Center(
-                                          child: Text(
-                                            '${2000 + index}',
-                                            style: TextStyle(fontSize: 18.sp),
-                                          ),
-                                        ),
+                                    DateTime.now().year - 1950 + 1,
+                                    (index) => Center(
+                                      child: Text(
+                                        '${1950 + index}',
+                                        style: TextStyle(fontSize: 18.sp),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -873,20 +873,19 @@ class _SignUpDialogState extends State<SignUpDialog> {
                                 child: CupertinoPicker(
                                   itemExtent: 50,
                                   scrollController: FixedExtentScrollController(
-                                    initialItem: 0, // 1월
+                                    initialItem: selectedMonth - 1,
                                   ),
                                   onSelectedItemChanged: (index) {
                                     selectedMonth = index + 1;
                                   },
                                   children: List.generate(
                                     12,
-                                        (index) =>
-                                        Center(
-                                          child: Text(
-                                            '${index + 1}',
-                                            style: TextStyle(fontSize: 18.sp),
-                                          ),
-                                        ),
+                                    (index) => Center(
+                                      child: Text(
+                                        '${index + 1}',
+                                        style: TextStyle(fontSize: 18.sp),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -909,20 +908,19 @@ class _SignUpDialogState extends State<SignUpDialog> {
                                 child: CupertinoPicker(
                                   itemExtent: 50,
                                   scrollController: FixedExtentScrollController(
-                                    initialItem: 0, // 1일
+                                    initialItem: selectedDay - 1,
                                   ),
                                   onSelectedItemChanged: (index) {
                                     selectedDay = index + 1;
                                   },
                                   children: List.generate(
                                     31,
-                                        (index) =>
-                                        Center(
-                                          child: Text(
-                                            '${index + 1}',
-                                            style: TextStyle(fontSize: 18.sp),
-                                          ),
-                                        ),
+                                    (index) => Center(
+                                      child: Text(
+                                        '${index + 1}',
+                                        style: TextStyle(fontSize: 18.sp),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
