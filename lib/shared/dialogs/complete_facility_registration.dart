@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/presentation/home/view/ui/home_screen.dart';
+import 'package:gujuek_check_in_flutter/features/home/ui/home_screen.dart';
 
 class CompleteFacilityRegistration extends StatelessWidget {
   final String text;

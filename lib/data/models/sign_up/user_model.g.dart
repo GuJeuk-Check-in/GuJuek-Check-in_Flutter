@@ -14,6 +14,8 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
   privacyAgreed: json['privacyAgreed'] as bool,
   purpose: json['purpose'] as String,
   residence: json['residence'] as String,
+  maleCount: (json['maleCount'] as num).toInt(),
+  femaleCount: (json['femaleCount'] as num).toInt(),
 );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -24,6 +26,8 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'privacyAgreed': instance.privacyAgreed,
   'purpose': instance.purpose,
   'residence': instance.residence,
+  'maleCount': instance.maleCount,
+  'femaleCount': instance.femaleCount,
 };
 
 const _$GenderEnumMap = {Gender.MAN: 'MAN', Gender.WOMAN: 'WOMAN'};

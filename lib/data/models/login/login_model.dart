@@ -6,12 +6,14 @@ part 'login_model.g.dart';
 class LoginModel {
   final String userId;
   final String purpose;
-  final List<String> companionIds;
+  final int maleCount;
+  final int femaleCount;
 
   LoginModel({
     required this.userId,
     required this.purpose,
-    required this.companionIds,
+    required this.maleCount,
+    required this.femaleCount,
   });
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => _$LoginModelFromJson(json);
