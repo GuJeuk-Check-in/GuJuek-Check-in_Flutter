@@ -25,6 +25,13 @@ class MyApp extends StatelessWidget {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
         ),
+        builder: (context, child) {
+          return GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: child ?? const SizedBox.shrink(),
+          );
+        },
         home: const HomeScreen(),
       ),
     );
