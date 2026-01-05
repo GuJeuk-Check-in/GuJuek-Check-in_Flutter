@@ -37,6 +37,8 @@ class UserModel {
   final bool privacyAgreed;
   final String purpose;
   final String residence; // String으로 저장
+  final int maleCount;
+  final int femaleCount;
 
   UserModel({
     required this.name,
@@ -45,7 +47,7 @@ class UserModel {
     required this.birthYMD,
     required this.privacyAgreed,
     required this.purpose,
-    required this.residence,
+    required this.residence, required this.maleCount, required this.femaleCount,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
