@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/features/home/dialogs/error_id_dialog.dart';
 import 'package:gujuek_check_in_flutter/features/home/widgets/custom_drop_down_button.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 import 'package:gujuek_check_in_flutter/data/models/login/login_model.dart';
@@ -28,6 +29,7 @@ class _FacilityRegistrationDialogState
   int maleCount = 0;
   int femaleCount = 0;
   String? _selectedPurpose;
+  bool _isLoginInProgress = false;
 
   @override
   void initState() {
@@ -42,6 +44,8 @@ class _FacilityRegistrationDialogState
   }
 
   Future<void> login() async {
+    if (_isLoginInProgress) return;
+    _isLoginInProgress = true;
     try {
       debugPrint('=== 로그인 시작 ===');
       debugPrint('userId: ${nameController.text}');
@@ -119,25 +123,7 @@ class _FacilityRegistrationDialogState
           if (mounted) Navigator.pop(context);
           showDialog(
             context: context,
-            builder: (_) => AlertDialog(
-              title: const Text(
-                '로그인 에러',
-                style: TextStyle(fontWeight: FontWeight.w700),
-              ),
-              content: Text(
-                description,
-                style: const TextStyle(fontSize: 16, height: 1.5),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text(
-                    '확인',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ],
-            ),
+            builder: (_) => ErrorIdDialog()
           );
         });
       } else {
@@ -146,11 +132,14 @@ class _FacilityRegistrationDialogState
     } catch (error, stackTrace) {
       debugPrint('일반 에러 발생: $error');
       debugPrint('스택트레이스: $stackTrace');
+    } finally {
+      _isLoginInProgress = false;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final viewInsets = MediaQuery.of(context).viewInsets;
     final screenSize = MediaQuery.sizeOf(context);
     final horizontalMargin = 24.w;
     final verticalMargin = 24.h;
@@ -169,25 +158,30 @@ class _FacilityRegistrationDialogState
     );
     final formWidth = isCompact ? math.min(320.w, compactFormWidth) : 300.w;
 
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(viewInsets: EdgeInsets.zero),
-      child: Dialog(
-        child: Container(
-          width: dialogWidth,
-          height: dialogHeight,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20.r),
-            child: Row(
-              children: [
-                Expanded(child: buildLeftPanel(isCompact: isCompact)),
-                Expanded(
-                  child: buildRightPanel(
-                    isCompact: isCompact,
-                    formWidth: formWidth,
+    return AnimatedPadding(
+      padding: EdgeInsets.only(bottom: viewInsets.bottom),
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOut,
+      child: MediaQuery(
+        data: MediaQuery.of(context).copyWith(viewInsets: EdgeInsets.zero),
+        child: Dialog(
+          child: Container(
+            width: dialogWidth,
+            height: dialogHeight,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.r),
+              child: Row(
+                children: [
+                  Expanded(child: buildLeftPanel(isCompact: isCompact)),
+                  Expanded(
+                    child: buildRightPanel(
+                      isCompact: isCompact,
+                      formWidth: formWidth,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -348,9 +342,7 @@ class _FacilityRegistrationDialogState
                   ),
                 ),
                 onPressed: () {
-                  setState(() {
-                    login();
-                  });
+                  login();
                 },
                 child: Center(
                   child: Text(
