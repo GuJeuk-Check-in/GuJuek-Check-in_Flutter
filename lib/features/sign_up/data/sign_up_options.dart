@@ -1,3 +1,4 @@
+// 거주지 선택 옵션
 const List<String> signUpAddressOptions = [
   '관평동',
   '구즉동',

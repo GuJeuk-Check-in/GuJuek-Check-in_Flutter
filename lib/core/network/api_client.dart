@@ -6,9 +6,11 @@ class ApiClient {
 
   final Dio _dio;
 
+  // 외부에서는 dio 인스턴스만 노출
   Dio get dio => _dio;
 
   static ApiClient? fromEnv() {
+    // .env의 BASE_URL을 기준으로 Dio 설정
     final baseUrl = dotenv.env['BASE_URL'];
     if (baseUrl == null || baseUrl.isEmpty) {
       return null;

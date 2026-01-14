@@ -6,12 +6,14 @@ class CircleBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 배경 장식 원들을 겹쳐 배치
     return Stack(
       children: buildCircles(),
     );
   }
 
   List<Widget> buildCircles() {
+    // 위치/색상/크기를 리스트로 관리
     return [
       _buildCircles(const Color(0xff2ABFEC), 124, left: 248, top: -50),
       _buildCircles(const Color(0xff0F50A0), 493, left: -211, top: -268),

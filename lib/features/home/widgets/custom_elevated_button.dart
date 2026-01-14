@@ -17,6 +17,7 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 홈 화면의 큰 타일형 버튼
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         minimumSize: Size(345.w, 280.h),

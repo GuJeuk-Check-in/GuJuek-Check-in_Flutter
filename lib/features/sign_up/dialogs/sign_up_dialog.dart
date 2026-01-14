@@ -60,6 +60,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
     super.dispose();
   }
 
+  // 입력 폼을 SignUpFormData로 변환해 제출
   void _submitSignUp() {
     ref.read(signUpControllerProvider.notifier).submit(
           SignUpFormData(
@@ -92,6 +93,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
     Navigator.of(context, rootNavigator: true).pop();
   }
 
+  // 상태 변화에 따라 로딩/완료/오류 처리
   void _handleSignUpState(SignUpState? previous, SignUpState next) {
     if (!mounted) return;
 
@@ -160,6 +162,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
   Widget build(BuildContext context) {
     ref.listen<SignUpState>(signUpControllerProvider, _handleSignUpState);
 
+    // 키보드 등장에 맞춰 다이얼로그 크기 계산
     final viewInsets = MediaQuery.of(context).viewInsets;
     final screenSize = MediaQuery.sizeOf(context);
     final horizontalMargin = 24.w;
@@ -616,6 +619,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
   Future<void> _showCustomAddressDialog(
     ValueChanged<String?> onChanged,
   ) async {
+    // 기타 입력 선택 시 별도 입력창 표시
     final controller = TextEditingController();
 
     final result = await showDialog<String>(
@@ -707,6 +711,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
   }
 
   Future buildDatePicker() {
+    // 생년월일을 3열 피커로 선택
     return showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -844,6 +849,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
               SizedBox(height: 40.h),
               TextButton(
                 onPressed: () {
+                  // 선택 날짜를 화면 표시/서버 전송 형식으로 저장
                   // 날짜 저장
                   DateTime selectedDate = DateTime(
                     selectedYear,
@@ -883,6 +889,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
   }
 
   Widget buildCountingBlock() {
+    // 남/여 동행인 수 입력 블록 (보류: 현재 사용 안함)
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

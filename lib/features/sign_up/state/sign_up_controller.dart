@@ -9,6 +9,7 @@ class SignUpController extends StateNotifier<SignUpState> {
 
   final AuthRepository _authRepository;
 
+  // 회원가입 요청 처리
   Future<void> submit(SignUpFormData form) async {
     if (state.isSubmitting) return;
 
@@ -46,6 +47,7 @@ class SignUpController extends StateNotifier<SignUpState> {
     final response = await _authRepository.signUp(user);
     state = state.copyWith(isSubmitting: false);
 
+    // ApiResponse.message는 클라이언트 사전 오류
     if (response.message != null) {
       state = state.copyWith(
         errorType: SignUpErrorType.unknown,
@@ -92,6 +94,7 @@ class SignUpController extends StateNotifier<SignUpState> {
   }
 
   void clearNotifications() {
+    // 일회성 알림(토스트/다이얼로그) 초기화
     state = state.copyWith(
       errorType: null,
       message: null,
@@ -100,6 +103,7 @@ class SignUpController extends StateNotifier<SignUpState> {
   }
 
   String? _validate(SignUpFormData form) {
+    // 기본 입력값 검증
     if (form.name.trim().isEmpty) {
       return '이름을 입력해주세요';
     }

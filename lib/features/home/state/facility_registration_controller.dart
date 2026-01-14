@@ -11,6 +11,7 @@ class FacilityRegistrationController
 
   final AuthRepository _authRepository;
 
+  // 시설 이용 신청(로그인) 처리
   Future<void> submit(FacilityRegistrationFormData form) async {
     if (state.isSubmitting) return;
 
@@ -43,6 +44,7 @@ class FacilityRegistrationController
     final response = await _authRepository.login(loginModel);
     state = state.copyWith(isSubmitting: false);
 
+    // ApiResponse.message는 클라이언트 사전 오류
     if (response.message != null) {
       state = state.copyWith(
         errorType: FacilityRegistrationErrorType.unknown,
@@ -88,6 +90,7 @@ class FacilityRegistrationController
   }
 
   void clearNotifications() {
+    // 일회성 알림(토스트/다이얼로그) 초기화
     state = state.copyWith(
       errorType: null,
       message: null,
@@ -96,6 +99,7 @@ class FacilityRegistrationController
   }
 
   String? _validate(FacilityRegistrationFormData form) {
+    // 기본 입력값 검증
     if (form.userId.trim().isEmpty) {
       return '아이디를 입력해주세요';
     }

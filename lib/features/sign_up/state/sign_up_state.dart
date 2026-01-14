@@ -6,6 +6,7 @@ enum SignUpErrorType {
   unknown,
 }
 
+// 회원가입 UI 상태
 class SignUpState {
   const SignUpState({
     this.isSubmitting = false,
@@ -34,6 +35,7 @@ class SignUpState {
   }
 }
 
+// 회원가입 제출에 필요한 입력값 묶음
 class SignUpFormData {
   const SignUpFormData({
     required this.name,

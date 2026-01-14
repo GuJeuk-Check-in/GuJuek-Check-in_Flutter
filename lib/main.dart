@@ -6,8 +6,10 @@ import 'package:gujuek_check_in_flutter/features/home/ui/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // .env에서 API 주소 같은 환경변수 로드
   await dotenv.load(fileName: ".env");
 
+  // Riverpod 전역 Provider 범위를 앱 최상단에 등록
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -17,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
+      // 디자인 기준 해상도
       designSize: const Size(1280, 800),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -29,6 +32,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return GestureDetector(
             behavior: HitTestBehavior.translucent,
+            // 화면 탭 시 키보드 포커스 해제
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             child: child ?? const SizedBox.shrink(),
           );

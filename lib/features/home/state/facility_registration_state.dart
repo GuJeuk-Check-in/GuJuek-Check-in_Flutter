@@ -6,6 +6,7 @@ enum FacilityRegistrationErrorType {
   unknown,
 }
 
+// 시설 이용 신청(로그인) 상태
 class FacilityRegistrationState {
   const FacilityRegistrationState({
     this.isSubmitting = false,
@@ -34,6 +35,7 @@ class FacilityRegistrationState {
   }
 }
 
+// 시설 이용 신청에 필요한 입력값 묶음
 class FacilityRegistrationFormData {
   const FacilityRegistrationFormData({
     required this.userId,

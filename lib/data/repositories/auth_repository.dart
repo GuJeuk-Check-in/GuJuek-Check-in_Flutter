@@ -14,9 +14,11 @@ class ApiResponse {
   final DioException? exception;
   final String? message;
 
+  // 예외 발생 여부를 한 곳에서 확인하기 위한 헬퍼
   bool get hasException => exception != null;
 }
 
+// 로그인/회원가입 API 호출을 담당하는 리포지토리
 class AuthRepository {
   AuthRepository(this._client);
 
@@ -25,6 +27,7 @@ class AuthRepository {
   Future<ApiResponse> signUp(UserModel user) async {
     final client = _client;
     if (client == null) {
+      // BASE_URL이 비어 있으면 호출 자체를 막음
       return ApiResponse(message: 'BASE_URL이 설정되지 않았습니다.');
     }
 
@@ -50,6 +53,7 @@ class AuthRepository {
   Future<ApiResponse> login(LoginModel loginModel) async {
     final client = _client;
     if (client == null) {
+      // BASE_URL이 비어 있으면 호출 자체를 막음
       return ApiResponse(message: 'BASE_URL이 설정되지 않았습니다.');
     }
 
@@ -70,6 +74,7 @@ class AuthRepository {
   }
 }
 
+// 전역에서 AuthRepository를 주입하기 위한 Provider
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository(ref.watch(apiClientProvider));
 });

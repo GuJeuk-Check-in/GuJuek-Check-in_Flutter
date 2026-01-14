@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 메인 진입 화면(이용 신청/처음 방문 등록)
     return CustomLayout(
       child: Stack(
         children: [

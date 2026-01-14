@@ -9,6 +9,7 @@ class CheckElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 안전교육 확인 버튼
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(

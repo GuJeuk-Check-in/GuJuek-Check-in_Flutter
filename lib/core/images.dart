@@ -3,6 +3,7 @@ const String baseLogo = 'assets/images/logo';
 const String baseIcon = 'assets/images/icons';
 const String baseButton = 'assets/images/button';
 
+// 앱 전체에서 쓰는 이미지 경로 모음
 class Images {
   //logo
   static String guLogo = '$baseLogo/logo.png';

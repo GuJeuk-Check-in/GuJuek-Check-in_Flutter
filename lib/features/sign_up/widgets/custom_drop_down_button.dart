@@ -35,6 +35,7 @@ class _LocationCustomDropDownButtonState
 
   @override
   Widget build(BuildContext context) {
+    // 방문 목적 목록을 비동기로 로드
     final purposeListAsync = ref.watch(purposeListProvider);
 
     return purposeListAsync.when(
@@ -51,6 +52,7 @@ class _LocationCustomDropDownButtonState
         child: const Text('불러오기 실패'),
       ),
       data: (purposeList) {
+        // 데이터 로드 후 드롭다운 렌더링
         return Container(
           width: widget.width.w,
           height: widget.height.h,
@@ -94,6 +96,7 @@ class _LocationCustomDropDownButtonState
                     }).toList(),
                     onChanged: (value) {
                       setState(() {
+                        // 선택값 로컬 상태에 저장
                         selectedPurpose = value;
                       });
                       widget.onPurposeSelected(value);

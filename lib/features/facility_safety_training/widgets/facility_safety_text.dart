@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FacilitySafetyText {
+  // 안전교육 문구 공통 스타일
   static final TextStyle baseStyle = TextStyle(
     fontSize: 35.sp,
     color: Colors.black,
@@ -12,6 +13,7 @@ class FacilitySafetyText {
     fontWeight: FontWeight.w700,
   );
 
+  // 항목별 문구는 TextSpan으로 조합
   static final text1 = TextSpan(
     children: [
       TextSpan(text: '활동 중 ', style: baseStyle),

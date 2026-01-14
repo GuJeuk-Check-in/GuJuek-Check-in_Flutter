@@ -34,6 +34,7 @@ class _CustomDropDownButtonState
 
   @override
   Widget build(BuildContext context) {
+    // 방문 목적 목록 비동기 로드
     final purposeListAsync = ref.watch(purposeListProvider);
 
     return purposeListAsync.when(
@@ -48,6 +49,7 @@ class _CustomDropDownButtonState
         child: const Center(child: Text('불러오기 실패')),
       ),
       data: (purposeList) {
+        // 데이터 로드 완료 후 드롭다운 표시
         return Container(
           width: widget.width,
           height: widget.height,
@@ -82,6 +84,7 @@ class _CustomDropDownButtonState
               }).toList(),
               onChanged: (value) {
                 setState(() {
+                  // 선택값 로컬 상태에 저장
                   selectedPurpose = value;
                 });
                 widget.onPurposeSelected(value);

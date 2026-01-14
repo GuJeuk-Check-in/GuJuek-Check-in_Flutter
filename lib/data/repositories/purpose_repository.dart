@@ -9,9 +9,11 @@ class PurposeRepository {
 
   final ApiClient? _client;
 
+  // 방문 목적 목록을 서버에서 가져옴
   Future<List<PurposeModel>> fetchPurposes() async {
     final client = _client;
     if (client == null) {
+      // BASE_URL 누락 시 빈 목록 반환
       debugPrint('BASE_URL이 설정되지 않았습니다.');
       return [];
     }
@@ -27,6 +29,7 @@ class PurposeRepository {
   }
 }
 
+// 전역에서 PurposeRepository를 주입하기 위한 Provider
 final purposeRepositoryProvider = Provider<PurposeRepository>((ref) {
   return PurposeRepository(ref.watch(apiClientProvider));
 });

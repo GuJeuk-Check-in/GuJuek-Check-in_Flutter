@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'login_model.g.dart';
 
 @JsonSerializable()
+// 로그인 요청에 사용하는 데이터 모델
 class LoginModel {
   final String userId;
   final String purpose;
