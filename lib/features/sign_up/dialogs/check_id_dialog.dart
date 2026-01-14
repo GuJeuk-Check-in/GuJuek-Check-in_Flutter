@@ -10,6 +10,7 @@ class CheckIdDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 회원가입 후 생성된 아이디 안내 다이얼로그
     const primaryBlue = Color(0xFF1E5DBB); // 이미지와 비슷한 블루 톤
     const titleColor = Color(0xFF3A3A3A);
     const bodyColor = Color(0xFF6B6B6B);

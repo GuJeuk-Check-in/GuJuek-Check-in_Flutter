@@ -25,6 +25,7 @@ class _PeopleCounterWidgetState extends State<PeopleCounterWidget> {
   @override
   void initState() {
     super.initState();
+    // 초기값이 범위를 넘지 않도록 보정
     _value = widget.initialValue.clamp(widget.min, widget.max);
   }
 
@@ -42,6 +43,7 @@ class _PeopleCounterWidgetState extends State<PeopleCounterWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // 버튼 활성화 여부 계산
     final canMinus = _value > widget.min;
     final canPlus = _value < widget.max;
 

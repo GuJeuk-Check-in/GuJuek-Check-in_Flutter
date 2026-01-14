@@ -7,6 +7,7 @@ class ErrorIdDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 아이디가 없을 때 표시하는 오류 다이얼로그
     const errorRed = Color(0xFFFF6B6B); // 이미지 느낌의 연한 레드
     const titleColor = Color(0xFF3A3A3A);
     const bodyColor = Color(0xFF7A7A7A);
