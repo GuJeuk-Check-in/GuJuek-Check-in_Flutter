@@ -21,6 +21,7 @@ class _QuantityCounterState extends State<QuantityCounter> {
   @override
   void initState() {
     super.initState();
+    // 초기값 반영
     _value = widget.initialValue;
   }
 
@@ -34,6 +35,7 @@ class _QuantityCounterState extends State<QuantityCounter> {
 
   void _decrease() {
     setState(() {
+      // 0 이하로 내려가지 않도록 방어
       if (_value > 0) _value--;
     });
     widget.onChanged?.call(_value);
@@ -48,6 +50,7 @@ class _QuantityCounterState extends State<QuantityCounter> {
 
   @override
   Widget build(BuildContext context) {
+    // 감소 버튼 활성화 여부
     final bool canDecrease = _value > 0;
 
     return Container(

@@ -22,6 +22,7 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 아이콘 + 텍스트필드가 있는 공통 입력 위젯
     return Container(
       width: width,
       height: 48.h,

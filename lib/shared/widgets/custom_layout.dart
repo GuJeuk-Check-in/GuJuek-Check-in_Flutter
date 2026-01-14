@@ -13,6 +13,7 @@ class CustomLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // 앱 공통 배경/레이아웃
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: appBar,

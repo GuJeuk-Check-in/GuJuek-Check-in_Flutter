@@ -11,6 +11,7 @@ class FacilitySafetyTrainingAppBar extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    // 안전교육 전용 상단 바
     return Container(
       width: 1.sw,
       decoration: const BoxDecoration(

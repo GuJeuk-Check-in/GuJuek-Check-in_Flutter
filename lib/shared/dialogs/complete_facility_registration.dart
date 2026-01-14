@@ -10,6 +10,7 @@ class CompleteFacilityRegistration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 시설 이용 신청 완료 안내 다이얼로그
     return Dialog(
       child: Container(
         width: 440.w,
@@ -43,6 +44,7 @@ class CompleteFacilityRegistration extends StatelessWidget {
             SizedBox(height: 59.h),
             TextButton(
               onPressed: () {
+                // 확인 후 홈으로 복귀
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (_) => const HomeScreen()),
                       (Route<dynamic> route) => false,

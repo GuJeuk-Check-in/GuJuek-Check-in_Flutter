@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 
+// 010-1234-5678 형태로 자동 하이픈 입력
 class PhoneInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(

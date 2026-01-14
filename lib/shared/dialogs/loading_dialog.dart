@@ -7,6 +7,7 @@ class LoadingDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 요청 처리 중 표시하는 로딩 다이얼로그
     return Dialog(
       child: Container(
         width: 440.w,

@@ -1,35 +1,35 @@
 import 'dart:math' as math;
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/features/home/dialogs/error_id_dialog.dart';
+import 'package:gujuek_check_in_flutter/features/home/state/facility_registration_controller.dart';
+import 'package:gujuek_check_in_flutter/features/home/state/facility_registration_state.dart';
 import 'package:gujuek_check_in_flutter/features/home/widgets/custom_drop_down_button.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/data/models/login/login_model.dart';
 import 'package:gujuek_check_in_flutter/features/home/widgets/quantity_counter_widget.dart';
 import 'package:gujuek_check_in_flutter/shared/dialogs/complete_facility_registration.dart';
 import 'package:gujuek_check_in_flutter/shared/dialogs/loading_dialog.dart';
 
 import 'package:gujuek_check_in_flutter/features/sign_up/dialogs/sign_up_dialog.dart';
 
-class FacilityRegistrationDialog extends StatefulWidget {
+class FacilityRegistrationDialog extends ConsumerStatefulWidget {
   const FacilityRegistrationDialog({super.key});
 
   @override
-  _FacilityRegistrationDialogState createState() =>
+  ConsumerState<FacilityRegistrationDialog> createState() =>
       _FacilityRegistrationDialogState();
 }
 
 class _FacilityRegistrationDialogState
-    extends State<FacilityRegistrationDialog> {
+    extends ConsumerState<FacilityRegistrationDialog> {
   late TextEditingController nameController;
 
   int maleCount = 0;
   int femaleCount = 0;
   String? _selectedPurpose;
-  bool _isLoginInProgress = false;
+  bool _isLoadingDialogVisible = false;
 
   @override
   void initState() {
@@ -43,102 +43,83 @@ class _FacilityRegistrationDialogState
     super.dispose();
   }
 
-  Future<void> login() async {
-    if (_isLoginInProgress) return;
-    _isLoginInProgress = true;
-    try {
-      debugPrint('=== 로그인 시작 ===');
-      debugPrint('userId: ${nameController.text}');
-      debugPrint('purpose: $_selectedPurpose');
-      debugPrint('maleCount: $maleCount');
-      debugPrint('femaleCount: $femaleCount');
+  // 입력값을 FormData로 변환해 제출
+  void _submitLogin() {
+    ref.read(facilityRegistrationControllerProvider.notifier).submit(
+          FacilityRegistrationFormData(
+            userId: nameController.text,
+            purpose: _selectedPurpose,
+            maleCount: maleCount,
+            femaleCount: femaleCount,
+          ),
+        );
+  }
 
-      if (nameController.text.isEmpty) {
-        debugPrint('userId가 비어있음');
-        return;
-      }
+  void _showLoadingDialog() {
+    if (_isLoadingDialogVisible) return;
+    _isLoadingDialogVisible = true;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const LoadingDialog(),
+    );
+  }
 
-      if (_selectedPurpose == null || _selectedPurpose!.isEmpty) {
-        debugPrint('purpose가 선택되지 않음');
-        return;
-      }
+  void _hideLoadingDialog() {
+    if (!_isLoadingDialogVisible) return;
+    _isLoadingDialogVisible = false;
+    if (!mounted) return;
+    Navigator.of(context, rootNavigator: true).pop();
+  }
 
-      final user = LoginModel(
-        userId: nameController.text,
-        purpose: _selectedPurpose!,
-        maleCount: maleCount,
-        femaleCount: femaleCount,
-      );
+  // 상태 변화에 따라 로딩/성공/오류 처리
+  void _handleRegistrationState(
+    FacilityRegistrationState? previous,
+    FacilityRegistrationState next,
+  ) {
+    if (!mounted) return;
 
-      final data = user.toJson();
-      debugPrint('LOGIN DATA: $data');
+    final wasSubmitting = previous?.isSubmitting ?? false;
+    if (!wasSubmitting && next.isSubmitting) {
+      _showLoadingDialog();
+    } else if (wasSubmitting && !next.isSubmitting) {
+      _hideLoadingDialog();
+    }
 
-      final baseUrl = dotenv.env['BASE_URL'];
-
-      if (baseUrl == null || baseUrl.isEmpty) {
-        debugPrint('BASE_URL이 설정되지 않음');
-        return;
-      }
-
-      final dio = Dio(
-        BaseOptions(
-          baseUrl: baseUrl,
-          headers: {'Content-Type': 'application/json'},
-        ),
-      );
-
+    if (next.isSuccess) {
       showDialog(
         context: context,
-        barrierDismissible: false,
-        builder: (_) => const LoadingDialog(),
+        builder: (_) =>
+            const CompleteFacilityRegistration(text: '이용해주셔서 감사합니다.'),
       );
+      ref.read(facilityRegistrationControllerProvider.notifier).clearNotifications();
+      return;
+    }
 
-      final response = await dio.post('/user/login', data: data);
+    if (next.errorType == FacilityRegistrationErrorType.notFound) {
+      showDialog(
+        context: context,
+        builder: (_) => const ErrorIdDialog(),
+      );
+      ref.read(facilityRegistrationControllerProvider.notifier).clearNotifications();
+      return;
+    }
 
-      debugPrint('✅ 응답 받음 - 상태코드: ${response.statusCode}');
-      debugPrint('응답 데이터: ${response.data}');
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        debugPrint('SUCCESS LOGIN');
-        if (mounted) {
-          showDialog(
-            context: context,
-            builder: (_) =>
-                const CompleteFacilityRegistration(text: '이용해주셔서 감사합니다.'),
-          );
-        }
-      }
-    } on DioException catch (e) {
-      debugPrint('❌ DioException 발생!');
-      debugPrint('타입: ${e.type}');
-      debugPrint('상태코드: ${e.response?.statusCode}');
-      debugPrint('에러 메시지: ${e.message}');
-      debugPrint('응답 데이터: ${e.response?.data}');
-
-      if (e.response?.statusCode == 404) {
-        final errorData = e.response?.data;
-        // description 필드에서 메시지 추출
-        final description = errorData['message']!;
-        Future.microtask(() {
-          if (mounted) Navigator.pop(context);
-          showDialog(
-            context: context,
-            builder: (_) => ErrorIdDialog()
-          );
-        });
-      } else {
-        debugPrint('LOGIN ERROR: ${e.message}');
-      }
-    } catch (error, stackTrace) {
-      debugPrint('일반 에러 발생: $error');
-      debugPrint('스택트레이스: $stackTrace');
-    } finally {
-      _isLoginInProgress = false;
+    if (next.message != null && next.message!.isNotEmpty) {
+      ref
+          .read(facilityRegistrationControllerProvider.notifier)
+          .clearNotifications();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<FacilityRegistrationState>(
+      facilityRegistrationControllerProvider,
+      _handleRegistrationState,
+    );
+
+    // 화면 크기에 맞춰 다이얼로그 크기/여백 계산
     final viewInsets = MediaQuery.of(context).viewInsets;
     final screenSize = MediaQuery.sizeOf(context);
     final horizontalMargin = 24.w;
@@ -190,6 +171,7 @@ class _FacilityRegistrationDialogState
   }
 
   Widget buildLeftPanel({required bool isCompact}) {
+    // 좌측 안내 영역(로고/문구)
     final sidePadding = isCompact ? 24.w : 47.w;
     final logoWidth = isCompact ? 260.w : 366.w;
     final logoHeight = isCompact ? 100.h : 140.h;
@@ -301,6 +283,7 @@ class _FacilityRegistrationDialogState
   }
 
   Widget buildRightPanel({required bool isCompact, required double formWidth}) {
+    // 우측 입력 폼 영역
     final buttonPadding = isCompact ? 40.w : 160.w;
 
     return Container(
@@ -342,7 +325,7 @@ class _FacilityRegistrationDialogState
                   ),
                 ),
                 onPressed: () {
-                  login();
+                  _submitLogin();
                 },
                 child: Center(
                   child: Text(
@@ -459,6 +442,7 @@ class _FacilityRegistrationDialogState
   }
 
   Widget buildCountingBlock() {
+    // 동행인 수 입력 블록 (보류: 현재 사용 안함)
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -500,6 +484,7 @@ class _FacilityRegistrationDialogState
     );
   }
 
+  // 동행인 기능 보류(현재 사용 안함)
   // Widget buildAddCompanion({required double width}) {
   //   return Column(
   //     children: [
@@ -623,7 +608,7 @@ class _FacilityRegistrationDialogState
   );
 }
 
-//요구 사항으로 인한 사용 X
+// 동행인 기능 보류(현재 사용 안함)
 // 동행인 목록 다이얼로그 (슬라이드 삭제 기능)
 // class _CompanionListDialog extends StatefulWidget {
 //   final List<String> companionIds;

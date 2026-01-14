@@ -18,6 +18,7 @@ class FacilitySafetyTrainingScreen extends StatefulWidget {
 
 class _FacilitySafetyTrainingScreenState
     extends State<FacilitySafetyTrainingScreen> {
+  // 이미지와 문구를 매칭해 순서대로 보여줌
   final List<Map<String, dynamic>> safetyRules = [
     {'image': Images.fire, 'text': FacilitySafetyText.text1},
     {'image': Images.accident, 'text': FacilitySafetyText.text2},
@@ -37,12 +38,14 @@ class _FacilitySafetyTrainingScreenState
   int _currentIndex = 0;
 
   void increaseIndex() {
+    // 다음 안내로 이동
     setState(() {
       _currentIndex++;
     });
   }
 
   void decreaseIndex() {
+    // 이전 안내로 이동
     setState(() {
       _currentIndex--;
     });
@@ -106,6 +109,7 @@ class _FacilitySafetyTrainingScreenState
                   padding: EdgeInsets.only(left: 40.w),
                   child: CheckElevatedButton(
                     onPressed: () {
+                      // 마지막 안내까지 확인하면 다음 다이얼로그로 진행
                       if (_currentIndex == 12) {
                         Navigator.pop(context);
                         showDialog(
@@ -130,6 +134,7 @@ class _FacilitySafetyTrainingScreenState
 
 
   Widget buildIconButton(String imagePath, VoidCallback onPressed) {
+    // 좌측/우측 이동 버튼
     return IconButton(
       onPressed: onPressed,
       icon: Image.asset(imagePath, width: 50.w, height: 150.h),

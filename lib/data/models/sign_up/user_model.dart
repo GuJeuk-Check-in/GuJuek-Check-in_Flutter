@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';
 
+// 성별을 API enum 값으로 매핑
 enum Gender { 
   @JsonValue('MAN')
   MAN, 
@@ -9,6 +10,8 @@ enum Gender {
   @JsonValue('WOMAN')
   WOMAN 
 }
+
+// 거주지 선택 목록(표시용 한글명 포함)
 enum ResidenceEnum {
   gwanpyeong('관평동'),
   gujeuk('구즉동'),
@@ -29,6 +32,7 @@ enum ResidenceEnum {
 }
 
 @JsonSerializable()
+// 회원가입 요청에 사용하는 데이터 모델
 class UserModel {
   final String name;
   final Gender gender;
@@ -54,6 +58,7 @@ class UserModel {
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 
   ResidenceEnum? get residenceEnum {
+    // 저장된 문자열을 enum으로 되돌림(없으면 null)
     try {
       return ResidenceEnum.values.firstWhere((e) => e.value == residence);
     } catch (_) {

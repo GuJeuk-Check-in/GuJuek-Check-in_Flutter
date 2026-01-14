@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 
+// 동행인 기능 보류(현재 사용 안함)
 class AddCompanionDialog extends StatefulWidget {
   final List<String>? initialIds; // 기존 ID 목록
   final bool readOnly; // 조회 모드 여부
@@ -22,12 +23,14 @@ class _AddCompanionDialogState extends State<AddCompanionDialog> {
   @override
   void initState() {
     super.initState();
+    // 기존 ID가 있으면 입력칸을 미리 채움
     controllers = widget.initialIds != null
         ? widget.initialIds!.map((id) => TextEditingController(text: id)).toList()
         : [];
   }
 
   void addCompanionField() {
+    // 입력칸 1개 추가
     setState(() {
       controllers.add(TextEditingController());
     });
@@ -35,6 +38,7 @@ class _AddCompanionDialogState extends State<AddCompanionDialog> {
 
   void onConfirm() {
     if (widget.readOnly) {
+      // 조회 모드면 닫기만 수행
       Navigator.pop(context);
       return;
     }
@@ -44,11 +48,13 @@ class _AddCompanionDialogState extends State<AddCompanionDialog> {
         .where((text) => text.isNotEmpty)
         .toList();
 
+    // 입력된 ID 목록을 부모로 전달
     Navigator.pop(context, ids); // 부모로 ID 리스트 반환
   }
 
   @override
   Widget build(BuildContext context) {
+    // 키보드 영향 없이 고정 높이로 표시
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(viewInsets: EdgeInsets.zero),
       child: Dialog(
