@@ -1,31 +1,30 @@
 import 'dart:math' as math;
 
-import 'package:dio/dio.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 import 'package:gujuek_check_in_flutter/features/sign_up/dialogs/check_id_dialog.dart';
-import 'package:gujuek_check_in_flutter/features/sign_up/widgets/people_counter_widget.dart';
-import 'package:gujuek_check_in_flutter/shared/dialogs/complete_facility_registration.dart';
+import 'package:gujuek_check_in_flutter/features/sign_up/data/sign_up_options.dart';
+import 'package:gujuek_check_in_flutter/features/sign_up/state/sign_up_controller.dart';
+import 'package:gujuek_check_in_flutter/features/sign_up/state/sign_up_state.dart';
 import 'package:gujuek_check_in_flutter/shared/dialogs/loading_dialog.dart';
 import 'package:gujuek_check_in_flutter/features/sign_up/widgets/custom_drop_down_button.dart';
 import 'package:gujuek_check_in_flutter/features/sign_up/widgets/phone_input_formatter.dart';
 import 'package:gujuek_check_in_flutter/features/sign_up/widgets/people_counter_widget.dart';
 
-import 'package:gujuek_check_in_flutter/data/models/sign_up/user_model.dart';
 import '../widgets/custom_text_field.dart';
 
-class SignUpDialog extends StatefulWidget {
+class SignUpDialog extends ConsumerStatefulWidget {
   const SignUpDialog({super.key});
 
   @override
-  State<SignUpDialog> createState() => _SignUpDialogState();
+  ConsumerState<SignUpDialog> createState() => _SignUpDialogState();
 }
 
-class _SignUpDialogState extends State<SignUpDialog> {
+class _SignUpDialogState extends ConsumerState<SignUpDialog> {
   late TextEditingController nameController;
   late TextEditingController phoneNumberController;
 
@@ -44,23 +43,6 @@ class _SignUpDialogState extends State<SignUpDialog> {
   bool _isLoadingDialogVisible = false;
   int maleCount = 0;
   int femaleCount = 0;
-  bool _isSignUpInProgress = false;
-
-  final List<String> _address = [
-    '관평동',
-    '구즉동',
-    '노은1동',
-    '노은2동',
-    '노은3동',
-    '상대동',
-    '신성동',
-    '온천1동',
-    '온천2동',
-    '원신흥동',
-    '전민동',
-    '진잠동',
-    '학하동',
-  ];
 
   static const String _customInputValue = '__custom_input__';
 
@@ -78,190 +60,20 @@ class _SignUpDialogState extends State<SignUpDialog> {
     super.dispose();
   }
 
-  /// 회원가입 API 호출 함수
-  Future<void> registerUser() async {
-    if (_isSignUpInProgress) return;
-    _isSignUpInProgress = true;
-    try {
-      debugPrint('=== 회원가입 시작 ===');
-      debugPrint('이름: ${nameController.text}');
-      debugPrint('성별: $_selectedValue');
-      debugPrint('전화번호: ${phoneNumberController.text}');
-      debugPrint('생년월일(API): $apiDate');
-      debugPrint('개인정보 동의: $_isPrivacyAgreed');
-      debugPrint('방문 목적: $_selectedPurpose');
-      debugPrint('거주지: $_selectedAddress');
-
-      // 필수 값 체크
-      if (nameController.text.isEmpty) {
-        debugPrint('이름이 비어있음');
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('이름을 입력해주세요')));
-        return;
-      }
-
-      if (phoneNumberController.text.isEmpty) {
-        debugPrint('전화번호가 비어있음');
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('전화번호를 입력해주세요')));
-        return;
-      }
-
-      if (apiDate.isEmpty) {
-        debugPrint('생년월일이 선택되지 않음');
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('생년월일을 선택해주세요')));
-        return;
-      }
-
-      if (!_isPrivacyAgreed) {
-        debugPrint('개인정보 동의가 필요함');
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('개인정보 수집 및 이용에 동의해주세요')));
-        return;
-      }
-
-      if (_selectedPurpose == null) {
-        debugPrint('방문 목적이 선택되지 않음');
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('방문 목적을 선택해주세요')));
-        return;
-      }
-
-      if (_selectedAddress == null) {
-        debugPrint('거주지가 선택되지 않음');
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('거주지를 선택해주세요')));
-        return;
-      }
-
-      final user = UserModel(
-        name: nameController.text,
-        gender: _selectedValue == 1 ? Gender.MAN : Gender.WOMAN,
-        phone: phoneNumberController.text,
-        birthYMD: apiDate,
-        privacyAgreed: _isPrivacyAgreed,
-        purpose: _selectedPurpose!,
-        residence: _selectedAddress!,
-        maleCount: maleCount,
-        femaleCount: femaleCount,
-      );
-
-      final data = user.toJson();
-      debugPrint('전송할 JSON 데이터: $data');
-
-      final baseUrl = dotenv.env['BASE_URL'];
-      debugPrint('BASE_URL: $baseUrl');
-
-      if (baseUrl == null || baseUrl.isEmpty) {
-        debugPrint('BASE_URL이 설정되지 않음');
-        return;
-      }
-
-      final dio = Dio(
-        BaseOptions(
-          baseUrl: baseUrl,
-          headers: {'Content-Type': 'application/json'},
-          validateStatus: (status) {
-            return status != null && status < 600;
-          },
-        ),
-      );
-
-      debugPrint('POST 요청: $baseUrl/user/sign-up');
-
-      _showLoadingDialog();
-
-      final response = await dio.post('/user/sign-up', data: data);
-      _hideLoadingDialog();
-
-      debugPrint('응답 상태코드: ${response.statusCode}');
-      debugPrint('응답 데이터: ${response.data}');
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        debugPrint('SUCCESS SIGN UP!!');
-        if (mounted) {
-          final generatedId = response.data['userId']?.toString() ?? '';
-          showDialog(
-            context: context,
-            builder: (_) => CheckIdDialog(generatedId: generatedId),
-          );
-        }
-      } else if (response.statusCode == 401) {
-        debugPrint('유저 중복 에러 401 - 응답 내용: ${response.data}');
-        if (mounted) {
-          Future.microtask(() {
-            if (!mounted) return;
-            showDialog(
-              context: context,
-              builder: (_) => AlertDialog(
-                title: const Text(
-                  '회원가입 실패',
-                  style: TextStyle(fontWeight: FontWeight.w700),
-                ),
-                content: Text(
-                  '이미 존재하는 회원입니다.',
-                  style: TextStyle(fontSize: 16.sp, height: 1.5.h),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      '확인',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          });
-        }
-      } else if (response.statusCode == 500) {
-        debugPrint('서버 에러 500 - 응답 내용: ${response.data}');
-        if (mounted) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('서버 오류: ${response.data}')));
-        }
-      } else {
-        debugPrint('회원가입 실패: ${response.statusCode}');
-        debugPrint('응답 내용: ${response.data}');
-        if (mounted) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('회원가입 실패: ${response.data}')));
-        }
-      }
-    } catch (e) {
-      _hideLoadingDialog();
-      debugPrint('회원가입 에러: $e');
-      if (e is DioException) {
-        debugPrint('DioException 상세:');
-        debugPrint('- 타입: ${e.type}');
-        debugPrint('- 메시지: ${e.message}');
-        debugPrint('- 응답 상태코드: ${e.response?.statusCode}');
-        debugPrint('- 응답 데이터: ${e.response?.data}');
-
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('오류: ${e.response?.data ?? e.message}')),
-          );
-        }
-      }
-    } finally {
-      _isSignUpInProgress = false;
-    }
+  void _submitSignUp() {
+    ref.read(signUpControllerProvider.notifier).submit(
+          SignUpFormData(
+            name: nameController.text,
+            phone: phoneNumberController.text,
+            genderValue: _selectedValue,
+            birthYmd: apiDate,
+            privacyAgreed: _isPrivacyAgreed,
+            purpose: _selectedPurpose,
+            residence: _selectedAddress,
+            maleCount: maleCount,
+            femaleCount: femaleCount,
+          ),
+        );
   }
 
   void _showLoadingDialog() {
@@ -280,8 +92,74 @@ class _SignUpDialogState extends State<SignUpDialog> {
     Navigator.of(context, rootNavigator: true).pop();
   }
 
+  void _handleSignUpState(SignUpState? previous, SignUpState next) {
+    if (!mounted) return;
+
+    final wasSubmitting = previous?.isSubmitting ?? false;
+    if (!wasSubmitting && next.isSubmitting) {
+      _showLoadingDialog();
+    } else if (wasSubmitting && !next.isSubmitting) {
+      _hideLoadingDialog();
+    }
+
+    final generatedId = next.generatedId;
+    if (generatedId != null && generatedId.isNotEmpty) {
+      showDialog(
+        context: context,
+        builder: (_) => CheckIdDialog(generatedId: generatedId),
+      );
+      ref.read(signUpControllerProvider.notifier).clearNotifications();
+      return;
+    }
+
+    final message = next.message;
+    if (message == null || message.isEmpty) return;
+
+    if (next.errorType == SignUpErrorType.duplicateUser) {
+      _showDuplicateUserDialog(message);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    }
+
+    ref.read(signUpControllerProvider.notifier).clearNotifications();
+  }
+
+  void _showDuplicateUserDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text(
+          '회원가입 실패',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 16.sp, height: 1.5.h),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(
+              '확인',
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    ref.listen<SignUpState>(signUpControllerProvider, _handleSignUpState);
+
     final viewInsets = MediaQuery.of(context).viewInsets;
     final screenSize = MediaQuery.sizeOf(context);
     final horizontalMargin = 24.w;
@@ -546,7 +424,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
                                   '거주지',
                                   buildDropDownButton(
                                     _selectedAddress,
-                                    _address,
+                                    signUpAddressOptions,
                                     '거주지를 선택해주세요',
                                     Images.homeIcon,
                                     (val) => setState(
@@ -592,7 +470,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
                           ),
                           SizedBox(height: 8.h),
                           GestureDetector(
-                            onTap: registerUser,
+                            onTap: _submitSignUp,
                             child: Container(
                               width: 140.w,
                               height: 42.h,
