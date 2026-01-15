@@ -443,12 +443,23 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                '개인정보 수집 및 이용 동의',
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xff2E2E32),
+                              Container(
+                                padding: EdgeInsets.only(bottom: 1.h),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.redAccent,
+                                      width: 1.w,
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  '개인정보 수집 및 이용 동의',
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xff2E2E32),
+                                  ),
                                 ),
                               ),
                               Checkbox(
@@ -571,11 +582,13 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
                     ...displayItems.map(
                       (e) => DropdownMenuItem<String>(
                         value: e,
-                        child: Text(
-                          e,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.black,
+                        child: Center(
+                          child: Text(
+                            e,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),
@@ -583,11 +596,13 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
                     // 직접 입력 항목
                     DropdownMenuItem<String>(
                       value: _customInputValue,
-                      child: Text(
-                        '기타 입력',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: Colors.black,
+                      child: Center(
+                        child: Text(
+                          '기타 입력',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -602,6 +617,8 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
                   },
                   dropdownStyleData: DropdownStyleData(
                     maxHeight: 300.h,
+                    width: 215.w,
+                    offset: Offset(-30.w, 0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
                       color: Colors.white,

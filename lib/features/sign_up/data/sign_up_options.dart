@@ -1,7 +1,7 @@
 // 거주지 선택 옵션
 const List<String> signUpAddressOptions = [
+  '구즉동(송강, 봉산, 둔곡 등)',
   '관평동',
-  '구즉동',
   '노은1동',
   '노은2동',
   '노은3동',
