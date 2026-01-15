@@ -7,7 +7,7 @@ import 'package:gujuek_check_in_flutter/features/sign_up/dialogs/sign_up_dialog.
 import 'package:gujuek_check_in_flutter/features/facility_safety_training/ui/facility_safety_training_screen.dart';
 
 import '../widgets/custom_elevated_button.dart';
-import '../dialogs/facility_registration_dialog.dart';
+import 'dialogs/facility_registration_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

@@ -3,16 +3,17 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gujuek_check_in_flutter/features/home/dialogs/error_id_dialog.dart';
-import 'package:gujuek_check_in_flutter/features/home/state/facility_registration_controller.dart';
-import 'package:gujuek_check_in_flutter/features/home/state/facility_registration_state.dart';
-import 'package:gujuek_check_in_flutter/features/home/widgets/custom_drop_down_button.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/features/home/widgets/quantity_counter_widget.dart';
 import 'package:gujuek_check_in_flutter/shared/dialogs/complete_facility_registration.dart';
 import 'package:gujuek_check_in_flutter/shared/dialogs/loading_dialog.dart';
 
 import 'package:gujuek_check_in_flutter/features/sign_up/dialogs/sign_up_dialog.dart';
+
+import '../../state/facility_registration_controller.dart';
+import '../../state/facility_registration_state.dart';
+import '../../widgets/custom_drop_down_button.dart';
+import '../../widgets/quantity_counter_widget.dart';
+import 'error_id_dialog.dart';
 
 class FacilityRegistrationDialog extends ConsumerStatefulWidget {
   const FacilityRegistrationDialog({super.key});
@@ -45,7 +46,9 @@ class _FacilityRegistrationDialogState
 
   // 입력값을 FormData로 변환해 제출
   void _submitLogin() {
-    ref.read(facilityRegistrationControllerProvider.notifier).submit(
+    ref
+        .read(facilityRegistrationControllerProvider.notifier)
+        .submit(
           FacilityRegistrationFormData(
             userId: nameController.text,
             purpose: _selectedPurpose,
@@ -92,16 +95,17 @@ class _FacilityRegistrationDialogState
         builder: (_) =>
             const CompleteFacilityRegistration(text: '이용해주셔서 감사합니다.'),
       );
-      ref.read(facilityRegistrationControllerProvider.notifier).clearNotifications();
+      ref
+          .read(facilityRegistrationControllerProvider.notifier)
+          .clearNotifications();
       return;
     }
 
     if (next.errorType == FacilityRegistrationErrorType.notFound) {
-      showDialog(
-        context: context,
-        builder: (_) => const ErrorIdDialog(),
-      );
-      ref.read(facilityRegistrationControllerProvider.notifier).clearNotifications();
+      showDialog(context: context, builder: (_) => const ErrorIdDialog());
+      ref
+          .read(facilityRegistrationControllerProvider.notifier)
+          .clearNotifications();
       return;
     }
 
@@ -149,7 +153,9 @@ class _FacilityRegistrationDialogState
           child: Container(
             width: dialogWidth,
             height: dialogHeight,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.r),
               child: Row(
