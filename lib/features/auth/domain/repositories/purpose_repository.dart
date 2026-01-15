@@ -2,7 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client_provider.dart';
-import 'package:gujuek_check_in_flutter/data/models/purpose/purpose_model.dart';
+
+import '../../data/models/purpose/purpose_model.dart';
 
 class PurposeRepository {
   PurposeRepository(this._client);

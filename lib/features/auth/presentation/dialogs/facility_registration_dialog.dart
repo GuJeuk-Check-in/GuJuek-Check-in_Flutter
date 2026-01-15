@@ -3,16 +3,16 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gujuek_check_in_flutter/features/home/dialogs/error_id_dialog.dart';
-import 'package:gujuek_check_in_flutter/features/home/state/facility_registration_controller.dart';
-import 'package:gujuek_check_in_flutter/features/home/state/facility_registration_state.dart';
-import 'package:gujuek_check_in_flutter/features/home/widgets/custom_drop_down_button.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/features/home/widgets/quantity_counter_widget.dart';
-import 'package:gujuek_check_in_flutter/shared/dialogs/complete_facility_registration.dart';
-import 'package:gujuek_check_in_flutter/shared/dialogs/loading_dialog.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/dialogs/sign_up_dialog.dart';
 
-import 'package:gujuek_check_in_flutter/features/sign_up/dialogs/sign_up_dialog.dart';
+import '../../../../core/widgets/dialogs/complete_facility_registration.dart';
+import '../../../../core/widgets/dialogs/loading_dialog.dart';
+import 'error_id_dialog.dart';
+import '../widgets/custom_drop_down_button.dart';
+import '../state/facility_registration_controller.dart';
+import '../widgets/quantity_counter_widget.dart';
+import '../state/facility_registration_state.dart';
 
 class FacilityRegistrationDialog extends ConsumerStatefulWidget {
   const FacilityRegistrationDialog({super.key});
@@ -45,7 +45,9 @@ class _FacilityRegistrationDialogState
 
   // 입력값을 FormData로 변환해 제출
   void _submitLogin() {
-    ref.read(facilityRegistrationControllerProvider.notifier).submit(
+    ref
+        .read(facilityRegistrationControllerProvider.notifier)
+        .submit(
           FacilityRegistrationFormData(
             userId: nameController.text,
             purpose: _selectedPurpose,
@@ -92,16 +94,17 @@ class _FacilityRegistrationDialogState
         builder: (_) =>
             const CompleteFacilityRegistration(text: '이용해주셔서 감사합니다.'),
       );
-      ref.read(facilityRegistrationControllerProvider.notifier).clearNotifications();
+      ref
+          .read(facilityRegistrationControllerProvider.notifier)
+          .clearNotifications();
       return;
     }
 
     if (next.errorType == FacilityRegistrationErrorType.notFound) {
-      showDialog(
-        context: context,
-        builder: (_) => const ErrorIdDialog(),
-      );
-      ref.read(facilityRegistrationControllerProvider.notifier).clearNotifications();
+      showDialog(context: context, builder: (_) => const ErrorIdDialog());
+      ref
+          .read(facilityRegistrationControllerProvider.notifier)
+          .clearNotifications();
       return;
     }
 
@@ -149,7 +152,9 @@ class _FacilityRegistrationDialogState
           child: Container(
             width: dialogWidth,
             height: dialogHeight,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.r),
               child: Row(
@@ -607,178 +612,3 @@ class _FacilityRegistrationDialogState
     ),
   );
 }
-
-// 동행인 기능 보류(현재 사용 안함)
-// 동행인 목록 다이얼로그 (슬라이드 삭제 기능)
-// class _CompanionListDialog extends StatefulWidget {
-//   final List<String> companionIds;
-//
-//   const _CompanionListDialog({required this.companionIds});
-//
-//   @override
-//   State<_CompanionListDialog> createState() => _CompanionListDialogState();
-// }
-//
-// class _CompanionListDialogState extends State<_CompanionListDialog> {
-//   late List<String> _companionIds;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _companionIds = List.from(widget.companionIds);
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Dialog(
-//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
-//       child: Container(
-//         width: 400.w,
-//         padding: EdgeInsets.all(24.w),
-//         decoration: BoxDecoration(
-//           color: Colors.white,
-//           borderRadius: BorderRadius.circular(20.r),
-//         ),
-//         child: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             Text(
-//               '동행인 목록',
-//               style: TextStyle(
-//                 fontSize: 24.sp,
-//                 fontWeight: FontWeight.w700,
-//                 color: const Color(0xff0F50A0),
-//               ),
-//             ),
-//             SizedBox(height: 8.h),
-//             Text(
-//               '왼쪽으로 슬라이드하여 삭제',
-//               style: TextStyle(
-//                 fontSize: 14.sp,
-//                 fontWeight: FontWeight.w500,
-//                 color: const Color(0xff6A6A6A),
-//               ),
-//             ),
-//             SizedBox(height: 20.h),
-//             ConstrainedBox(
-//               constraints: BoxConstraints(maxHeight: 300.h),
-//               child: _companionIds.isEmpty
-//                   ? Center(
-//                       child: Padding(
-//                         padding: EdgeInsets.symmetric(vertical: 40.h),
-//                         child: Text(
-//                           '동행인이 없습니다',
-//                           style: TextStyle(
-//                             fontSize: 16.sp,
-//                             color: const Color(0xff6A6A6A),
-//                           ),
-//                         ),
-//                       ),
-//                     )
-//                   : ListView.builder(
-//                       shrinkWrap: true,
-//                       itemCount: _companionIds.length,
-//                       itemBuilder: (context, index) {
-//                         final id = _companionIds[index];
-//                         return Dismissible(
-//                           key: Key(id),
-//                           direction: DismissDirection.endToStart,
-//                           onDismissed: (direction) {
-//                             setState(() {
-//                               _companionIds.removeAt(index);
-//                             });
-//                             ScaffoldMessenger.of(context).showSnackBar(
-//                               SnackBar(
-//                                 content: Text('$id 삭제됨'),
-//                                 duration: const Duration(seconds: 1),
-//                               ),
-//                             );
-//                           },
-//                           background: Container(
-//                             alignment: Alignment.centerRight,
-//                             padding: EdgeInsets.only(right: 20.w),
-//                             decoration: BoxDecoration(
-//                               color: Colors.red,
-//                               borderRadius: BorderRadius.circular(12.r),
-//                             ),
-//                             child: Icon(
-//                               Icons.delete,
-//                               color: Colors.white,
-//                               size: 28.sp,
-//                             ),
-//                           ),
-//                           child: Container(
-//                             margin: EdgeInsets.only(bottom: 8.h),
-//                             padding: EdgeInsets.symmetric(
-//                               horizontal: 16.w,
-//                               vertical: 12.h,
-//                             ),
-//                             decoration: BoxDecoration(
-//                               color: const Color(0xffF5F5F5),
-//                               borderRadius: BorderRadius.circular(12.r),
-//                               border: Border.all(
-//                                 width: 1.w,
-//                                 color: const Color(0xffE0E0E0),
-//                               ),
-//                             ),
-//                             child: Row(
-//                               children: [
-//                                 Container(
-//                                   width: 8.w,
-//                                   height: 8.h,
-//                                   decoration: const BoxDecoration(
-//                                     color: Color(0xff0F50A0),
-//                                     shape: BoxShape.circle,
-//                                   ),
-//                                 ),
-//                                 SizedBox(width: 12.w),
-//                                 Expanded(
-//                                   child: Text(
-//                                     id,
-//                                     style: TextStyle(
-//                                       fontSize: 16.sp,
-//                                       fontWeight: FontWeight.w600,
-//                                       color: const Color(0xff404040),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                         );
-//                       },
-//                     ),
-//             ),
-//             SizedBox(height: 20.h),
-//             Row(
-//               children: [
-//                 Expanded(
-//                   child: ElevatedButton(
-//                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: const Color(0xff0F50A0),
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(12.r),
-//                       ),
-//                       padding: EdgeInsets.symmetric(vertical: 14.h),
-//                     ),
-//                     onPressed: () {
-//                       Navigator.pop(context, _companionIds);
-//                     },
-//                     child: Text(
-//                       '확인',
-//                       style: TextStyle(
-//                         fontSize: 16.sp,
-//                         fontWeight: FontWeight.w700,
-//                         color: Colors.white,
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
