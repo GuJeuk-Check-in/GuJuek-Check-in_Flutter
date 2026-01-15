@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 
-import '../../features/home/presentation/ui/home_screen.dart';
+import '../../../features/home/presentation/ui/home_screen.dart';
 
 class CompleteFacilityRegistration extends StatelessWidget {
   final String text;
@@ -48,7 +48,7 @@ class CompleteFacilityRegistration extends StatelessWidget {
                 // 확인 후 홈으로 복귀
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (_) => const HomeScreen()),
-                      (Route<dynamic> route) => false,
+                  (Route<dynamic> route) => false,
                 );
               },
               child: Text(

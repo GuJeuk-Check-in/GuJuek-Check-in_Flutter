@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 import 'package:gujuek_check_in_flutter/features/auth/presentation/dialogs/sign_up_dialog.dart';
-import 'package:gujuek_check_in_flutter/shared/dialogs/complete_facility_registration.dart';
-import 'package:gujuek_check_in_flutter/shared/dialogs/loading_dialog.dart';
 
+import '../../../../core/widgets/dialogs/complete_facility_registration.dart';
+import '../../../../core/widgets/dialogs/loading_dialog.dart';
 import 'error_id_dialog.dart';
 import '../widgets/custom_drop_down_button.dart';
 import '../state/facility_registration_controller.dart';

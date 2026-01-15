@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/shared/dialogs/complete_facility_registration.dart';
+import '../../../../core/widgets/dialogs/complete_facility_registration.dart';
 
 class CheckIdDialog extends StatelessWidget {
   final String generatedId;

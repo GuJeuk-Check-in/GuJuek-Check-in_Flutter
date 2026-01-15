@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gujuek_check_in_flutter/shared/widgets/circle_background.dart';
-import 'package:gujuek_check_in_flutter/shared/widgets/custom_layout.dart';
+import 'package:gujuek_check_in_flutter/core/widgets/circle_background.dart';
+import 'package:gujuek_check_in_flutter/core/widgets/custom_layout.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 import 'package:gujuek_check_in_flutter/features/facility_safety_training/ui/facility_safety_training_screen.dart';
 

@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/shared/dialogs/loading_dialog.dart';
 
+import '../../../../core/widgets/dialogs/loading_dialog.dart';
 import '../../data/sign_up_options.dart';
 import '../state/sign_up_controller.dart';
 import '../state/sign_up_state.dart';
@@ -62,7 +62,9 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
 
   // 입력 폼을 SignUpFormData로 변환해 제출
   void _submitSignUp() {
-    ref.read(signUpControllerProvider.notifier).submit(
+    ref
+        .read(signUpControllerProvider.notifier)
+        .submit(
           SignUpFormData(
             name: nameController.text,
             phone: phoneNumberController.text,
@@ -120,9 +122,9 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
     if (next.errorType == SignUpErrorType.duplicateUser) {
       _showDuplicateUserDialog(message);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
     }
 
     ref.read(signUpControllerProvider.notifier).clearNotifications();
@@ -147,10 +149,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
             },
             child: Text(
               '확인',
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
           ),
         ],
@@ -189,7 +188,10 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
           child: Container(
             width: dialogWidth,
             height: dialogHeight,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r), color: Colors.white),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+              color: Colors.white,
+            ),
             child: Row(
               children: [
                 // 왼쪽 파란 배경 영역
@@ -309,7 +311,10 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
                 Expanded(
                   flex: 2,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 56.w, vertical: 6.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 56.w,
+                      vertical: 6.h,
+                    ),
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -340,8 +345,9 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
                                         horizontal: 20.w,
                                       ),
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.r),
+                                        borderRadius: BorderRadius.circular(
+                                          8.r,
+                                        ),
                                         border: Border.all(
                                           width: 1.w,
                                           color: const Color(0xff2E2E32),
@@ -411,16 +417,20 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
                             children: [
                               Expanded(
                                 child: buildColumn(
-                                '성별',
-                                Row(
-                                  children: [
-                                    Expanded(child: buildRadioButton(1, '남성')),
-                                    SizedBox(width: 12.w),
-                                    Expanded(child: buildRadioButton(2, '여성')),
-                                  ],
+                                  '성별',
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: buildRadioButton(1, '남성'),
+                                      ),
+                                      SizedBox(width: 12.w),
+                                      Expanded(
+                                        child: buildRadioButton(2, '여성'),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
                               SizedBox(width: 10.w),
                               Expanded(
                                 child: buildColumn(
@@ -430,9 +440,8 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
                                     signUpAddressOptions,
                                     '거주지를 선택해주세요',
                                     Images.homeIcon,
-                                    (val) => setState(
-                                      () => _selectedAddress = val,
-                                    ),
+                                    (val) =>
+                                        setState(() => _selectedAddress = val),
                                   ),
                                 ),
                               ),
@@ -465,9 +474,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
                               Checkbox(
                                 value: _isPrivacyAgreed,
                                 onChanged: (v) {
-                                  setState(
-                                    () => _isPrivacyAgreed = v ?? false,
-                                  );
+                                  setState(() => _isPrivacyAgreed = v ?? false);
                                 },
                                 activeColor: const Color(0xff2ABFEC),
                                 checkColor: Colors.white,
@@ -633,9 +640,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
     );
   }
 
-  Future<void> _showCustomAddressDialog(
-    ValueChanged<String?> onChanged,
-  ) async {
+  Future<void> _showCustomAddressDialog(ValueChanged<String?> onChanged) async {
     // 기타 입력 선택 시 별도 입력창 표시
     final controller = TextEditingController();
 
@@ -955,10 +960,7 @@ Widget buildCountingItem({
         ),
       ),
       SizedBox(height: 5.h),
-      PeopleCounterWidget(
-        initialValue: initialValue,
-        onChanged: onChanged,
-      ),
+      PeopleCounterWidget(initialValue: initialValue, onChanged: onChanged),
     ],
   );
 }
