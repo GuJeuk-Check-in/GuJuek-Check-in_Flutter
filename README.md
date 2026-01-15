@@ -5,41 +5,49 @@ Riverpod 기반 상태관리, Dio 네트워크, json_serializable 모델을 사�
 
 ## 아키텍처 개요
 
-- **feature 기반 폴더 구조**로 UI/상태/위젯을 기능 단위로 분리
-- **core**는 공통 인프라(네트워크, 이미지 경로 등)를 담당
-- **data**는 모델 및 리포지토리(API 호출)를 담당
-- **shared**는 공통 위젯/다이얼로그를 담당
+- **feature 기반 폴더 구조**로 기능 단위 분리
+- **core**는 공통 인프라(네트워크, 이미지 경로, 공용 위젯)를 담당
+- **auth**는 data/domain/presentation으로 레이어를 구분
 
 ## 폴더 구조
 
 ```
 lib/
   core/
-    images.dart
     network/
       api_client.dart
       api_client_provider.dart
-  data/
-    models/
-      login/
-      purpose/
-      sign_up/
-    repositories/
-  features/
-    facility_safety_training/
-    home/
-    sign_up/
-    shared/
-  shared/
-    dialogs/
     widgets/
+      dialogs/
+  features/
+    auth/
+      data/
+        models/
+        sign_up_options.dart
+      domain/
+        repositories/
+      presentation/
+        dialogs/
+        state/
+        widgets/
+    facility_safety_training/
+      ui/
+      widgets/
+    home/
+      presentation/
+        ui/
+        widgets/
+  main.dart
+assets/
+  fonts/
+  images/
 ```
 
 ## 주요 흐름
 
 - `main.dart`에서 `.env`를 로드하고 `ProviderScope`로 앱 시작
-- `HomeScreen` → 안전교육 화면 → 시설 이용 신청/처음 방문 등록 다이얼로그
-- 각 기능별 상태는 `StateNotifier` + `SignUpState`, `FacilityRegistrationState`로 관리
+- `HomeScreen`에서 안전교육 플로우와 등록 다이얼로그 진입
+- 각 기능별 상태는 `StateNotifier` 기반으로 관리 (`SignUpState`, `FacilityRegistrationState`)
 
 ## 기술 스택
 

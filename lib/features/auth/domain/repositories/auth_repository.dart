@@ -3,8 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client_provider.dart';
-import 'package:gujuek_check_in_flutter/data/models/login/login_model.dart';
-import 'package:gujuek_check_in_flutter/data/models/sign_up/user_model.dart';
+
+import '../../data/models/login/login_model.dart';
+import '../../data/models/sign_up/user_model.dart';
 
 class ApiResponse {
   ApiResponse({this.statusCode, this.data, this.exception, this.message});

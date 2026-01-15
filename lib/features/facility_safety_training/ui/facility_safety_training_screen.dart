@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gujuek_check_in_flutter/shared/widgets/custom_layout.dart';
+import 'package:gujuek_check_in_flutter/core/widgets/custom_layout.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 import 'package:gujuek_check_in_flutter/features/facility_safety_training/widgets/check_elevated_button.dart';
 import 'package:gujuek_check_in_flutter/features/facility_safety_training/widgets/facility_safety_text.dart';
