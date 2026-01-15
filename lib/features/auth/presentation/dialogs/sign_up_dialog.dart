@@ -11,7 +11,7 @@ import 'package:gujuek_check_in_flutter/shared/dialogs/loading_dialog.dart';
 import '../../data/sign_up_options.dart';
 import '../state/sign_up_controller.dart';
 import '../state/sign_up_state.dart';
-import '../widgets/custom_drop_down_button.dart';
+import '../widgets/location_custom_drop_down_button.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/people_counter_widget.dart';
 import '../widgets/phone_input_formatter.dart';
