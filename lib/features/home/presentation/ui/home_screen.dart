@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/shared/widgets/circle_background.dart';
 import 'package:gujuek_check_in_flutter/shared/widgets/custom_layout.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/features/sign_up/dialogs/sign_up_dialog.dart';
 import 'package:gujuek_check_in_flutter/features/facility_safety_training/ui/facility_safety_training_screen.dart';
 
+import '../../../auth/dialogs/sign_up_dialog.dart';
 import '../widgets/custom_elevated_button.dart';
-import 'dialogs/facility_registration_dialog.dart';
+import '../../../auth/dialogs/facility_registration_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/features/sign_up/dialogs/check_id_dialog.dart';
-import 'package:gujuek_check_in_flutter/features/sign_up/data/sign_up_options.dart';
-import 'package:gujuek_check_in_flutter/features/sign_up/state/sign_up_controller.dart';
-import 'package:gujuek_check_in_flutter/features/sign_up/state/sign_up_state.dart';
 import 'package:gujuek_check_in_flutter/shared/dialogs/loading_dialog.dart';
-import 'package:gujuek_check_in_flutter/features/sign_up/widgets/custom_drop_down_button.dart';
-import 'package:gujuek_check_in_flutter/features/sign_up/widgets/phone_input_formatter.dart';
-import 'package:gujuek_check_in_flutter/features/sign_up/widgets/people_counter_widget.dart';
 
+import '../../data/sign_up_options.dart';
+import '../state/sign_up_controller.dart';
+import '../state/sign_up_state.dart';
+import '../widgets/custom_drop_down_button.dart';
 import '../widgets/custom_text_field.dart';
+import '../widgets/people_counter_widget.dart';
+import '../widgets/phone_input_formatter.dart';
+import 'check_id_dialog.dart';
 
 class SignUpDialog extends ConsumerStatefulWidget {
   const SignUpDialog({super.key});

@@ -4,16 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/dialogs/sign_up_dialog.dart';
 import 'package:gujuek_check_in_flutter/shared/dialogs/complete_facility_registration.dart';
 import 'package:gujuek_check_in_flutter/shared/dialogs/loading_dialog.dart';
 
-import 'package:gujuek_check_in_flutter/features/sign_up/dialogs/sign_up_dialog.dart';
-
-import '../../state/facility_registration_controller.dart';
-import '../../state/facility_registration_state.dart';
-import '../../widgets/custom_drop_down_button.dart';
-import '../../widgets/quantity_counter_widget.dart';
-import 'error_id_dialog.dart';
+import '../../../home/presentation/state/facility_registration_controller.dart';
+import '../../../home/presentation/state/facility_registration_state.dart';
+import '../../../home/presentation/ui/dialogs/error_id_dialog.dart';
+import '../../../home/presentation/widgets/custom_drop_down_button.dart';
+import '../../../home/presentation/widgets/quantity_counter_widget.dart';
 
 class FacilityRegistrationDialog extends ConsumerStatefulWidget {
   const FacilityRegistrationDialog({super.key});

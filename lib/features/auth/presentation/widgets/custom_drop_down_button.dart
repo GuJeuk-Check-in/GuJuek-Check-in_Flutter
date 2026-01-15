@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 
-import '../../../core/shared/state/purpose_list_provider.dart';
-import '../../../data/models/purpose/purpose_model.dart';
+import '../../../../core/shared/state/purpose_list_provider.dart';
+import '../../../../data/models/purpose/purpose_model.dart';
 
 class LocationCustomDropDownButton extends ConsumerStatefulWidget {
   final Function(PurposeModel?) onPurposeSelected;
