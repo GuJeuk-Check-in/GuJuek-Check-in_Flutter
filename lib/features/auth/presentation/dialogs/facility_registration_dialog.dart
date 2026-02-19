@@ -3,6 +3,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/core/constants/color.dart';
+import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 import 'package:gujuek_check_in_flutter/features/auth/presentation/dialogs/sign_up_dialog.dart';
 
@@ -158,6 +160,7 @@ class _FacilityRegistrationDialogState
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.r),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(child: buildLeftPanel(isCompact: isCompact)),
                   Expanded(
@@ -184,7 +187,7 @@ class _FacilityRegistrationDialogState
 
     return Container(
       width: double.infinity,
-      color: Colors.white,
+      color: GuJuekColor.white,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: sidePadding),
         child: SingleChildScrollView(
@@ -286,46 +289,45 @@ class _FacilityRegistrationDialogState
       ),
     );
   }
-
   Widget buildRightPanel({required bool isCompact, required double formWidth}) {
     // 우측 입력 폼 영역
-    final buttonPadding = isCompact ? 40.w : 160.w;
+    final buttonPadding = isCompact ? 40.w : 90.w;
 
     return Container(
       width: double.infinity,
-      color: const Color(0xff0F50A0),
+      color: GuJuekColor.blue,
       child: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: isCompact ? 24.w : 0),
+        padding: EdgeInsets.symmetric(horizontal: isCompact ? 24.w : 40.w),
         child: Column(
           children: [
-            SizedBox(height: isCompact ? 32.h : 69.h),
+            SizedBox(height: isCompact ? 36.h : 54.h),
             Text(
               '시설 이용 신청',
-              style: TextStyle(
-                fontSize: isCompact ? 32.sp : 40.sp,
+              style: GuJuekTextStyle.title.copyWith(
                 fontFamily: 'Jua',
-                color: Colors.white,
+                fontSize: isCompact ? 28.sp : 34.sp,
+                color: GuJuekColor.white,
               ),
             ),
-            SizedBox(height: isCompact ? 32.h : 52.h),
+            SizedBox(height: isCompact ? 28.h : 36.h),
             Column(
               children: [
                 buildTextField(width: formWidth),
                 SizedBox(height: 20.h),
                 buildDropDown(width: formWidth),
-                SizedBox(height: 10.h),
+                SizedBox(height: 8.h),
                 buildCountingBlock(),
               ],
             ),
-            SizedBox(height: 40.h),
+            SizedBox(height: 32.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: buttonPadding),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(140.w, 52.h),
-                  backgroundColor: const Color(0xff3C71B2),
+                  minimumSize: Size(140.w, 48.h),
+                  backgroundColor: GuJuekColor.primary,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 2.w, color: Colors.white),
+                    side: BorderSide(width: 2.w, color: GuJuekColor.white),
                     borderRadius: BorderRadius.circular(50.r),
                   ),
                 ),
@@ -335,16 +337,15 @@ class _FacilityRegistrationDialogState
                 child: Center(
                   child: Text(
                     '확인',
-                    style: TextStyle(
-                      fontSize: 24.sp,
-                      color: Colors.white,
+                    style: GuJuekTextStyle.check.copyWith(
+                      fontSize: 20.sp,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 24.h),
+            SizedBox(height: 20.h),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -360,23 +361,23 @@ class _FacilityRegistrationDialogState
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: const Color(0xffA4DFFF),
+                        color: GuJuekColor.skyBlue,
                         width: 2.h,
                       ),
                     ),
                   ),
                   child: Text(
                     '계정이 없으신가요?',
-                    style: TextStyle(
+                    style: GuJuekTextStyle.labelText.copyWith(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w600,
-                      color: const Color(0xffA4DFFF),
+                      color: GuJuekColor.skyBlue,
                     ),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 16.h),
+            SizedBox(height: 12.h),
           ],
         ),
       ),
@@ -386,39 +387,41 @@ class _FacilityRegistrationDialogState
   Widget buildTextField({required double width}) {
     return Container(
       width: width,
-      height: 48.h,
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      height: 44.h,
+      padding: EdgeInsets.symmetric(horizontal: 18.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30.r),
-        color: Colors.white,
-        border: Border.all(width: 1.w, color: const Color(0xff0F50A0)),
+        color: GuJuekColor.white,
+        border: Border.all(width: 1.w, color: GuJuekColor.blue),
       ),
       child: Row(
         children: [
-          Image.asset(Images.personIcon, width: 22.w, height: 24.h),
-          SizedBox(width: 8.w),
-          Image.asset(Images.lineIcon, width: 1.w, height: 36.h),
-          SizedBox(width: 8.w),
+          Image.asset(Images.personIcon, width: 20.w, height: 20.h),
+          SizedBox(width: 10.w),
+          Image.asset(Images.lineIcon, width: 1.w, height: 24.h),
+          SizedBox(width: 10.w),
           Expanded(
             child: TextField(
               controller: nameController,
-              style: TextStyle(
+              style: GuJuekTextStyle.hintText.copyWith(
                 fontWeight: FontWeight.w600,
-                fontSize: 14.sp,
-                color: const Color(0xff404040),
+                fontSize: 13.sp,
+                color: GuJuekColor.gray30,
               ),
               decoration: InputDecoration(
                 hintText: 'ex) 김정욱0709',
                 focusColor: Colors.black,
-                hintStyle: TextStyle(
-                  fontSize: 14.sp,
+                hintStyle: GuJuekTextStyle.hintText.copyWith(
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
-                  color: const Color(0xff6A6A6A),
+                  color: GuJuekColor.gray10,
                 ),
-                fillColor: Colors.white,
+                fillColor: GuJuekColor.white,
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 errorBorder: InputBorder.none,
+                isDense: true,
+                contentPadding: EdgeInsets.zero,
               ),
             ),
           ),
@@ -430,13 +433,13 @@ class _FacilityRegistrationDialogState
   Widget buildDropDown({required double width}) {
     return CustomDropDownButton(
       width: width,
-      height: 48.h,
+      height: 44.h,
       text: '방문목적 선택',
       imagePath: Images.upDown,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30.r),
-        color: Colors.white,
-        border: Border.all(width: 1.w, color: const Color(0xff0F50A0)),
+        color: GuJuekColor.white,
+        border: Border.all(width: 1.w, color: GuJuekColor.blue),
       ),
       onPurposeSelected: (purpose) {
         setState(() {
@@ -452,7 +455,7 @@ class _FacilityRegistrationDialogState
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         buildCountingGender(isMale: true),
-        SizedBox(width: 8.w),
+        SizedBox(width: 12.w),
         buildCountingGender(isMale: false),
       ],
     );
@@ -467,12 +470,13 @@ class _FacilityRegistrationDialogState
       children: [
         Text(
           label,
-          style: TextStyle(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
+          style: GuJuekTextStyle.hintText.copyWith(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w500,
+            color: GuJuekColor.white,
           ),
         ),
+        SizedBox(height: 2.h),ㅌ₩
         QuantityCounter(
           initialValue: initialValue,
           onChanged: (value) {
@@ -488,96 +492,6 @@ class _FacilityRegistrationDialogState
       ],
     );
   }
-
-  // 동행인 기능 보류(현재 사용 안함)
-  // Widget buildAddCompanion({required double width}) {
-  //   return Column(
-  //     children: [
-  //       // 동행인 추가 버튼
-  //       GestureDetector(
-  //         onTap: () async {
-  //           final result = await showDialog<List<String>>(
-  //             context: context,
-  //             builder: (_) => const AddCompanionDialog(),
-  //           );
-  //
-  //           if (result != null && result.isNotEmpty) {
-  //             setState(() {
-  //               companionIds.addAll(result);
-  //             });
-  //           }
-  //         },
-  //         child: Container(
-  //           width: width,
-  //           height: 48.h,
-  //           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 13.h),
-  //           decoration: BoxDecoration(
-  //             borderRadius: BorderRadius.circular(30.r),
-  //             color: Colors.white,
-  //           ),
-  //           child: Row(
-  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //             children: [
-  //               Text(
-  //                 '동행인 추가',
-  //                 style: TextStyle(
-  //                   fontSize: 14.sp,
-  //                   color: const Color(0xff404040),
-  //                   fontWeight: FontWeight.w600,
-  //                 ),
-  //               ),
-  //               Image.asset(Images.plusIcon, width: 25.w, height: 25.h),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //       SizedBox(height: 10.h),
-  //
-  //       // 동행인 목록 보기 컨테이너
-  //       if (companionIds.isNotEmpty)
-  //         GestureDetector(
-  //           onTap: () async {
-  //             final result = await showDialog<List<String>>(
-  //               context: context,
-  //               builder: (_) =>
-  //                   _CompanionListDialog(companionIds: List.from(companionIds)),
-  //             );
-  //
-  //             // 수정된 목록을 반영
-  //             if (result != null) {
-  //               setState(() {
-  //                 companionIds.clear();
-  //                 companionIds.addAll(result);
-  //               });
-  //             }
-  //           },
-  //           child: Container(
-  //             width: width,
-  //             height: 48.h,
-  //             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 13.h),
-  //             decoration: BoxDecoration(
-  //               borderRadius: BorderRadius.circular(30.r),
-  //               color: Colors.white.withOpacity(0.9),
-  //             ),
-  //             child: Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 Text(
-  //                   '동행인 보기',
-  //                   style: TextStyle(
-  //                     fontSize: 14.sp,
-  //                     fontWeight: FontWeight.w600,
-  //                     color: const Color(0xff404040),
-  //                   ),
-  //                 ),
-  //                 Image.asset(Images.searchIcon, width: 25.w, height: 25.h),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //     ],
-  //   );
-  // }
 
   Widget buildItem(String text) {
     return Row(
