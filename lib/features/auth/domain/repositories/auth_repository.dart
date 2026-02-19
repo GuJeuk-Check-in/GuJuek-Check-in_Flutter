@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client_provider.dart';
+import 'package:gujuek_check_in_flutter/core/storage/secure_storage_service.dart';
 
 import '../../data/models/login/login_model.dart';
 import '../../data/models/organ_login/organ_login_request.dart';
@@ -23,9 +24,10 @@ class ApiResponse {
 
 // 로그인/회원가입 API 호출을 담당하는 리포지토리
 class AuthRepository {
-  AuthRepository(this._client);
+  AuthRepository(this._client, this._secureStorage);
 
   final ApiClient? _client;
+  final SecureStorageService _secureStorage;
 
   Future<ApiResponse> signUp(UserModel user) async {
     final client = _client;
@@ -60,10 +62,20 @@ class AuthRepository {
       return ApiResponse(message: 'BASE_URL이 설정되지 않았습니다.');
     }
 
+    final tokens = await _secureStorage.readOrganTokens();
+    final accessToken = tokens['access_token'];
+    if (accessToken == null || accessToken.isEmpty) {
+      return ApiResponse(message: '기관 로그인 토큰이 없습니다.');
+    }
+
     try {
       final response = await client.dio.post(
         '/user/login',
         data: loginModel.toJson(),
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+          validateStatus: (status) => status != null && status < 600,
+        ),
       );
       return ApiResponse(statusCode: response.statusCode, data: response.data);
     } on DioException catch (e) {
@@ -114,5 +126,8 @@ class AuthRepository {
 
 // 전역에서 AuthRepository를 주입하기 위한 Provider
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepository(ref.watch(apiClientProvider));
+  return AuthRepository(
+    ref.watch(apiClientProvider),
+    ref.watch(secureStorageServiceProvider),
+  );
 });
