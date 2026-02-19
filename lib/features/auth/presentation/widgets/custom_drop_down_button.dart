@@ -44,7 +44,7 @@ class _CustomDropDownButtonState
         height: widget.height,
         child: const Center(child: CircularProgressIndicator()),
       ),
-      error: (error, stackTrace) => SizedBox(
+      error: (error, stackTrace) => SizedBox
         width: widget.width,
         height: widget.height,
         child: const Center(child: Text('불러오기 실패')),
