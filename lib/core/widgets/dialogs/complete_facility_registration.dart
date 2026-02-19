@@ -48,7 +48,7 @@ class CompleteFacilityRegistration extends StatelessWidget {
               child: Text(
                 '처음으로',
                 style: GuJuekTextStyle.labelText.copyWith(
-                  color: GuJuekColor.primaryBlue,
+                  color: GuJuekColor.blue,
                 ),
               ),
             ),

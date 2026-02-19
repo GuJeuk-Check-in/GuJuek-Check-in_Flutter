@@ -10,7 +10,6 @@ abstract final class GuJuekColor {
   static const Color purple = Color(0xFFA1298C);
   static const Color primary = Color(0xFF3D72B3);
   static const Color error = Color(0xFFD88282);
-  static const Color primaryBlue = Color(0xFF0F50A0);
 
   /// gray
   static const Color gray40 = Color(0xFF2E2E32);
