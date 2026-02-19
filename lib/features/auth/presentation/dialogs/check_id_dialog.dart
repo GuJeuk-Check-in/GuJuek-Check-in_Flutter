@@ -14,14 +14,12 @@ class CheckIdDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     // 회원가입 후 생성된 아이디 안내 다이얼로그
     const primaryBlue = Color(0xFF1E5DBB); // 이미지와 비슷한 블루 톤
-    const titleColor = Color(0xFF3A3A3A);
-    const bodyColor = Color(0xFF6B6B6B);
 
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.symmetric(horizontal: 50.w),
       child: Container(
-        padding: const EdgeInsets.fromLTRB(80, 32, 80, 76),
+        padding: EdgeInsets.fromLTRB(80.w, 32.h, 80.w, 76.h),
         decoration: BoxDecoration(
           color: GuJuekColor.white,
           borderRadius: BorderRadius.circular(22.r),

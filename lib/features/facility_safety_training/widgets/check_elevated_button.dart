@@ -21,7 +21,7 @@ class CheckElevatedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         minimumSize: Size(276.w, 77.h),
         backgroundColor: GuJuekColor.blueButton,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       ),
       child: Text(text, style: GuJuekTextStyle.check),
     );
