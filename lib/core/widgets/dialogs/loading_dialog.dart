@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 
 class LoadingDialog extends StatelessWidget {
@@ -24,20 +25,12 @@ class LoadingDialog extends StatelessWidget {
               SizedBox(height: 26.h),
               Text(
                 '처리 중...',
-                style: TextStyle(
-                  fontSize: 24.sp,
-                  color: const Color(0xff404040),
-                  fontWeight: FontWeight.w600,
-                ),
+                style: GuJuekTextStyle.dialogBigText
               ),
               SizedBox(height: 7.h),
               Text(
                 '조금만 기다려주세요.',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: const Color(0xff6A6A6A),
-                  fontWeight: FontWeight.w600,
-                ),
+                style: GuJuekTextStyle.dialogText
               ),
             ],
           ),

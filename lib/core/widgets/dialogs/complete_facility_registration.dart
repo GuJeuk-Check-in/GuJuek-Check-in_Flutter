@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/core/constants/color.dart';
+import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 
 import '../../../features/home/presentation/ui/home_screen.dart';
@@ -27,20 +29,12 @@ class CompleteFacilityRegistration extends StatelessWidget {
             SizedBox(height: 23.h),
             Text(
               '시설 이용 신청이 완료되었습니다.',
-              style: TextStyle(
-                fontSize: 24.sp,
-                color: const Color(0xff404040),
-                fontWeight: FontWeight.w600,
-              ),
+              style: GuJuekTextStyle.dialogBigText
             ),
             SizedBox(height: 4.h),
             Text(
               text,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xff6A6A6A),
-              ),
+              style: GuJuekTextStyle.dialogText
             ),
             SizedBox(height: 59.h),
             TextButton(
@@ -53,10 +47,8 @@ class CompleteFacilityRegistration extends StatelessWidget {
               },
               child: Text(
                 '처음으로',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xff0F50A0),
+                style: GuJuekTextStyle.labelText.copyWith(
+                  color: GuJuekColor.blue,
                 ),
               ),
             ),
