@@ -5,6 +5,8 @@ import 'package:gujuek_check_in_flutter/core/network/api_client.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client_provider.dart';
 
 import '../../data/models/login/login_model.dart';
+import '../../data/models/organ_login/organ_login_request.dart';
+import '../../data/models/organ_login/organ_login_response.dart';
 import '../../data/models/sign_up/user_model.dart';
 
 class ApiResponse {
@@ -66,6 +68,41 @@ class AuthRepository {
       return ApiResponse(statusCode: response.statusCode, data: response.data);
     } on DioException catch (e) {
       debugPrint('LOGIN DioException: ${e.message}');
+      return ApiResponse(
+        statusCode: e.response?.statusCode,
+        data: e.response?.data,
+        exception: e,
+      );
+    }
+  }
+
+  Future<ApiResponse> organLogin(OrganLoginRequest request) async {
+    final client = _client;
+    if (client == null) {
+      return ApiResponse(message: 'BASE_URL이 설정되지 않았습니다.');
+    }
+
+    try {
+      final response = await client.dio.post(
+        '/organ/login',
+        data: request.toJson(),
+        options: Options(validateStatus: (status) {
+          return status != null && status < 600;
+        }),
+      );
+
+      if (response.statusCode == 200 && response.data is Map<String, dynamic>) {
+        return ApiResponse(
+          statusCode: response.statusCode,
+          data: OrganLoginResponse.fromJson(
+            response.data as Map<String, dynamic>,
+          ),
+        );
+      }
+
+      return ApiResponse(statusCode: response.statusCode, data: response.data);
+    } on DioException catch (e) {
+      debugPrint('ORGAN LOGIN DioException: ${e.message}');
       return ApiResponse(
         statusCode: e.response?.statusCode,
         data: e.response?.data,
