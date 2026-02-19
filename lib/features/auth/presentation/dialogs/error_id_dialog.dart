@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 
 class ErrorIdDialog extends StatelessWidget {
@@ -42,11 +43,7 @@ class ErrorIdDialog extends StatelessWidget {
             Text(
               "존재하지 않는 아이디입니다.",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24.sp,
-                fontWeight: FontWeight.w700,
-                color: titleColor,
-              ),
+              style: GuJuekTextStyle.bigIdText.copyWith(color: titleColor),
             ),
             SizedBox(height: 4.h),
 
@@ -54,11 +51,7 @@ class ErrorIdDialog extends StatelessWidget {
             Text(
               "다시 확인 바랍니다.",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
-                color: bodyColor,
-              ),
+              style: GuJuekTextStyle.smallIdText.copyWith(color: bodyColor),
             ),
 
             SizedBox(height: 30.h),

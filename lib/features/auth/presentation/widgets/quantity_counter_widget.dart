@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/core/constants/color.dart';
 
 class QuantityCounter extends StatefulWidget {
   final int initialValue;
@@ -57,7 +58,7 @@ class _QuantityCounterState extends State<QuantityCounter> {
       width: 146.w,
       height: 48.h,
       decoration: BoxDecoration(
-        color: const Color(0xFFFFFFFF),
+        color: GuJuekColor.white,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Row(
