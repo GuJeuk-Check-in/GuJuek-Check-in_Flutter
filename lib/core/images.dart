@@ -30,6 +30,7 @@ class Images {
   static String personIcon = '$baseIcon/person_icon.png';
   static String upDown = '$baseIcon/up_down.png';
   static String lineIcon = '$baseIcon/line_icon.png';
+  static String lockIcon = '$baseIcon/lock.png';
   static String goormIcon = '$baseIcon/goorm_icon.png';
   static String plusIcon = '$baseIcon/plus.png';
   static String calendarIcon = '$baseIcon/calendar.png';
