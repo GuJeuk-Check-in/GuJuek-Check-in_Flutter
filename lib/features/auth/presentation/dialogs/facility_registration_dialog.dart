@@ -476,7 +476,7 @@ class _FacilityRegistrationDialogState
             color: GuJuekColor.white,
           ),
         ),
-        SizedBox(height: 2.h),ㅌ₩
+        SizedBox(height: 2.h),
         QuantityCounter(
           initialValue: initialValue,
           onChanged: (value) {
