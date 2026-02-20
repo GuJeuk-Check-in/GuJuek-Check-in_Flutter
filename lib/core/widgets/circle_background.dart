@@ -8,8 +8,13 @@ class CircleBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 배경 장식 원들을 겹쳐 배치
-    return Stack(
-      children: buildCircles(),
+    return SizedBox.expand(
+      child: Container(
+        color: GuJuekColor.white,
+        child: Stack(
+          children: buildCircles(),
+        ),
+      ),
     );
   }
 

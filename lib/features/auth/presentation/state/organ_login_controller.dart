@@ -148,9 +148,10 @@ class OrganLoginController extends StateNotifier<OrganLoginState> {
   }
 }
 
+
 final organLoginControllerProvider =
     StateNotifierProvider<OrganLoginController, OrganLoginState>((ref) {
-  return OrganLoginController(
+      return OrganLoginController(
     ref.watch(authRepositoryProvider),
     ref.watch(secureStorageServiceProvider),
   );

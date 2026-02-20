@@ -2,6 +2,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/core/constants/color.dart';
+import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 
 import '../../data/models/purpose/purpose_model.dart';
@@ -67,17 +69,12 @@ class _LocationCustomDropDownButtonState
                 height: 25.h,
               ),
               SizedBox(width: 10.w),
-              SizedBox(
-                width: 412.w,
+              Expanded(
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton2<PurposeModel>(
                     hint: Text(
                       widget.text,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xff404040),
-                      ),
+                      style: GuJuekTextStyle.hintText
                     ),
                     value: selectedPurpose,
                     items: purposeList.map((purpose) {
@@ -105,13 +102,13 @@ class _LocationCustomDropDownButtonState
 
                     //드롭다운 스타일
                     dropdownStyleData: DropdownStyleData(
-                      maxHeight: 400.h,
+                      maxHeight: 218.h,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.r),
                         color: Colors.white,
                         border: Border.all(
                           width: 1.w,
-                          color: const Color(0xff0F50A0),
+                          color: GuJuekColor.blue,
                         ),
                       ),
 
@@ -128,7 +125,7 @@ class _LocationCustomDropDownButtonState
                     // ▼ 아이콘 스타일
                     iconStyleData: IconStyleData(
                       icon:
-                          Image.asset(Images.upIcon, width: 22.w, height: 24.h),
+                          Image.asset(Images.downIcon, width: 22.w, height: 24.h),
                     ),
                   ),
                 ),

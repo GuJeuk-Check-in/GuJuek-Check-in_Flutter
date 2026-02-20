@@ -6,7 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/constants/color.dart';
 import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/features/auth/presentation/dialogs/sign_up_dialog.dart';
+import 'package:gujuek_check_in_flutter/core/widgets/circle_background.dart'; // ⭐ 추가
+import 'package:gujuek_check_in_flutter/features/auth/presentation/ui/sign_up_view.dart';
 
 import '../../../../core/widgets/dialogs/complete_facility_registration.dart';
 import '../../../../core/widgets/dialogs/loading_dialog.dart';
@@ -45,7 +46,6 @@ class _FacilityRegistrationDialogState
     super.dispose();
   }
 
-  // 입력값을 FormData로 변환해 제출
   void _submitLogin() {
     ref
         .read(facilityRegistrationControllerProvider.notifier)
@@ -76,7 +76,6 @@ class _FacilityRegistrationDialogState
     Navigator.of(context, rootNavigator: true).pop();
   }
 
-  // 상태 변화에 따라 로딩/성공/오류 처리
   void _handleRegistrationState(
     FacilityRegistrationState? previous,
     FacilityRegistrationState next,
@@ -124,7 +123,6 @@ class _FacilityRegistrationDialogState
       _handleRegistrationState,
     );
 
-    // 화면 크기에 맞춰 다이얼로그 크기/여백 계산
     final viewInsets = MediaQuery.of(context).viewInsets;
     final screenSize = MediaQuery.sizeOf(context);
     final horizontalMargin = 24.w;
@@ -144,42 +142,50 @@ class _FacilityRegistrationDialogState
     );
     final formWidth = isCompact ? math.min(320.w, compactFormWidth) : 300.w;
 
-    return AnimatedPadding(
-      padding: EdgeInsets.only(bottom: viewInsets.bottom),
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.easeOut,
-      child: MediaQuery(
-        data: MediaQuery.of(context).copyWith(viewInsets: EdgeInsets.zero),
-        child: Dialog(
-          child: Container(
-            width: dialogWidth,
-            height: dialogHeight,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.r),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20.r),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(child: buildLeftPanel(isCompact: isCompact)),
-                  Expanded(
-                    child: buildRightPanel(
-                      isCompact: isCompact,
-                      formWidth: formWidth,
-                    ),
+    return Stack(
+      // ⭐ Stack으로 감싸기
+      children: [
+        const Positioned.fill(
+          child: CircleBackground(), // ⭐ 배경 추가
+        ),
+        AnimatedPadding(
+          padding: EdgeInsets.only(bottom: viewInsets.bottom),
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(viewInsets: EdgeInsets.zero),
+            child: Dialog(
+              backgroundColor: Colors.transparent, // ⭐ Dialog 배경 투명
+              child: Container(
+                width: dialogWidth,
+                height: dialogHeight,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20.r),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(child: buildLeftPanel(isCompact: isCompact)),
+                      Expanded(
+                        child: buildRightPanel(
+                          isCompact: isCompact,
+                          formWidth: formWidth,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 
   Widget buildLeftPanel({required bool isCompact}) {
-    // 좌측 안내 영역(로고/문구)
     final sidePadding = isCompact ? 24.w : 47.w;
     final logoWidth = isCompact ? 260.w : 366.w;
     final logoHeight = isCompact ? 100.h : 140.h;
@@ -289,8 +295,8 @@ class _FacilityRegistrationDialogState
       ),
     );
   }
+
   Widget buildRightPanel({required bool isCompact, required double formWidth}) {
-    // 우측 입력 폼 영역
     final buttonPadding = isCompact ? 40.w : 90.w;
 
     return Container(
@@ -352,9 +358,9 @@ class _FacilityRegistrationDialogState
               },
               child: GestureDetector(
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => const SignUpDialog(),
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => SignUpView()),
+                    (route) => false,
                   );
                 },
                 child: Container(
@@ -450,7 +456,6 @@ class _FacilityRegistrationDialogState
   }
 
   Widget buildCountingBlock() {
-    // 동행인 수 입력 블록 (보류: 현재 사용 안함)
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

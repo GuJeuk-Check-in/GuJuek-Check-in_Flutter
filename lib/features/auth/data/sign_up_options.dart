@@ -14,3 +14,8 @@ const List<String> signUpAddressOptions = [
   '진잠동',
   '학하동',
 ];
+
+const List<String> signUpGender = [
+  '남성',
+  '여성',
+];

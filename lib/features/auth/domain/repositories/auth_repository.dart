@@ -37,12 +37,17 @@ class AuthRepository {
     }
 
     try {
+      final tokens = await _secureStorage.readOrganTokens();
+      final accessToken = tokens['access_token'];
       final response = await client.dio.post(
         '/user/sign-up',
         data: user.toJson(),
-        options: Options(validateStatus: (status) {
-          return status != null && status < 600;
-        }),
+        options: Options(
+          headers: {'Authorization' : 'Bearer $accessToken'},
+          validateStatus: (status) {
+            return status != null && status < 600;
+          },
+        ),
       );
       return ApiResponse(statusCode: response.statusCode, data: response.data);
     } on DioException catch (e) {
@@ -98,12 +103,20 @@ class AuthRepository {
       final response = await client.dio.post(
         '/organ/login',
         data: request.toJson(),
-        options: Options(validateStatus: (status) {
-          return status != null && status < 600;
-        }),
+        options: Options(
+          validateStatus: (status) {
+            return status != null && status < 600;
+          },
+        ),
       );
 
       if (response.statusCode == 200 && response.data is Map<String, dynamic>) {
+        final data = response.data as Map<String, dynamic>;
+        await _secureStorage.saveOrganTokens(
+          accessToken: data['access_token'] ?? '',
+          refreshToken: data['refresh_token'] ?? '',
+          organName: data['organ_name'] ?? '',
+        );
         return ApiResponse(
           statusCode: response.statusCode,
           data: OrganLoginResponse.fromJson(

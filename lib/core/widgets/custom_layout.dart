@@ -14,11 +14,14 @@ class CustomLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // 앱 공통 배경/레이아웃
       backgroundColor: GuJuekColor.white,
-      resizeToAvoidBottomInset: false,
       appBar: appBar,
-      body: child,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: GuJuekColor.white,
+        child: child,
+      ),
     );
   }
 }

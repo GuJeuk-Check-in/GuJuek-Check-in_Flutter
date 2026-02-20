@@ -39,9 +39,9 @@ class _InstitutionLoginGateScreenState
       builder: (_) => InstitutionLoginDialog(
         onConfirm: (id, password) {
           Navigator.of(context, rootNavigator: true).pop();
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const HomeScreen()),
-          );
+          ref
+              .read(organLoginControllerProvider.notifier)
+              .submit(organName: id, password: password);
         },
       ),
     );
@@ -75,12 +75,14 @@ class _InstitutionLoginGateScreenState
     }
 
     if (next.isSuccess) {
-      Navigator.of(context, rootNavigator: true).pop();
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-      );
-      ref.read(organLoginControllerProvider.notifier).clearNotifications();
-      return;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+        );
+        ref.read(organLoginControllerProvider.notifier).clearNotifications();
+        return;
+      });
     }
 
     if (next.errorType != null && next.message != null) {
@@ -91,13 +93,17 @@ class _InstitutionLoginGateScreenState
 
   void _showErrorDialog(String message) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (_) => AlertDialog(
         title: const Text('로그인 실패'),
         content: Text(message),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {
+              Navigator.of(context).pop();
+              _showLoginDialog();
+            },
             child: const Text('확인'),
           ),
         ],
@@ -112,12 +118,6 @@ class _InstitutionLoginGateScreenState
       _handleLoginState,
     );
 
-    return const CustomLayout(
-      child: Stack(
-        children: [
-          CircleBackground(),
-        ],
-      ),
-    );
+    return const CustomLayout(child: Stack(children: [CircleBackground()]));
   }
 }

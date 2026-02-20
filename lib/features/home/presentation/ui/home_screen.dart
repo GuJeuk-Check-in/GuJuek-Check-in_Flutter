@@ -5,10 +5,10 @@ import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/widgets/circle_background.dart';
 import 'package:gujuek_check_in_flutter/core/widgets/custom_layout.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/ui/sign_up_view.dart';
 import 'package:gujuek_check_in_flutter/features/facility_safety_training/ui/facility_safety_training_screen.dart';
 
 import '../../../auth/presentation/dialogs/facility_registration_dialog.dart';
-import '../../../auth/presentation/dialogs/sign_up_dialog.dart';
 import '../widgets/custom_elevated_button.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
     return CustomLayout(
       child: Stack(
         children: [
-          const CircleBackground(),
+          const Positioned.fill(child: CircleBackground()),
           Column(
             children: [
               SizedBox(height: 80.h),
@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => FacilitySafetyTrainingScreen(
-                            nextPage: (context) => const SignUpDialog(),
+                            nextPage: (context) => const SignUpView(),
                           ),
                         ),
                       );

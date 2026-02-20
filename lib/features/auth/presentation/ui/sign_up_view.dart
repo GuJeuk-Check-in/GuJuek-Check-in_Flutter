@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/core/constants/color.dart';
+import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 
 import '../../../../core/widgets/dialogs/loading_dialog.dart';
@@ -15,20 +17,21 @@ import '../widgets/location_custom_drop_down_button.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/people_counter_widget.dart';
 import '../widgets/phone_input_formatter.dart';
-import 'check_id_dialog.dart';
+import '../dialogs/check_id_dialog.dart';
 
-class SignUpDialog extends ConsumerStatefulWidget {
-  const SignUpDialog({super.key});
+class SignUpView extends ConsumerStatefulWidget {
+  const SignUpView({super.key});
 
   @override
-  ConsumerState<SignUpDialog> createState() => _SignUpDialogState();
+  ConsumerState<SignUpView> createState() => _SignUpViewState();
 }
 
-class _SignUpDialogState extends ConsumerState<SignUpDialog> {
+class _SignUpViewState extends ConsumerState<SignUpView> {
   late TextEditingController nameController;
   late TextEditingController phoneNumberController;
 
   String? _selectedPurpose;
+  String? _selectedGender;
   String? _selectedAddress;
   bool _isPrivacyAgreed = false;
   int _selectedValue = 1;
@@ -172,357 +175,366 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
     );
     final availableHeight =
         screenSize.height - viewInsets.bottom - verticalMargin * 2;
-    final dialogHeight = math.min(544.h, math.max(0.0, availableHeight));
 
-    return AnimatedPadding(
-      padding: EdgeInsets.only(bottom: viewInsets.bottom),
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.easeOut,
-      child: MediaQuery(
-        data: MediaQuery.of(context).copyWith(viewInsets: EdgeInsets.zero),
-        child: Dialog(
-          insetPadding: EdgeInsets.symmetric(
-            horizontal: horizontalMargin,
-            vertical: verticalMargin,
-          ),
-          child: Container(
-            width: dialogWidth,
-            height: dialogHeight,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.r),
-              color: Colors.white,
-            ),
-            child: Row(
-              children: [
-                // 왼쪽 파란 배경 영역
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF2DCBFA),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.r),
-                        bottomLeft: Radius.circular(20.r),
-                      ),
+    return Scaffold(
+      backgroundColor: GuJuekColor.white,
+      body: Row(
+        children: [
+          // 왼쪽 파란 배경 영역
+          Expanded(
+            flex: 1,
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFF2DCBFA),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.r),
+                  bottomLeft: Radius.circular(20.r),
+                ),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 39.h,
+                    left: 39.w,
+                    child: const _CircleDecoration(
+                      size: 32,
+                      color: GuJuekColor.white,
                     ),
-                    child: Stack(
+                  ),
+                  Positioned(
+                    left: 136.w,
+                    top: 85.h,
+                    child: const _CircleDecoration(
+                      size: 68,
+                      color: Color(0xffAAE5F7),
+                    ),
+                  ),
+                  Positioned(
+                    right: 78.h,
+                    top: 157.h,
+                    child: const _CircleDecoration(
+                      size: 39,
+                      color: Color(0xFFAAE5F7),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 330.h,
+                    left: 36.w,
+                    child: const _CircleDecoration(
+                      size: 39,
+                      color: Color(0xffAAE5F7),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 228.h,
+                    left: 145.w,
+                    child: const _CircleDecoration(
+                      size: 68,
+                      color: Color(0xFFD4F2FB),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 308.h,
+                    right: 77.w,
+                    child: const _CircleDecoration(
+                      size: 39,
+                      color: Color(0xFFD4F2FB),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 75.h,
+                    right: 155.w,
+                    child: const _CircleDecoration(
+                      size: 39,
+                      color: Color(0xFFAAE5F7),
+                    ),
+                  ),
+                  Positioned(
+                    top: 96.h,
+                    left: -205.w,
+                    child: const _CircleDecoration(
+                      size: 260,
+                      color: GuJuekColor.white,
+                    ),
+                  ),
+                  Positioned(
+                    top: 103.h,
+                    left: -210.w,
+                    child: const _CircleDecoration(
+                      size: 237,
+                      color: Color(0xff2ABFEC),
+                    ),
+                  ),
+                  Positioned(
+                    top: -140.h,
+                    right: -140.w,
+                    child: const _CircleDecoration(
+                      size: 250,
+                      color: GuJuekColor.white,
+                    ),
+                  ),
+                  Positioned(
+                    top: -140.h,
+                    right: -160.w,
+                    child: const _CircleDecoration(
+                      size: 237,
+                      color: GuJuekColor.skyBlue,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 10.h,
+                    right: -180.w,
+                    child: const _CircleDecoration(
+                      size: 250,
+                      color: GuJuekColor.white,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 15.h,
+                    right: -200.w,
+                    child: const _CircleDecoration(
+                      size: 237,
+                      color: Color(0xff2ABFEC),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: -25.h,
+                    right: 330.w,
+                    child: const _CircleDecoration(
+                      size: 237,
+                      color: GuJuekColor.white,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: -30.h,
+                    left: -180.w,
+                    child: const _CircleDecoration(
+                      size: 237,
+                      color: Color(0xFF2ABFEC),
+                    ),
+                  ),
+                  Center(
+                    child: Column(
                       children: [
-                        Positioned(
-                          top: 32.h,
-                          left: 47.w,
-                          child: const _CircleDecoration(
-                            size: 32,
-                            color: Color(0xffD4F2Fb),
-                          ),
-                        ),
-                        Positioned(
-                          right: 61.w,
-                          top: 225.h,
-                          child: const _CircleDecoration(
-                            size: 24,
-                            color: Color(0xffAAE5F7),
-                          ),
-                        ),
-                        Positioned(
-                          top: 244.h,
-                          left: 88.h,
-                          child: const _CircleDecoration(
-                            size: 45,
-                            color: Color(0xffD4F2FB),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 170.h,
-                          right: 126.w,
-                          child: const _CircleDecoration(
-                            size: 45,
-                            color: Color(0xffAAE5F7),
-                          ),
-                        ),
-                        Positioned(
-                          top: 96.h,
-                          left: -205.w,
-                          child: const _CircleDecoration(
-                            size: 250,
+                        SizedBox(height: 280.h),
+                        Text(
+                          '처음 방문 등록',
+                          style: TextStyle(
                             color: Colors.white,
-                          ),
-                        ),
-                        Positioned(
-                          top: 103.h,
-                          left: -210.w,
-                          child: const _CircleDecoration(
-                            size: 237,
-                            color: Color(0xff2ABFEC),
-                          ),
-                        ),
-                        Positioned(
-                          top: -140.h,
-                          right: -140.w,
-                          child: const _CircleDecoration(
-                            size: 250,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Positioned(
-                          top: -140.h,
-                          right: -140.w,
-                          child: const _CircleDecoration(
-                            size: 237,
-                            color: Color(0xff2ABFEC),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 10.h,
-                          right: -180.w,
-                          child: const _CircleDecoration(
-                            size: 250,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 15.h,
-                          right: -180.w,
-                          child: const _CircleDecoration(
-                            size: 237,
-                            color: Color(0xff2ABFEC),
-                          ),
-                        ),
-                        Center(
-                          child: Column(
-                            children: [
-                              SizedBox(height: 100.h),
-                              Text(
-                                '처음 방문 등록',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 48.sp,
-                                  fontFamily: 'Jua',
-                                ),
-                              ),
-                            ],
+                            fontSize: 60.sp,
+                            fontFamily: 'Jua',
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),
+                ],
+              ),
+            ),
+          ),
 
-                // 오른쪽 폼 영역
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 56.w,
-                      vertical: 6.h,
-                    ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: buildColumn(
-                                  '이름',
-                                  CustomTextField(
-                                    width: 244.w,
-                                    controller: nameController,
-                                    hintText: '이름을 입력해 주세요',
-                                    imagePath: Images.personIcon,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 10.w),
-                              Expanded(
-                                child: buildColumn(
-                                  '생년월일',
-                                  GestureDetector(
-                                    onTap: () => buildDatePicker(),
-                                    child: Container(
-                                      width: 244.w,
-                                      height: 48.h,
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 20.w,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                          8.r,
-                                        ),
-                                        border: Border.all(
-                                          width: 1.w,
-                                          color: const Color(0xff2E2E32),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                            Images.calendarIcon,
-                                            width: 25.w,
-                                            height: 25.h,
-                                          ),
-                                          SizedBox(width: 10.w),
-                                          Text(
-                                            displayDate,
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                              color: apiDate.isEmpty
-                                                  ? const Color(0xff6A6A6A)
-                                                  : const Color(0xff2E2E32),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 8.h),
-                          buildColumn(
-                            '대표자 연락처',
+          // 오른쪽 폼 영역
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 78.w, vertical: 47.h),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: buildColumn(
+                            '이름',
                             CustomTextField(
-                              width: 508.w,
-                              controller: phoneNumberController,
-                              hintText: '연락처를 입력해주세요(010-1234-5678)',
-                              imagePath: Images.callIcon,
-                              inputFormatters: [PhoneInputFormatter()],
-                              keyboardType: TextInputType.number,
+                              width: 351.w,
+                              controller: nameController,
+                              hintText: '이름을 입력해 주세요',
+                              imagePath: Images.personIcon,
                             ),
                           ),
-                          SizedBox(height: 8.h),
-                          buildColumn(
-                            '방문 목적',
-                            LocationCustomDropDownButton(
-                              onPurposeSelected: (purpose) {
-                                _selectedPurpose = purpose!.purpose;
-                              },
-                              width: 508,
-                              height: 48,
-                              text: '방문 목적을 입력해주세요',
-                              imagePath: Images.downIcon,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.r),
-                                border: Border.all(
-                                  width: 1.w,
-                                  color: const Color(0xff404040),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10.h),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: buildColumn(
-                                  '성별',
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: buildRadioButton(1, '남성'),
-                                      ),
-                                      SizedBox(width: 12.w),
-                                      Expanded(
-                                        child: buildRadioButton(2, '여성'),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 10.w),
-                              Expanded(
-                                child: buildColumn(
-                                  '거주지',
-                                  buildDropDownButton(
-                                    _selectedAddress,
-                                    signUpAddressOptions,
-                                    '거주지를 선택해주세요',
-                                    Images.homeIcon,
-                                    (val) =>
-                                        setState(() => _selectedAddress = val),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10.h),
-                          buildCountingBlock(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(bottom: 1.h),
+                        ),
+                        SizedBox(width: 20.w),
+                        Expanded(
+                          child: buildColumn(
+                            '생년월일',
+                            GestureDetector(
+                              onTap: () => buildDatePicker(),
+                              child: Container(
+                                width: 351.w,
+                                height: 60.h,
+                                padding: EdgeInsets.symmetric(horizontal: 20.w),
                                 decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: Colors.redAccent,
-                                      width: 1.w,
-                                    ),
-                                  ),
-                                ),
-                                child: Text(
-                                  '개인정보 수집 및 이용 동의',
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600,
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  border: Border.all(
+                                    width: 1.w,
                                     color: const Color(0xff2E2E32),
                                   ),
                                 ),
-                              ),
-                              Checkbox(
-                                value: _isPrivacyAgreed,
-                                onChanged: (v) {
-                                  setState(() => _isPrivacyAgreed = v ?? false);
-                                },
-                                activeColor: const Color(0xff2ABFEC),
-                                checkColor: Colors.white,
-                              ),
-                            ],
-                          ),
-                          Text(
-                            '(이름,생년월일,연락처,방문 목적,성별,cctv 촬영,거주지)',
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xff6A6A6A),
-                            ),
-                          ),
-                          SizedBox(height: 8.h),
-                          GestureDetector(
-                            onTap: _submitSignUp,
-                            child: Container(
-                              width: 140.w,
-                              height: 42.h,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.r),
-                                border: Border.all(
-                                  width: 1.w,
-                                  color: const Color(0xff2ABFEC),
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '완료',
-                                  style: TextStyle(
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xff2ABFEC),
-                                  ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      Images.calendarIcon,
+                                      width: 25.w,
+                                      height: 25.h,
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Text(
+                                      displayDate,
+                                      style: GuJuekTextStyle.hintText.copyWith(
+                                        color: apiDate.isEmpty
+                                            ? GuJuekColor.gray10
+                                            : GuJuekColor.gray40,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
-                        ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20.h),
+                    buildColumn(
+                      '대표자 연락처',
+                      CustomTextField(
+                        width: 722.w,
+                        controller: phoneNumberController,
+                        hintText: '연락처를 입력해주세요(010-1234-5678)',
+                        imagePath: Images.callIcon,
+                        inputFormatters: [PhoneInputFormatter()],
+                        keyboardType: TextInputType.number,
                       ),
                     ),
-                  ),
+                    SizedBox(height: 20.h),
+                    buildColumn(
+                      '방문 목적',
+                      LocationCustomDropDownButton(
+                        onPurposeSelected: (purpose) {
+                          _selectedPurpose = purpose!.purpose;
+                        },
+                        width: 800.w,
+                        height: 60.h,
+                        text: '방문 목적을 입력해주세요',
+                        imagePath: Images.downIcon,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(
+                            width: 1.w,
+                            color: GuJuekColor.gray30,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: buildColumn(
+                            '성별',
+                            buildDropDownButton(
+                              _selectedGender,
+                              signUpGender,
+                              '성별을 선택해주세요',
+                              Images.genderIcon,
+                              (val) => setState(() => _selectedGender = val),
+                              showCustomInput: false,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20.w),
+                        Expanded(
+                          child: buildColumn(
+                            '거주지',
+                            buildDropDownButton(
+                              _selectedAddress,
+                              signUpAddressOptions,
+                              '거주지를 선택해주세요',
+                              Images.homeIcon,
+                              (val) => setState(() => _selectedAddress = val),
+                              showCustomInput: true,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20.h),
+                    buildCountingBlock(),
+                    SizedBox(height: 34.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(bottom: 1.h),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors.redAccent,
+                                width: 1.w,
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            '개인정보 수집 및 이용 동의',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                              color: GuJuekColor.gray40,
+                            ),
+                          ),
+                        ),
+                        Checkbox(
+                          value: _isPrivacyAgreed,
+                          onChanged: (v) {
+                            setState(() => _isPrivacyAgreed = v ?? false);
+                          },
+                          activeColor: GuJuekColor.skyBlue,
+                          checkColor: Colors.white,
+                        ),
+                      ],
+                    ),
+                    Text(
+                      '(이름,생년월일,연락처,방문 목적,성별,cctv 촬영,거주지)',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: GuJuekColor.gray10,
+                      ),
+                    ),
+                    SizedBox(height: 24.h),
+                    GestureDetector(
+                      onTap: _submitSignUp,
+                      child: Container(
+                        width: 140.w,
+                        height: 42.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.r),
+                          border: Border.all(
+                            width: 1.w,
+                            color: GuJuekColor.skyBlue,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '완료',
+                            style: TextStyle(
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w600,
+                              color: GuJuekColor.skyBlue,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -531,14 +543,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xff2E2E32),
-          ),
-        ),
+        Text(text, style: GuJuekTextStyle.labelText),
         SizedBox(height: 8.h),
         child,
       ],
@@ -550,8 +555,9 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
     List<String> items,
     String text,
     String imagePath,
-    ValueChanged<String?> onChanged,
-  ) {
+    ValueChanged<String?> onChanged, {
+    bool showCustomInput = false,
+  }) {
     // 현재 선택된 값이 items에 없으면 추가
     List<String> displayItems = List.from(items);
     if (value != null && !displayItems.contains(value)) {
@@ -559,8 +565,8 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
     }
 
     return Container(
-      width: 508.w,
-      height: 48.h,
+      width: 351.w,
+      height: 60.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
         border: Border.all(width: 1.w, color: const Color(0xff404040)),
@@ -576,14 +582,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
                 child: DropdownButton2<String>(
                   isExpanded: true,
                   value: value,
-                  hint: Text(
-                    text,
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xff6A6A6A),
-                    ),
-                  ),
+                  hint: Text(text, style: GuJuekTextStyle.hintText),
                   items: [
                     // 기존 항목들 + 직접 입력된 값
                     ...displayItems.map(
@@ -601,6 +600,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
                       ),
                     ),
                     // 직접 입력 항목
+                    if(showCustomInput)
                     DropdownMenuItem<String>(
                       value: _customInputValue,
                       child: Center(
@@ -616,7 +616,7 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
                   ],
                   onChanged: (selected) async {
                     if (selected == null) return;
-                    if (selected == _customInputValue) {
+                    if (showCustomInput && selected == _customInputValue) {
                       await _showCustomAddressDialog(onChanged);
                       return;
                     }
@@ -624,8 +624,8 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
                   },
                   dropdownStyleData: DropdownStyleData(
                     maxHeight: 300.h,
-                    width: 215.w,
-                    offset: Offset(-30.w, 0),
+                    width: 340.w,
+                    offset: Offset(-55.w, 0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
                       color: Colors.white,
@@ -701,35 +701,6 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
 
     if (result == null || result.isEmpty) return;
     onChanged(result);
-  }
-
-  Widget buildRadioButton(int value, String label) {
-    return Container(
-      height: 48.h,
-      padding: EdgeInsets.symmetric(horizontal: 8.w),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(width: 1.w, color: const Color(0xff404040)),
-      ),
-      child: Row(
-        children: [
-          Radio(
-            value: value,
-            activeColor: const Color(0xff2ABFEC),
-            groupValue: _selectedValue,
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            visualDensity: VisualDensity.compact,
-            onChanged: (v) => setState(() => _selectedValue = v!),
-          ),
-          SizedBox(width: 8.w),
-          Text(
-            label,
-            style: TextStyle(fontSize: 14.sp),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
   }
 
   Future buildDatePicker() {
@@ -951,14 +922,7 @@ Widget buildCountingItem({
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text(
-        isMale ? '남성 동행인 수' : '여성 동행인 수',
-        style: TextStyle(
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w500,
-          color: const Color(0xff2E2E32),
-        ),
-      ),
+      Text(isMale ? '남성 동행인 수' : '여성 동행인 수', style: GuJuekTextStyle.labelText),
       SizedBox(height: 5.h),
       PeopleCounterWidget(initialValue: initialValue, onChanged: onChanged),
     ],
