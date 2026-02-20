@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/core/constants/color.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 
 class FacilitySafetyTrainingAppBar extends StatelessWidget
@@ -15,7 +16,7 @@ class FacilitySafetyTrainingAppBar extends StatelessWidget
     return Container(
       width: 1.sw,
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: GuJuekColor.white,
         boxShadow: [
           //bottom shadow
           BoxShadow(
@@ -37,7 +38,7 @@ class FacilitySafetyTrainingAppBar extends StatelessWidget
               text,
               style: TextStyle(
                 fontSize: 50.sp,
-                color: const Color(0xff3AB9FF),
+                color: GuJuekColor.blueButton,
                 fontWeight: FontWeight.w600,
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gujuek_check_in_flutter/core/constants/color.dart';
 
 class CustomLayout extends StatelessWidget {
   final PreferredSizeWidget? appBar;
@@ -13,11 +14,14 @@ class CustomLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // 앱 공통 배경/레이아웃
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
+      backgroundColor: GuJuekColor.white,
       appBar: appBar,
-      body: child,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: GuJuekColor.white,
+        child: child,
+      ),
     );
   }
 }

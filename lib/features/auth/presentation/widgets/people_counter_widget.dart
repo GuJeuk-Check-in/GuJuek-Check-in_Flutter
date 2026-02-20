@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/core/constants/color.dart';
 
 class PeopleCounterWidget extends StatefulWidget {
   final int initialValue;
@@ -48,8 +49,8 @@ class _PeopleCounterWidgetState extends State<PeopleCounterWidget> {
     final canPlus = _value < widget.max;
 
     return Container(
-      width: 280.w,   // 필요하면 조절
-      height: 44.h,   // 이미지 느낌이 얇은 편이라 44로
+      width: 351.w,   // 필요하면 조절
+      height: 60.h,   // 이미지 느낌이 얇은 편이라 44로
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10.r),
@@ -67,9 +68,9 @@ class _PeopleCounterWidgetState extends State<PeopleCounterWidget> {
               child: Text(
                 '$_value명',
                 style: TextStyle(
-                  fontSize: 15.sp,
+                  fontSize: 20.sp,
                   fontWeight: FontWeight.w600,
-                  color: Colors.black87,
+                  color: GuJuekColor.gray30,
                 ),
               ),
             ),

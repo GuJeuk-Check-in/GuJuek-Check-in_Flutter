@@ -30,6 +30,7 @@ class Images {
   static String personIcon = '$baseIcon/person_icon.png';
   static String upDown = '$baseIcon/up_down.png';
   static String lineIcon = '$baseIcon/line_icon.png';
+  static String lockIcon = '$baseIcon/lock.png';
   static String goormIcon = '$baseIcon/goorm_icon.png';
   static String plusIcon = '$baseIcon/plus.png';
   static String calendarIcon = '$baseIcon/calendar.png';
@@ -44,6 +45,7 @@ class Images {
   static String timerIcon = '$baseIcon/timer_icon.png';
   static String circlePersonIcon = '$baseIcon/circle_person_icon.png';
   static String noIdIcon = '$baseIcon/no_id.png';
+  static String genderIcon = '$baseIcon/gender_icon.png';
 
   //button
   static String leftButton ='$baseButton/left_button.png';

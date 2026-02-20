@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 
 class CustomTextField extends StatelessWidget {
   final double width;
@@ -25,7 +26,7 @@ class CustomTextField extends StatelessWidget {
     // 아이콘 + 텍스트필드가 있는 공통 입력 위젯
     return Container(
       width: width,
-      height: 48.h,
+      height: 60.h,
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
@@ -40,18 +41,10 @@ class CustomTextField extends StatelessWidget {
               controller: controller,
               inputFormatters: inputFormatters, // 추가
               keyboardType: keyboardType,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 14.sp,
-                color: const Color(0xff404040),
-              ),
+              style: GuJuekTextStyle.hintText,
               decoration: InputDecoration(
                 hintText: hintText,
-                hintStyle: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xff6A6A6A),
-                ),
+                hintStyle: GuJuekTextStyle.hintText,
                 border: InputBorder.none,
                 isDense: true,
                 contentPadding: EdgeInsets.zero,

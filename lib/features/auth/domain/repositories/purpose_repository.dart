@@ -1,14 +1,17 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client_provider.dart';
+import 'package:gujuek_check_in_flutter/core/storage/secure_storage_service.dart';
 
 import '../../data/models/purpose/purpose_model.dart';
 
 class PurposeRepository {
-  PurposeRepository(this._client);
+  PurposeRepository(this._client,this._secureStorage);
 
   final ApiClient? _client;
+  final SecureStorageService? _secureStorage;
 
   // 방문 목적 목록을 서버에서 가져옴
   Future<List<PurposeModel>> fetchPurposes() async {
@@ -20,7 +23,11 @@ class PurposeRepository {
     }
 
     try {
-      final response = await client.dio.get('/purpose/all');
+      final tokens = await _secureStorage?.readOrganTokens();
+      final String? rawToken = tokens?['access_token'];
+      final accessToken = rawToken?.trim();
+      final response = await client.dio.get(
+          'purpose/all', options: Options(headers: {'Authorization':'Bearer $accessToken'}));
       final List<dynamic> jsonList = response.data;
       return jsonList.map((e) => PurposeModel.fromJson(e)).toList();
     } catch (error) {
@@ -32,5 +39,7 @@ class PurposeRepository {
 
 // 전역에서 PurposeRepository를 주입하기 위한 Provider
 final purposeRepositoryProvider = Provider<PurposeRepository>((ref) {
-  return PurposeRepository(ref.watch(apiClientProvider));
+  final secureStorage = ref.watch(secureStorageServiceProvider);
+  final apiClient = ref.watch(apiClientProvider);
+  return PurposeRepository(apiClient,secureStorage);
 });

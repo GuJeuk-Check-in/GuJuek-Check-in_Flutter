@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/core/constants/color.dart';
+import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 
 // 동행인 기능 보류(현재 사용 안함)
@@ -66,7 +68,7 @@ class _AddCompanionDialogState extends State<AddCompanionDialog> {
           height: 520.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20.r),
-            color: Colors.white,
+            color: GuJuekColor.white,
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 70.w, vertical: 40.h),
@@ -81,11 +83,7 @@ class _AddCompanionDialogState extends State<AddCompanionDialog> {
                       SizedBox(height: 20.h),
                       Text(
                         '동행인이 있으신가요?',
-                        style: TextStyle(
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xff404040),
-                        ),
+                        style: GuJuekTextStyle.dialogBigText
                       ),
                       SizedBox(height: 5.h),
                       Text(
@@ -115,7 +113,7 @@ class _AddCompanionDialogState extends State<AddCompanionDialog> {
                                 BorderRadius.circular(30.r),
                                 border: Border.all(
                                   width: 1.w,
-                                  color: const Color(0xff404040),
+                                  color: GuJuekColor.gray30,
                                 ),
                               ),
                               child: Row(
@@ -148,8 +146,7 @@ class _AddCompanionDialogState extends State<AddCompanionDialog> {
                                         hintStyle: TextStyle(
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w600,
-                                          color:
-                                          const Color(0xff6A6A6A),
+                                          color: GuJuekColor.gray10,
                                         ),
                                         border: InputBorder.none,
                                       ),

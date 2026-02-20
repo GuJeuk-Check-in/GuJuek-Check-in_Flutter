@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/core/constants/color.dart';
+import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 import '../../../../core/widgets/dialogs/complete_facility_registration.dart';
 
@@ -12,16 +14,14 @@ class CheckIdDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     // 회원가입 후 생성된 아이디 안내 다이얼로그
     const primaryBlue = Color(0xFF1E5DBB); // 이미지와 비슷한 블루 톤
-    const titleColor = Color(0xFF3A3A3A);
-    const bodyColor = Color(0xFF6B6B6B);
 
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.symmetric(horizontal: 50.w),
       child: Container(
-        padding: const EdgeInsets.fromLTRB(24, 22, 24, 18),
+        padding: EdgeInsets.fromLTRB(80.w, 32.h, 80.w, 76.h),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: GuJuekColor.white,
           borderRadius: BorderRadius.circular(22.r),
           border: Border.all(color: const Color(0xFFE7E7E7), width: 1.w),
         ),
@@ -33,31 +33,19 @@ class CheckIdDialog extends StatelessWidget {
             Text(
               "아이디가 자동 생성되었습니다",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24.sp,
-                fontWeight: FontWeight.w700,
-                color: titleColor,
-              ),
+              style: GuJuekTextStyle.bigIdText,
             ),
             SizedBox(height: 8.h),
             Text(
               "아이디 : 이름 + 생일",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-                color: bodyColor,
-              ),
+              style: GuJuekTextStyle.smallIdText,
             ),
             SizedBox(height: 12.h),
             Text(
               "시설 이용 신청 시 생성된 아이디를 입력해주세요",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-                color: bodyColor,
-              ),
+              style: GuJuekTextStyle.smallIdText,
             ),
             SizedBox(height: 10.h),
 
@@ -68,19 +56,11 @@ class CheckIdDialog extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: "생성된 아이디: ",
-                    style: TextStyle(
-                      color: primaryBlue,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: GuJuekTextStyle.labelText.copyWith(color: primaryBlue)
                   ),
                   TextSpan(
                     text: generatedId,
-                    style: TextStyle(
-                      color: titleColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: GuJuekTextStyle.labelText
                   ),
                 ],
               ),
@@ -94,18 +74,16 @@ class CheckIdDialog extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (_) =>
-                      const CompleteFacilityRegistration(text: '이용해주셔서 감사합니다.'),
+                  const CompleteFacilityRegistration(text: '이용해주셔서 감사합니다.'),
                 );
               },
               style: TextButton.styleFrom(
-                foregroundColor: primaryBlue,
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-                textStyle: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                ),
+                  foregroundColor: primaryBlue,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 16.w, vertical: 10.h),
+                  textStyle: GuJuekTextStyle.labelText
               ),
-              child: const Text("다음"),
+              child: const Text("확인"),
             ),
           ],
         ),

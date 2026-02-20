@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class FacilitySafetyText {
   // 안전교육 문구 공통 스타일
   static final TextStyle baseStyle = TextStyle(
-    fontSize: 35.sp,
+    fontSize: 40.sp,
     color: Colors.black,
     fontWeight: FontWeight.w500,
   );

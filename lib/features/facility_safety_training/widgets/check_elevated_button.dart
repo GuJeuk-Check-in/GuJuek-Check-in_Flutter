@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gujuek_check_in_flutter/core/constants/color.dart';
+import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 
 class CheckElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
 
-  const CheckElevatedButton({super.key, required this.onPressed, required this.text});
+  const CheckElevatedButton({
+    super.key,
+    required this.onPressed,
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,17 +19,11 @@ class CheckElevatedButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(244.w, 77.h),
-        backgroundColor: const Color(0xff3AB9FF),
+        minimumSize: Size(276.w, 77.h),
+        backgroundColor: GuJuekColor.blueButton,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       ),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 30.sp,
-          fontWeight: FontWeight.w600,
-          color: const Color(0xffFFFFFF),
-        ),
-      ),
+      child: Text(text, style: GuJuekTextStyle.check),
     );
   }
 }
