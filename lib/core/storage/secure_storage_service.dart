@@ -1,5 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class SecureStorageService {
   static const _accessTokenKey = 'access_token';
@@ -38,4 +39,18 @@ class SecureStorageService {
 final secureStorageServiceProvider = Provider<SecureStorageService>((ref) {
   const storage = FlutterSecureStorage();
   return SecureStorageService(storage);
+});
+
+final loginStateProvider = FutureProvider<bool>((ref) async {
+  final storage = ref.watch(secureStorageServiceProvider);
+  final token = await storage.readOrganTokens();
+  final accessToken = token['access_token'];
+  if (accessToken == null || accessToken.isEmpty) {
+    return false;
+  }
+  if (JwtDecoder.isExpired(accessToken)) {
+    await storage.clearOrganTokens();
+    return false;
+  }
+  return true;
 });
