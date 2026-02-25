@@ -59,48 +59,45 @@ class _FacilitySafetyTrainingScreenState
       appBar: FacilitySafetyTrainingAppBar(
         text: _currentIndex < 8 ? '시설 이용 안전교육' : '성희롱 예방 교육',
       ),
-      child: Stack(
-        children: [
-          // ⭐ 항상 배경 표시
-          const Positioned.fill(child: CircleBackground()),
-          SizedBox.expand(
-            child: Container(
-              color: GuJuekColor.white,  // ⭐ 항상 흰색 (투명 제거)
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 122.w),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        buildIconButton(
-                          _currentIndex == 0
-                              ? Images.leftButton
-                              : Images.coloredLeftButton,
-                              () {
-                            if (_currentIndex > 0) decreaseIndex();
-                          },
-                        ),
-                        Image.asset(
-                          safetyRules[_currentIndex]['image'],
-                          width: 809.w,
-                          height: 455.h,
-                          fit: BoxFit.cover,
-                        ),
-                        SizedBox(width: 50.w),
-                      ],
-                    ),
-                    SizedBox(height: 25.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        SizedBox(width: 80.w),
-                        Expanded(
-                          child: SizedBox(
-                            height: 100.h,
+      child: SafeArea(
+        child: Stack(
+          children: [
+            const Positioned.fill(child: CircleBackground()),
+            SizedBox.expand(
+              child: Container(
+                color: GuJuekColor.white,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 122.w),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          buildIconButton(
+                            _currentIndex == 0
+                                ? Images.leftButton
+                                : Images.coloredLeftButton,
+                                () {
+                              if (_currentIndex > 0) decreaseIndex();
+                            },
+                          ),
+                          Image.asset(
+                            safetyRules[_currentIndex]['image'],
+                            width: 809.w,
+                            height: 455.h,
+                            fit: BoxFit.cover,
+                          ),
+                          SizedBox(width: 50.w),
+                        ],
+                      ),
+                      SizedBox(height: 25.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
                             child: Center(
                               child: Text.rich(
                                 safetyRules[_currentIndex]['text'],
@@ -108,35 +105,38 @@ class _FacilitySafetyTrainingScreenState
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 40.w),
-                          child: CheckElevatedButton(
-                            onPressed: () {
-                              if (_currentIndex == 12) {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                    builder: widget.nextPage,
-                                  ),
-                                      (route) => false,
-                                );
-                              } else {
-                                increaseIndex();
-                              }
-                            },
-                            text: _currentIndex == 12
-                                ? '모두 확인했어요.'
-                                : '확인했어요.',
+                          Padding(
+                            padding: EdgeInsets.only(left: 40.w),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: CheckElevatedButton(
+                                onPressed: () {
+                                  if (_currentIndex == 12) {
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                        builder: widget.nextPage,
+                                      ),
+                                          (route) => false,
+                                    );
+                                  } else {
+                                    increaseIndex();
+                                  }
+                                },
+                                text: _currentIndex == 12
+                                    ? '모두 확인했어요.'
+                                    : '확인했어요.',
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -29,6 +29,16 @@ class _PeopleCounterWidgetState extends State<PeopleCounterWidget> {
     // 초기값이 범위를 넘지 않도록 보정
     _value = widget.initialValue.clamp(widget.min, widget.max);
   }
+  @override
+  void didUpdateWidget(covariant PeopleCounterWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.initialValue != widget.initialValue) {
+      setState(() {
+        _value = widget.initialValue.clamp(widget.min, widget.max);
+      });
+    }
+  }
 
   void _decrease() {
     if (_value <= widget.min) return;

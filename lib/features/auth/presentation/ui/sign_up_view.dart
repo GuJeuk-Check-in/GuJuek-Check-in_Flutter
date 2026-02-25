@@ -8,6 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/constants/color.dart';
 import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
+import 'package:gujuek_check_in_flutter/features/auth/data/models/resident/resident_model.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/resident_custom_drop_down_button.dart';
 
 import '../../../../core/widgets/dialogs/loading_dialog.dart';
 import '../../data/sign_up_options.dart';
@@ -29,10 +31,9 @@ class SignUpView extends ConsumerStatefulWidget {
 class _SignUpViewState extends ConsumerState<SignUpView> {
   late TextEditingController nameController;
   late TextEditingController phoneNumberController;
-
   String? _selectedPurpose;
   String? _selectedGender;
-  String? _selectedAddress;
+  ResidentModel? _selectedAddress;
   bool _isPrivacyAgreed = false;
   int _selectedValue = 1;
 
@@ -75,7 +76,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
             birthYmd: apiDate,
             privacyAgreed: _isPrivacyAgreed,
             purpose: _selectedPurpose,
-            residence: _selectedAddress,
+            residence: _selectedAddress!.residence,
             maleCount: maleCount,
             femaleCount: femaleCount,
           ),
@@ -94,8 +95,13 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
   void _hideLoadingDialog() {
     if (!_isLoadingDialogVisible) return;
     _isLoadingDialogVisible = false;
-    if (!mounted) return;
-    Navigator.of(context, rootNavigator: true).pop();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (Navigator.of(context, rootNavigator: true).canPop()) {
+        Navigator.of(context, rootNavigator: true).pop();
+      }
+    });
   }
 
   // 상태 변화에 따라 로딩/완료/오류 처리
@@ -111,10 +117,14 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
 
     final generatedId = next.generatedId;
     if (generatedId != null && generatedId.isNotEmpty) {
-      showDialog(
-        context: context,
-        builder: (_) => CheckIdDialog(generatedId: generatedId),
-      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => CheckIdDialog(generatedId: generatedId),
+        );
+      });
+
       ref.read(signUpControllerProvider.notifier).clearNotifications();
       return;
     }
@@ -440,7 +450,18 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               signUpGender,
                               '성별을 선택해주세요',
                               Images.genderIcon,
-                              (val) => setState(() => _selectedGender = val),
+                              (val) {
+                                setState(() {
+                                  _selectedGender = val;
+                                  if (val == '남성') {
+                                    _selectedValue = 1;
+                                    maleCount+=1;
+                                  } else if (val == '여성') {
+                                    _selectedValue = 2;
+                                    femaleCount += 1;
+                                  }
+                                });
+                              },
                               showCustomInput: false,
                             ),
                           ),
@@ -449,13 +470,23 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                         Expanded(
                           child: buildColumn(
                             '거주지',
-                            buildDropDownButton(
-                              _selectedAddress,
-                              signUpAddressOptions,
-                              '거주지를 선택해주세요',
-                              Images.homeIcon,
-                              (val) => setState(() => _selectedAddress = val),
-                              showCustomInput: true,
+                              ResidentCustomDropDownButton(
+                                onResidentSelected: (resident) {
+                                  setState(() {
+                                    _selectedAddress = resident;
+                                  });
+                                },
+                              width: 800.w,
+                              height: 60.h,
+                              text: '거주지를 선택해주세요',
+                              imagePath: Images.downIcon,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.r),
+                                border: Border.all(
+                                  width: 1.w,
+                                  color: GuJuekColor.gray30,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -600,19 +631,19 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                       ),
                     ),
                     // 직접 입력 항목
-                    if(showCustomInput)
-                    DropdownMenuItem<String>(
-                      value: _customInputValue,
-                      child: Center(
-                        child: Text(
-                          '기타 입력',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.black,
+                    if (showCustomInput)
+                      DropdownMenuItem<String>(
+                        value: _customInputValue,
+                        child: Center(
+                          child: Text(
+                            '기타 입력',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),
-                    ),
                   ],
                   onChanged: (selected) async {
                     if (selected == null) return;
@@ -882,7 +913,6 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
   }
 
   Widget buildCountingBlock() {
-    // 남/여 동행인 수 입력 블록 (보류: 현재 사용 안함)
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -924,7 +954,11 @@ Widget buildCountingItem({
     children: [
       Text(isMale ? '남성 동행인 수' : '여성 동행인 수', style: GuJuekTextStyle.labelText),
       SizedBox(height: 5.h),
-      PeopleCounterWidget(initialValue: initialValue, onChanged: onChanged),
+      PeopleCounterWidget(
+        key: ValueKey(initialValue),
+        initialValue: initialValue,
+        onChanged: onChanged,
+      ),
     ],
   );
 }

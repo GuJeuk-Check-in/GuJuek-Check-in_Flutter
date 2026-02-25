@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gujuek_check_in_flutter/features/auth/presentation/state/sign_up_state.dart';
@@ -30,7 +32,6 @@ class SignUpController extends StateNotifier<SignUpState> {
       message: null,
       generatedId: null,
     );
-
     final user = UserModel(
       name: form.name,
       gender: form.genderValue == 1 ? Gender.MAN : Gender.WOMAN,
@@ -38,13 +39,13 @@ class SignUpController extends StateNotifier<SignUpState> {
       birthYMD: form.birthYmd,
       privacyAgreed: form.privacyAgreed,
       purpose: form.purpose!,
-      residence: form.residence!,
       maleCount: form.maleCount,
       femaleCount: form.femaleCount,
+      residence: form.residence,
     );
 
-    debugPrint('SIGN UP DATA: ${user.toJson()}');
-
+    debugPrint('SIGN UP JSON => ${jsonEncode(user.toJson())}');
+    debugPrint(user.toJson().toString());
     final response = await _authRepository.signUp(user);
     state = state.copyWith(isSubmitting: false);
 
@@ -96,11 +97,7 @@ class SignUpController extends StateNotifier<SignUpState> {
 
   void clearNotifications() {
     // 일회성 알림(토스트/다이얼로그) 초기화
-    state = state.copyWith(
-      errorType: null,
-      message: null,
-      generatedId: null,
-    );
+    state = state.copyWith(errorType: null, message: null, generatedId: null);
   }
 
   String? _validate(SignUpFormData form) {
@@ -120,7 +117,7 @@ class SignUpController extends StateNotifier<SignUpState> {
     if (form.purpose == null || form.purpose!.isEmpty) {
       return '방문 목적을 선택해주세요';
     }
-    if (form.residence == null || form.residence!.isEmpty) {
+    if (form.residence == null || form.residence.isEmpty) {
       return '거주지를 선택해주세요';
     }
     return null;
@@ -129,5 +126,5 @@ class SignUpController extends StateNotifier<SignUpState> {
 
 final signUpControllerProvider =
     StateNotifierProvider<SignUpController, SignUpState>((ref) {
-  return SignUpController(ref.watch(authRepositoryProvider));
-});
+      return SignUpController(ref.watch(authRepositoryProvider));
+    });

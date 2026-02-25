@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 import 'package:gujuek_check_in_flutter/core/widgets/circle_background.dart'; // ⭐ 추가
 import 'package:gujuek_check_in_flutter/features/auth/presentation/ui/sign_up_view.dart';
+import 'package:gujuek_check_in_flutter/features/home/presentation/ui/home_screen.dart';
 
 import '../../../../core/widgets/dialogs/complete_facility_registration.dart';
 import '../../../../core/widgets/dialogs/loading_dialog.dart';
@@ -91,9 +93,10 @@ class _FacilityRegistrationDialogState
 
     if (next.isSuccess) {
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (_) =>
-            const CompleteFacilityRegistration(text: '이용해주셔서 감사합니다.'),
+            const CompleteFacilityRegistration(text: '3초 뒤에 처음으로 이동합니다.',),
       );
       ref
           .read(facilityRegistrationControllerProvider.notifier)

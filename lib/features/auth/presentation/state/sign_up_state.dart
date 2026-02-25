@@ -1,3 +1,5 @@
+import 'package:gujuek_check_in_flutter/features/auth/data/models/resident/resident_model.dart';
+
 enum SignUpErrorType {
   validation,
   duplicateUser,
@@ -55,7 +57,7 @@ class SignUpFormData {
   final String birthYmd;
   final bool privacyAgreed;
   final String? purpose;
-  final String? residence;
+  final String residence;
   final int maleCount;
   final int femaleCount;
 }

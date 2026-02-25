@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/constants/color.dart';
@@ -6,10 +8,53 @@ import 'package:gujuek_check_in_flutter/core/images.dart';
 
 import '../../../features/home/presentation/ui/home_screen.dart';
 
-class CompleteFacilityRegistration extends StatelessWidget {
+class CompleteFacilityRegistration extends StatefulWidget {
   final String text;
 
   const CompleteFacilityRegistration({super.key, required this.text});
+
+  @override
+  State<CompleteFacilityRegistration> createState() =>
+      _CompleteFacilityRegistrationState();
+}
+
+class _CompleteFacilityRegistrationState
+    extends State<CompleteFacilityRegistration> {
+  Timer? _timer;
+  int checkTimer = 3;
+  bool _navigator = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+      setState(() {
+        checkTimer--;
+      });
+      if (checkTimer <= 0) {
+        return _navigateToHome();
+      }
+    });
+  }
+
+  void _navigateToHome() async {
+    if (_navigator || !mounted) return;
+    _navigator = true;
+
+    _timer?.cancel();
+    _timer = null;
+
+  await Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,24 +72,13 @@ class CompleteFacilityRegistration extends StatelessWidget {
           children: [
             Image.asset(Images.completeIcon, width: 45.w, height: 45.h),
             SizedBox(height: 23.h),
-            Text(
-              '시설 이용 신청이 완료되었습니다.',
-              style: GuJuekTextStyle.dialogBigText
-            ),
+            Text('시설 이용 신청이 완료되었습니다.', style: GuJuekTextStyle.dialogBigText),
             SizedBox(height: 4.h),
-            Text(
-              text,
-              style: GuJuekTextStyle.dialogText
-            ),
-            SizedBox(height: 59.h),
+            Text(widget.text, style: GuJuekTextStyle.dialogText),
+            SizedBox(height: 20.h),
+            Text('$checkTimer', style: GuJuekTextStyle.labelText),
             TextButton(
-              onPressed: () {
-                // 확인 후 홈으로 복귀
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (_) => const HomeScreen()),
-                  (Route<dynamic> route) => false,
-                );
-              },
+              onPressed: _navigateToHome,
               child: Text(
                 '처음으로',
                 style: GuJuekTextStyle.labelText.copyWith(

@@ -24,10 +24,10 @@ class ApiResponse {
 
 // 로그인/회원가입 API 호출을 담당하는 리포지토리
 class AuthRepository {
-  AuthRepository(this._client, this._secureStorage);
+  AuthRepository(this._client);
 
   final ApiClient? _client;
-  final SecureStorageService _secureStorage;
+  // final SecureStorageService _secureStorage;
 
   Future<ApiResponse> signUp(UserModel user) async {
     final client = _client;
@@ -37,13 +37,11 @@ class AuthRepository {
     }
 
     try {
-      final tokens = await _secureStorage.readOrganTokens();
-      final accessToken = tokens['access_token'];
       final response = await client.dio.post(
         '/user/sign-up',
         data: user.toJson(),
         options: Options(
-          headers: {'Authorization' : 'Bearer $accessToken'},
+          // headers: {'Authorization': 'Bearer $accessToken'},
           validateStatus: (status) {
             return status != null && status < 600;
           },
@@ -67,18 +65,18 @@ class AuthRepository {
       return ApiResponse(message: 'BASE_URL이 설정되지 않았습니다.');
     }
 
-    final tokens = await _secureStorage.readOrganTokens();
-    final accessToken = tokens['access_token'];
-    if (accessToken == null || accessToken.isEmpty) {
-      return ApiResponse(message: '기관 로그인 토큰이 없습니다.');
-    }
+    // final tokens = await _secureStorage.readOrganTokens();
+    // final accessToken = tokens['access_token'];
+    // if (accessToken == null || accessToken.isEmpty) {
+    //   return ApiResponse(message: '기관 로그인 토큰이 없습니다.');
+    // }
 
     try {
       final response = await client.dio.post(
         '/user/login',
         data: loginModel.toJson(),
         options: Options(
-          headers: {'Authorization': 'Bearer $accessToken'},
+          // headers: {'Authorization': 'Bearer $accessToken'},
           validateStatus: (status) => status != null && status < 600,
         ),
       );
@@ -92,55 +90,55 @@ class AuthRepository {
       );
     }
   }
-
-  Future<ApiResponse> organLogin(OrganLoginRequest request) async {
-    final client = _client;
-    if (client == null) {
-      return ApiResponse(message: 'BASE_URL이 설정되지 않았습니다.');
-    }
-
-    try {
-      final response = await client.dio.post(
-        '/organ/login',
-        data: request.toJson(),
-        options: Options(
-          validateStatus: (status) {
-            return status != null && status < 600;
-          },
-        ),
-      );
-
-      if (response.statusCode == 200 && response.data is Map<String, dynamic>) {
-        final data = response.data as Map<String, dynamic>;
-        await _secureStorage.saveOrganTokens(
-          accessToken: data['access_token'] ?? '',
-          refreshToken: data['refresh_token'] ?? '',
-          organName: data['organ_name'] ?? '',
-        );
-        return ApiResponse(
-          statusCode: response.statusCode,
-          data: OrganLoginResponse.fromJson(
-            response.data as Map<String, dynamic>,
-          ),
-        );
-      }
-
-      return ApiResponse(statusCode: response.statusCode, data: response.data);
-    } on DioException catch (e) {
-      debugPrint('ORGAN LOGIN DioException: ${e.message}');
-      return ApiResponse(
-        statusCode: e.response?.statusCode,
-        data: e.response?.data,
-        exception: e,
-      );
-    }
-  }
 }
+  // 전역에서 AuthRepository를 주입하기 위한 Provider
+  final authRepositoryProvider = Provider<AuthRepository>((ref) {
+    return AuthRepository(
+      ref.watch(apiClientProvider),
+      // ref.watch(secureStorageServiceProvider),
+    );
+  });
 
-// 전역에서 AuthRepository를 주입하기 위한 Provider
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepository(
-    ref.watch(apiClientProvider),
-    ref.watch(secureStorageServiceProvider),
-  );
-});
+  //   Future<ApiResponse> organLogin(OrganLoginRequest request) async {
+  //     final client = _client;
+  //     if (client == null) {
+  //       return ApiResponse(message: 'BASE_URL이 설정되지 않았습니다.');
+  //     }
+  //
+  //     try {
+  //       final response = await client.dio.post(
+  //         '/organ/login',
+  //         data: request.toJson(),
+  //         options: Options(
+  //           validateStatus: (status) {
+  //             return status != null && status < 600;
+  //           },
+  //         ),
+  //       );
+  //
+  //       if (response.statusCode == 200 && response.data is Map<String, dynamic>) {
+  //         final data = response.data as Map<String, dynamic>;
+  //         await _secureStorage.saveOrganTokens(
+  //           accessToken: data['access_token'] ?? '',
+  //           refreshToken: data['refresh_token'] ?? '',
+  //           organName: data['organ_name'] ?? '',
+  //         );
+  //         return ApiResponse(
+  //           statusCode: response.statusCode,
+  //           data: OrganLoginResponse.fromJson(
+  //             response.data as Map<String, dynamic>,
+  //           ),
+  //         );
+  //       }
+  //
+  //       return ApiResponse(statusCode: response.statusCode, data: response.data);
+  //     } on DioException catch (e) {
+  //       debugPrint('ORGAN LOGIN DioException: ${e.message}');
+  //       return ApiResponse(
+  //         statusCode: e.response?.statusCode,
+  //         data: e.response?.data,
+  //         exception: e,
+  //       );
+  //     }
+  //   }
+  // }
