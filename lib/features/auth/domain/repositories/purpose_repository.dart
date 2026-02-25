@@ -1,11 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client_provider.dart';
-import 'package:gujuek_check_in_flutter/core/storage/secure_storage_service.dart';
-
-import '../../data/models/purpose/purpose_model.dart';
+import 'package:gujuek_check_in_flutter/features/auth/data/models/purpose/purpose_model.dart';
 
 class PurposeRepository {
   PurposeRepository(this._client);
@@ -38,6 +35,7 @@ class PurposeRepository {
 
 // 전역에서 PurposeRepository를 주입하기 위한 Provider
 final purposeRepositoryProvider = Provider<PurposeRepository>((ref) {
+  // final secureStorage = ref.watch(secureStorageServiceProvider);
   final apiClient = ref.watch(apiClientProvider);
   return PurposeRepository(apiClient);
 });
