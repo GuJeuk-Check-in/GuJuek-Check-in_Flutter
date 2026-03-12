@@ -43,6 +43,8 @@ class CustomTextField extends StatelessWidget {
               keyboardType: keyboardType,
               style: GuJuekTextStyle.hintText,
               decoration: InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
                 hintText: hintText,
                 hintStyle: GuJuekTextStyle.hintText,
                 border: InputBorder.none,

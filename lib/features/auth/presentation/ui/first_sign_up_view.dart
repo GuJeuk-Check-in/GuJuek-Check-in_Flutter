@@ -197,6 +197,7 @@ class _FirstSignUpViewState extends ConsumerState<FirstSignUpView> {
                                 text: '방문 목적을 입력해주세요',
                                 imagePath: Images.downIcon,
                                 decoration: BoxDecoration(
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(8.r),
                                   border: Border.all(
                                     width: 1.w,
