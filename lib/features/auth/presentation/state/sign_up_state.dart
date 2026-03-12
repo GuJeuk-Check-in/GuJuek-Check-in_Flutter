@@ -1,5 +1,3 @@
-import 'package:gujuek_check_in_flutter/features/auth/data/models/resident/resident_model.dart';
-
 enum SignUpErrorType {
   validation,
   duplicateUser,
@@ -37,27 +35,42 @@ class SignUpState {
   }
 }
 
-// 회원가입 제출에 필요한 입력값 묶음
-class SignUpFormData {
-  const SignUpFormData({
+// 1단계 입력값 (이름, 생일, 연락처, 방문 목적)
+class FirstSignUpFormData {
+  const FirstSignUpFormData({
     required this.name,
     required this.phone,
-    required this.genderValue,
     required this.birthYmd,
-    required this.privacyAgreed,
     required this.purpose,
-    required this.residence,
-    required this.maleCount,
-    required this.femaleCount,
   });
 
   final String name;
   final String phone;
-  final int genderValue;
   final String birthYmd;
-  final bool privacyAgreed;
   final String? purpose;
-  final String residence;
+}
+
+// 최종 제출용 통합 데이터
+class SignUpFormData {
+  const SignUpFormData({
+    required this.name,
+    required this.phone,
+    required this.birthYmd,
+    required this.purpose,
+    required this.genderValue,
+    required this.privacyAgreed,
+    required this.maleCount,
+    required this.femaleCount,
+    required this.residence,
+  });
+
+  final String name;
+  final String phone;
+  final String birthYmd;
+  final String? purpose;
+  final int genderValue; // 1=남성, 2=여성
+  final bool privacyAgreed;
   final int maleCount;
   final int femaleCount;
+  final String residence;
 }

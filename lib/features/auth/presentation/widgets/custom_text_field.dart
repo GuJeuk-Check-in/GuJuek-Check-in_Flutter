@@ -26,7 +26,7 @@ class CustomTextField extends StatelessWidget {
     // 아이콘 + 텍스트필드가 있는 공통 입력 위젯
     return Container(
       width: width,
-      height: 60.h,
+      height: 80.h,
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),

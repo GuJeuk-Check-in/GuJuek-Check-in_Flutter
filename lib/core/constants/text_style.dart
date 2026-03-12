@@ -9,9 +9,15 @@ abstract final class GuJuekTextStyle {
   );
 
   static final TextStyle hintText = defaultTextStyle.copyWith(
+    color: GuJuekColor.gray10,
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+  );
+
+  static final TextStyle secondHintText = defaultTextStyle.copyWith(
     color: GuJuekColor.gray20,
-    fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
   );
 
   static final TextStyle labelText = defaultTextStyle.copyWith(
@@ -46,6 +52,12 @@ abstract final class GuJuekTextStyle {
     fontSize: 24,
     color: GuJuekColor.gray30,
     fontWeight: FontWeight.w600,
+  );
+  static final TextStyle signUpText = defaultTextStyle.copyWith(
+    fontFamily: 'Jua',
+    fontSize: 72,
+    color: GuJuekColor.moreSkyBlue,
+    fontWeight: FontWeight.w400
   );
 }
 

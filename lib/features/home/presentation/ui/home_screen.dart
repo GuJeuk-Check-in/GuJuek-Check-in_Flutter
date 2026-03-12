@@ -5,7 +5,7 @@ import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/widgets/circle_background.dart';
 import 'package:gujuek_check_in_flutter/core/widgets/custom_layout.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-import 'package:gujuek_check_in_flutter/features/auth/presentation/ui/sign_up_view.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/ui/first_sign_up_view.dart';
 import 'package:gujuek_check_in_flutter/features/facility_safety_training/ui/facility_safety_training_screen.dart';
 
 import '../../../auth/presentation/dialogs/facility_registration_dialog.dart';
@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => FacilitySafetyTrainingScreen(
-                            nextPage: (context) => const SignUpView(),
+                            nextPage: (context) => const FirstSignUpView(),
                           ),
                         ),
                       );

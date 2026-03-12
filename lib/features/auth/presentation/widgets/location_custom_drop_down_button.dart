@@ -84,7 +84,7 @@ class _LocationCustomDropDownButtonState
                           child: Text(
                             purpose.purpose,
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.w500,
                               color: Colors.black,
                             ),

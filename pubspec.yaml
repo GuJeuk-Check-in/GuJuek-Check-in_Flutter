@@ -7,6 +7,9 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=3.9.0 <4.0.0"
+dart:
+  experiments:
+    - dot-shorthands
 
 dependencies:
   flutter:
@@ -23,6 +26,7 @@ dependencies:
   flutter_launcher_icons: ^0.14.4
   flutter_secure_storage: ^9.2.2
   jwt_decoder: ^2.0.1
+  flutter_svg: ^2.2.4
 
 dev_dependencies:
   flutter_test:

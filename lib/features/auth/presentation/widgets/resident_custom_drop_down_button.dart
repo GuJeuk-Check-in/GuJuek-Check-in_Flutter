@@ -78,7 +78,7 @@ class _ResidentCustomDropDownButtonState
               Expanded(
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton2<ResidentModel>(
-                    hint: Text(widget.text, style: GuJuekTextStyle.hintText),
+                    hint: Text(widget.text, style: GuJuekTextStyle.secondHintText),
                     value: selectedResident,
                     items: items.map((resident) {
                       return DropdownMenuItem<ResidentModel>(
@@ -87,7 +87,7 @@ class _ResidentCustomDropDownButtonState
                           child: Text(
                             resident.residence,
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.w500,
                               color: Colors.black,
                             ),

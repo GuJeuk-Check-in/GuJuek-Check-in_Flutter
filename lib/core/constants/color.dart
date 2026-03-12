@@ -6,6 +6,7 @@ abstract final class GuJuekColor {
   static const Color blue = Color(0xFF0F50A0);
   static const Color green = Color(0xFF17A753);
   static const Color skyBlue = Color(0xFF2ABFEC);
+  static const Color moreSkyBlue = Color(0xFFAAE5F7);
   static const Color red = Color(0xFFE6222C);
   static const Color purple = Color(0xFFA1298C);
   static const Color primary = Color(0xFF3D72B3);

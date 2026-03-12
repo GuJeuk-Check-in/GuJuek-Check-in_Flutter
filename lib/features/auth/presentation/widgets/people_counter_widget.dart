@@ -59,8 +59,8 @@ class _PeopleCounterWidgetState extends State<PeopleCounterWidget> {
     final canPlus = _value < widget.max;
 
     return Container(
-      width: 351.w,   // 필요하면 조절
-      height: 60.h,   // 이미지 느낌이 얇은 편이라 44로
+      width: 530.w,   // 필요하면 조절
+      height: 80.h,   // 이미지 느낌이 얇은 편이라 44로
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10.r),

@@ -8,7 +8,7 @@ import 'package:gujuek_check_in_flutter/core/constants/color.dart';
 import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 import 'package:gujuek_check_in_flutter/core/widgets/circle_background.dart'; // ⭐ 추가
-import 'package:gujuek_check_in_flutter/features/auth/presentation/ui/sign_up_view.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/ui/first_sign_up_view.dart';
 import 'package:gujuek_check_in_flutter/features/home/presentation/ui/home_screen.dart';
 
 import '../../../../core/widgets/dialogs/complete_facility_registration.dart';
@@ -362,7 +362,7 @@ class _FacilityRegistrationDialogState
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) => SignUpView()),
+                    MaterialPageRoute(builder: (_) => const FirstSignUpView()),
                     (route) => false,
                   );
                 },
