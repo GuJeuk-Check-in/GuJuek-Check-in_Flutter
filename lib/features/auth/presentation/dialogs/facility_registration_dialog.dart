@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,16 +6,15 @@ import 'package:gujuek_check_in_flutter/core/constants/color.dart';
 import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 import 'package:gujuek_check_in_flutter/core/widgets/circle_background.dart'; // ⭐ 추가
+import 'package:gujuek_check_in_flutter/core/widgets/dialogs/complete_facility_registration.dart';
+import 'package:gujuek_check_in_flutter/core/widgets/dialogs/loading_dialog.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/dialogs/error_id_dialog.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/state/facility_registration_controller.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/state/facility_registration_state.dart';
 import 'package:gujuek_check_in_flutter/features/auth/presentation/ui/first_sign_up_view.dart';
-import 'package:gujuek_check_in_flutter/features/home/presentation/ui/home_screen.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/custom_drop_down_button.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/quantity_counter_widget.dart';
 
-import '../../../../core/widgets/dialogs/complete_facility_registration.dart';
-import '../../../../core/widgets/dialogs/loading_dialog.dart';
-import 'error_id_dialog.dart';
-import '../widgets/custom_drop_down_button.dart';
-import '../state/facility_registration_controller.dart';
-import '../widgets/quantity_counter_widget.dart';
-import '../state/facility_registration_state.dart';
 
 class FacilityRegistrationDialog extends ConsumerStatefulWidget {
   const FacilityRegistrationDialog({super.key});

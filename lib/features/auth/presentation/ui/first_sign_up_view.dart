@@ -6,11 +6,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gujuek_check_in_flutter/core/constants/color.dart';
 import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-
-import '../state/sign_up_state.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/state/sign_up_state.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/phone_input_formatter.dart';
 import '../widgets/location_custom_drop_down_button.dart';
-import '../widgets/custom_text_field.dart';
-import '../widgets/phone_input_formatter.dart';
 import 'second_sign_up_view.dart';
 
 class FirstSignUpView extends ConsumerStatefulWidget {

@@ -6,15 +6,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gujuek_check_in_flutter/core/constants/color.dart';
 import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
+import 'package:gujuek_check_in_flutter/core/widgets/dialogs/loading_dialog.dart';
 import 'package:gujuek_check_in_flutter/features/auth/data/models/resident/resident_model.dart';
+import 'package:gujuek_check_in_flutter/features/auth/data/sign_up_options.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/dialogs/check_id_dialog.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/state/sign_up_controller.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/state/sign_up_state.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/people_counter_widget.dart';
 import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/resident_custom_drop_down_button.dart';
 
-import '../../../../core/widgets/dialogs/loading_dialog.dart';
-import '../../data/sign_up_options.dart';
-import '../state/sign_up_controller.dart';
-import '../state/sign_up_state.dart';
-import '../widgets/people_counter_widget.dart';
-import '../dialogs/check_id_dialog.dart';
 
 class SecondSignUpView extends ConsumerStatefulWidget {
   const SecondSignUpView({super.key, required this.firstData});
@@ -33,8 +33,6 @@ class _SecondSignUpViewState extends ConsumerState<SecondSignUpView> {
   int maleCount = 0;
   int femaleCount = 0;
   bool _isLoadingDialogVisible = false;
-
-  static const String _customInputValue = '__custom_input__';
 
   void _submitSignUp() {
     ref

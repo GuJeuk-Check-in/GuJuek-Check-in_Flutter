@@ -57,7 +57,7 @@ class CircleBackground extends StatelessWidget {
         width: size.w,
         height: size.h,
         decoration: BoxDecoration(
-          color: color.withOpacity(1),
+          color: color.withValues(alpha: 1),
           shape: BoxShape.circle,
         ),
       ),

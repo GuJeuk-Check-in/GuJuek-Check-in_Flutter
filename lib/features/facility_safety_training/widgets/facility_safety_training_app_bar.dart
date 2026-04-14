@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/constants/color.dart';
+import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
 
 class FacilitySafetyTrainingAppBar extends StatelessWidget
@@ -14,6 +15,7 @@ class FacilitySafetyTrainingAppBar extends StatelessWidget
   Widget build(BuildContext context) {
     // 안전교육 전용 상단 바
     return Container(
+      padding: const EdgeInsets.symmetric(vertical: 20),
       width: 1.sw,
       decoration: const BoxDecoration(
         color: GuJuekColor.white,
@@ -36,11 +38,7 @@ class FacilitySafetyTrainingAppBar extends StatelessWidget
             Image.asset(Images.guLogo, width: 261.w, height: 100.h),
             Text(
               text,
-              style: TextStyle(
-                fontSize: 50.sp,
-                color: GuJuekColor.blueButton,
-                fontWeight: FontWeight.w600,
-              ),
+              style: GuJuekTextStyle.bigTitle(color: GuJuekColor.blueButton),
             ),
           ],
         ),

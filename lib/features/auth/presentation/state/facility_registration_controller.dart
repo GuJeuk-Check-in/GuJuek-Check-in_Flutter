@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../data/models/login/login_model.dart';
-import '../../domain/repositories/auth_repository.dart';
+import 'package:gujuek_check_in_flutter/features/auth/data/models/login/login_model.dart';
+import 'package:gujuek_check_in_flutter/features/auth/domain/repositories/auth_repository.dart';
 import 'facility_registration_state.dart';
 
 class FacilityRegistrationController

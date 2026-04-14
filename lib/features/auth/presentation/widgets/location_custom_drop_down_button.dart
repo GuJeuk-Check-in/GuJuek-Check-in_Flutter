@@ -5,9 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/constants/color.dart';
 import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-
-import '../../data/models/purpose/purpose_model.dart';
-import '../state/purpose_list_provider.dart';
+import 'package:gujuek_check_in_flutter/features/auth/data/models/purpose/purpose_model.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/state/purpose_list_provider.dart';
 
 class LocationCustomDropDownButton extends ConsumerStatefulWidget {
   final Function(PurposeModel?) onPurposeSelected;

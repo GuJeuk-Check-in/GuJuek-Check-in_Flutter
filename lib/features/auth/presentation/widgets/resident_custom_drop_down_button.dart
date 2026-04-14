@@ -135,7 +135,7 @@ class _ResidentCustomDropDownButtonState
                         mainAxisMargin: 10.h,
                         radius: Radius.circular(100.r),
                         thumbColor:
-                        const MaterialStatePropertyAll(Color(0xffB5B5B5)),
+                        const WidgetStatePropertyAll(Color(0xffB5B5B5)),
                       ),
                     ),
                     iconStyleData: IconStyleData(

@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gujuek_check_in_flutter/features/auth/data/models/sign_up/user_model.dart';
+import 'package:gujuek_check_in_flutter/features/auth/domain/repositories/auth_repository.dart';
 import 'package:gujuek_check_in_flutter/features/auth/presentation/state/sign_up_state.dart';
 
-import '../../data/models/sign_up/user_model.dart';
-import '../../domain/repositories/auth_repository.dart';
 
 class SignUpController extends StateNotifier<SignUpState> {
   SignUpController(this._authRepository) : super(const SignUpState());

@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gujuek_check_in_flutter/core/constants/color.dart';
 
 abstract final class GuJuekTextStyle {
+  static TextStyle bigTitle({Color color = GuJuekColor.white}) =>
+      defaultTextStyle.copyWith(
+        color: color,
+        fontWeight: FontWeight.w600,
+        fontSize: 50,
+      );
+
   static final TextStyle title = defaultTextStyle.copyWith(
     color: GuJuekColor.white,
     fontSize: 48,
@@ -57,7 +64,7 @@ abstract final class GuJuekTextStyle {
     fontFamily: 'Jua',
     fontSize: 72,
     color: GuJuekColor.moreSkyBlue,
-    fontWeight: FontWeight.w400
+    fontWeight: FontWeight.w400,
   );
 }
 
