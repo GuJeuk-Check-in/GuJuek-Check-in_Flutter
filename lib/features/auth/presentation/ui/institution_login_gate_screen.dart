@@ -3,7 +3,7 @@
 // import 'package:gujuek_check_in_flutter/core/widgets/circle_background.dart';
 // import 'package:gujuek_check_in_flutter/core/widgets/custom_layout.dart';
 // import 'package:gujuek_check_in_flutter/core/widgets/dialogs/loading_dialog.dart';
-// import 'package:gujuek_check_in_flutter/features/auth/presentation/dialogs/institution_login_dialog.dart';
+// import 'package:gujuek_check_in_flutter/features/auth/presentation/dialogs/x_institution_login_dialog.dart';
 // import 'package:gujuek_check_in_flutter/features/auth/presentation/state/organ_login_controller.dart';
 // import 'package:gujuek_check_in_flutter/features/auth/presentation/state/organ_login_state.dart';
 // import 'package:gujuek_check_in_flutter/features/home/presentation/ui/home_screen.dart';
