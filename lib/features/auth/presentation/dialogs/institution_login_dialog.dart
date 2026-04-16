@@ -159,6 +159,10 @@ class _LoginField extends StatelessWidget {
     required this.leading,
     this.obscureText = false,
   });
+TextStyle get textStyle=> TextStyle(
+    color: GuJuekColor.gray30,
+    fontWeight: FontWeight.w500,
+    fontSize: 16.sp,);
 
   @override
   Widget build(BuildContext context) {
@@ -181,18 +185,10 @@ class _LoginField extends StatelessWidget {
             child: TextField(
               controller: controller,
               obscureText: obscureText,
-              style: GuJuekTextStyle.hintText.copyWith(
-                color: GuJuekColor.gray30,
-                fontWeight: FontWeight.w500,
-                fontSize: 16.sp,
-              ),
+              style: textStyle,
               decoration: InputDecoration(
                 hintText: hintText,
-                hintStyle: GuJuekTextStyle.hintText.copyWith(
-                  color: GuJuekColor.gray30,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16.sp,
-                ),
+                hintStyle: textStyle,
                 border: InputBorder.none,
                 isDense: true,
               ),
