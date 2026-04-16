@@ -117,7 +117,7 @@ class SignUpController extends StateNotifier<SignUpState> {
     if (form.purpose == null || form.purpose!.isEmpty) {
       return '방문 목적을 선택해주세요';
     }
-    if (form.residence == null || form.residence.isEmpty) {
+    if (form.residence.isEmpty) {
       return '거주지를 선택해주세요';
     }
     return null;

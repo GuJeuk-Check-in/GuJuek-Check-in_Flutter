@@ -14,6 +14,7 @@ class CheckIdDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     // 회원가입 후 생성된 아이디 안내 다이얼로그
     const primaryBlue = Color(0xFF1E5DBB); // 이미지와 비슷한 블루 톤
+    const textAlignCenter = TextAlign.center;
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -32,26 +33,26 @@ class CheckIdDialog extends StatelessWidget {
             SizedBox(height: 10.h),
             Text(
               "아이디가 자동 생성되었습니다",
-              textAlign: TextAlign.center,
+              textAlign: textAlignCenter,
               style: GuJuekTextStyle.bigIdText,
             ),
             SizedBox(height: 8.h),
             Text(
               "아이디 : 이름 + 생일",
-              textAlign: TextAlign.center,
+              textAlign: textAlignCenter,
               style: GuJuekTextStyle.smallIdText,
             ),
             SizedBox(height: 12.h),
             Text(
               "시설 이용 신청 시 생성된 아이디를 입력해주세요",
-              textAlign: TextAlign.center,
+              textAlign: textAlignCenter,
               style: GuJuekTextStyle.smallIdText,
             ),
             SizedBox(height: 10.h),
 
             // 생성된 아이디 (파란색 라벨 + 일반 텍스트)
             RichText(
-              textAlign: TextAlign.center,
+              textAlign: textAlignCenter,
               text: TextSpan(
                 children: [
                   TextSpan(

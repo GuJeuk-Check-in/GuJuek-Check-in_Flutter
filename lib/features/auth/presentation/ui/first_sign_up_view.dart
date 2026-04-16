@@ -20,6 +20,11 @@ class FirstSignUpView extends ConsumerStatefulWidget {
 }
 
 class _FirstSignUpViewState extends ConsumerState<FirstSignUpView> {
+  final TextStyle textStyle = TextStyle(
+    fontSize: 20.sp,
+    color: const Color(0xff2E2E32),
+    fontWeight: FontWeight.w500,
+  );
   late TextEditingController nameController;
   late TextEditingController phoneNumberController;
   String? _selectedPurpose;
@@ -45,7 +50,9 @@ class _FirstSignUpViewState extends ConsumerState<FirstSignUpView> {
   }
 
   void _goToNext() {
-    if (nameController.text.trim().isEmpty) {
+    if (nameController.text
+        .trim()
+        .isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('이름을 입력해주세요')),
       );
@@ -57,7 +64,9 @@ class _FirstSignUpViewState extends ConsumerState<FirstSignUpView> {
       );
       return;
     }
-    if (phoneNumberController.text.trim().isEmpty) {
+    if (phoneNumberController.text
+        .trim()
+        .isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('연락처를 입력해주세요')),
       );
@@ -73,14 +82,15 @@ class _FirstSignUpViewState extends ConsumerState<FirstSignUpView> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => SecondSignUpView(
-          firstData: FirstSignUpFormData(
-            name: nameController.text,
-            phone: phoneNumberController.text,
-            birthYmd: apiDate,
-            purpose: _selectedPurpose,
-          ),
-        ),
+        builder: (_) =>
+            SecondSignUpView(
+              firstData: FirstSignUpFormData(
+                name: nameController.text,
+                phone: phoneNumberController.text,
+                birthYmd: apiDate,
+                purpose: _selectedPurpose,
+              ),
+            ),
       ),
     );
   }
@@ -139,7 +149,8 @@ class _FirstSignUpViewState extends ConsumerState<FirstSignUpView> {
                                           horizontal: 20.w,
                                         ),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8.r),
+                                          borderRadius: BorderRadius.circular(
+                                              8.r),
                                           border: Border.all(
                                             width: 1.w,
                                             color: const Color(0xff2E2E32),
@@ -147,7 +158,7 @@ class _FirstSignUpViewState extends ConsumerState<FirstSignUpView> {
                                         ),
                                         child: Row(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          CrossAxisAlignment.center,
                                           children: [
                                             Image.asset(
                                               Images.calendarIcon,
@@ -159,10 +170,10 @@ class _FirstSignUpViewState extends ConsumerState<FirstSignUpView> {
                                               displayDate,
                                               style: GuJuekTextStyle.hintText
                                                   .copyWith(
-                                                    color: apiDate.isEmpty
-                                                        ? GuJuekColor.gray10
-                                                        : GuJuekColor.gray40,
-                                                  ),
+                                                color: apiDate.isEmpty
+                                                    ? GuJuekColor.gray10
+                                                    : GuJuekColor.gray40,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -215,7 +226,8 @@ class _FirstSignUpViewState extends ConsumerState<FirstSignUpView> {
                                 ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: GuJuekColor.skyBlue),
+                                  border: Border.all(
+                                      color: GuJuekColor.skyBlue),
                                 ),
                                 child: Text(
                                   '다음',
@@ -253,164 +265,163 @@ class _FirstSignUpViewState extends ConsumerState<FirstSignUpView> {
   Future buildDatePicker() {
     return showDialog(
       context: context,
-      builder: (context) => Dialog(
-        child: Container(
-          width: 440.w,
-          height: 520.h,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.r),
-            color: Colors.white,
-          ),
-          child: Column(
-            children: [
-              SizedBox(height: 40.h),
-              Text(
-                '생년월일',
-                style: TextStyle(
-                  fontSize: 32.sp,
-                  color: const Color(0xff282626),
-                  fontWeight: FontWeight.w500,
-                ),
+      builder: (context) =>
+          Dialog(
+            child: Container(
+              width: 440.w,
+              height: 520.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.r),
+                color: Colors.white,
               ),
-              SizedBox(height: 56.h),
-              SizedBox(
-                height: 200.h,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            '년',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              color: const Color(0xff2E2E32),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Expanded(
-                            child: CupertinoPicker(
-                              itemExtent: 50,
-                              scrollController: FixedExtentScrollController(
-                                initialItem: selectedYear - 1950,
-                              ),
-                              onSelectedItemChanged: (index) {
-                                selectedYear = 1950 + index;
-                              },
-                              children: List.generate(
-                                DateTime.now().year - 1950 + 1,
-                                (index) => Center(
-                                  child: Text(
-                                    '${1950 + index}',
-                                    style: TextStyle(fontSize: 18.sp),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+              child: Column(
+                children: [
+                  SizedBox(height: 40.h),
+                  Text(
+                    '생년월일',
+                    style: TextStyle(
+                      fontSize: 32.sp,
+                      color: const Color(0xff282626),
+                      fontWeight: FontWeight.w500,
                     ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            '월',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              color: const Color(0xff2E2E32),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Expanded(
-                            child: CupertinoPicker(
-                              itemExtent: 50,
-                              scrollController: FixedExtentScrollController(
-                                initialItem: selectedMonth - 1,
-                              ),
-                              onSelectedItemChanged: (index) {
-                                selectedMonth = index + 1;
-                              },
-                              children: List.generate(
-                                12,
-                                (index) => Center(
-                                  child: Text(
-                                    '${index + 1}',
-                                    style: TextStyle(fontSize: 18.sp),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            '일',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              color: const Color(0xff2E2E32),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Expanded(
-                            child: CupertinoPicker(
-                              itemExtent: 50,
-                              scrollController: FixedExtentScrollController(
-                                initialItem: selectedDay - 1,
-                              ),
-                              onSelectedItemChanged: (index) {
-                                selectedDay = index + 1;
-                              },
-                              children: List.generate(
-                                31,
-                                (index) => Center(
-                                  child: Text(
-                                    '${index + 1}',
-                                    style: TextStyle(fontSize: 18.sp),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 40.h),
-              TextButton(
-                onPressed: () {
-                  final selectedDate = DateTime(
-                    selectedYear,
-                    selectedMonth,
-                    selectedDay,
-                  );
-                  setState(() {
-                    displayDate =
-                        '${selectedDate.year}/${selectedDate.month}/${selectedDate.day}';
-                    apiDate =
-                        '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}';
-                  });
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  '확인',
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xff0F50A0),
                   ),
-                ),
+                  SizedBox(height: 56.h),
+                  SizedBox(
+                    height: 200.h,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                '년',
+                                style: textStyle
+                              ),
+                              Expanded(
+                                child: CupertinoPicker(
+                                  itemExtent: 50,
+                                  scrollController: FixedExtentScrollController(
+                                    initialItem: selectedYear - 1950,
+                                  ),
+                                  onSelectedItemChanged: (index) {
+                                    selectedYear = 1950 + index;
+                                  },
+                                  children: List.generate(
+                                    DateTime
+                                        .now()
+                                        .year - 1950 + 1,
+                                        (index) =>
+                                        Center(
+                                          child: Text(
+                                            '${1950 + index}',
+                                            style: TextStyle(fontSize: 18.sp),
+                                          ),
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                  '월',
+                                  style:textStyle,
+                              ),
+                              Expanded(
+                                child: CupertinoPicker(
+                                  itemExtent: 50,
+                                  scrollController: FixedExtentScrollController(
+                                    initialItem: selectedMonth - 1,
+                                  ),
+                                  onSelectedItemChanged: (index) {
+                                    selectedMonth = index + 1;
+                                  },
+                                  children: List.generate(
+                                    12,
+                                        (index) =>
+                                        Center(
+                                          child: Text(
+                                            '${index + 1}',
+                                            style: TextStyle(fontSize: 18.sp),
+                                          ),
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                '일',
+                                style: textStyle
+                              ),
+                              Expanded(
+                                child: CupertinoPicker(
+                                  itemExtent: 50,
+                                  scrollController: FixedExtentScrollController(
+                                    initialItem: selectedDay - 1,
+                                  ),
+                                  onSelectedItemChanged: (index) {
+                                    selectedDay = index + 1;
+                                  },
+                                  children: List.generate(
+                                    31,
+                                        (index) =>
+                                        Center(
+                                          child: Text(
+                                            '${index + 1}',
+                                            style: TextStyle(fontSize: 18.sp),
+                                          ),
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 40.h),
+                  TextButton(
+                    onPressed: () {
+                      final selectedDate = DateTime(
+                        selectedYear,
+                        selectedMonth,
+                        selectedDay,
+                      );
+                      setState(() {
+                        displayDate =
+                        '${selectedDate.year}/${selectedDate
+                            .month}/${selectedDate.day}';
+                        apiDate =
+                        '${selectedDate.year}-${selectedDate.month
+                            .toString()
+                            .padLeft(2, '0')}-${selectedDate.day
+                            .toString()
+                            .padLeft(2, '0')}';
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      '확인',
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xff0F50A0),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
     );
   }
 }
