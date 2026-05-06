@@ -543,7 +543,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(text, style: GuJuekTextStyle.labelText),
+        SizedBox(child: Text(text, style: GuJuekTextStyle.labelText)),
         SizedBox(height: 8.h),
         child,
       ],
