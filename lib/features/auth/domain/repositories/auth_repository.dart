@@ -4,11 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client_provider.dart';
 import 'package:gujuek_check_in_flutter/core/storage/secure_storage_service.dart';
+import 'package:gujuek_check_in_flutter/features/auth/data/models/login/login_model.dart';
+import 'package:gujuek_check_in_flutter/features/auth/data/models/organ_login/organ_login_request.dart';
+import 'package:gujuek_check_in_flutter/features/auth/data/models/organ_login/organ_login_response.dart';
+import 'package:gujuek_check_in_flutter/features/auth/data/models/sign_up/user_model.dart';
 
-import '../../data/models/login/login_model.dart';
-import '../../data/models/organ_login/organ_login_request.dart';
-import '../../data/models/organ_login/organ_login_response.dart';
-import '../../data/models/sign_up/user_model.dart';
 
 class ApiResponse {
   ApiResponse({this.statusCode, this.data, this.exception, this.message});

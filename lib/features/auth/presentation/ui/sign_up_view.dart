@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,16 +6,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gujuek_check_in_flutter/core/constants/color.dart';
 import 'package:gujuek_check_in_flutter/core/constants/text_style.dart';
 import 'package:gujuek_check_in_flutter/core/images.dart';
-
-import '../../../../core/widgets/dialogs/loading_dialog.dart';
-import '../../data/sign_up_options.dart';
-import '../state/sign_up_controller.dart';
-import '../state/sign_up_state.dart';
-import '../widgets/location_custom_drop_down_button.dart';
-import '../widgets/custom_text_field.dart';
-import '../widgets/people_counter_widget.dart';
-import '../widgets/phone_input_formatter.dart';
-import '../dialogs/check_id_dialog.dart';
+import 'package:gujuek_check_in_flutter/core/widgets/dialogs/loading_dialog.dart';
+import 'package:gujuek_check_in_flutter/features/auth/data/sign_up_options.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/dialogs/check_id_dialog.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/state/sign_up_controller.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/state/sign_up_state.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/location_custom_drop_down_button.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/people_counter_widget.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/phone_input_formatter.dart';
 
 class SignUpView extends ConsumerStatefulWidget {
   const SignUpView({super.key});
@@ -163,18 +160,6 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
   @override
   Widget build(BuildContext context) {
     ref.listen<SignUpState>(signUpControllerProvider, _handleSignUpState);
-
-    // 키보드 등장에 맞춰 다이얼로그 크기 계산
-    final viewInsets = MediaQuery.of(context).viewInsets;
-    final screenSize = MediaQuery.sizeOf(context);
-    final horizontalMargin = 24.w;
-    final verticalMargin = 24.h;
-    final dialogWidth = math.min(
-      920.w,
-      math.max(0.0, screenSize.width - horizontalMargin * 2),
-    );
-    final availableHeight =
-        screenSize.height - viewInsets.bottom - verticalMargin * 2;
 
     return Scaffold(
       backgroundColor: GuJuekColor.white,

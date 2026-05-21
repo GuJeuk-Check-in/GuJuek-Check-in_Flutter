@@ -2,9 +2,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../data/models/purpose/purpose_model.dart';
-import '../state/purpose_list_provider.dart';
+import 'package:gujuek_check_in_flutter/features/auth/data/models/purpose/purpose_model.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/state/purpose_list_provider.dart';
 
 class CustomDropDownButton extends ConsumerStatefulWidget {
   final Function(PurposeModel?) onPurposeSelected;
