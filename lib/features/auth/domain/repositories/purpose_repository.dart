@@ -6,9 +6,8 @@ import 'package:gujuek_check_in_flutter/core/network/api_client_provider.dart';
 import 'package:gujuek_check_in_flutter/core/storage/secure_storage_service.dart';
 import 'package:gujuek_check_in_flutter/features/auth/data/models/purpose/purpose_model.dart';
 
-
 class PurposeRepository {
-  PurposeRepository(this._client,this._secureStorage);
+  PurposeRepository(this._client, this._secureStorage);
 
   final ApiClient? _client;
   final SecureStorageService? _secureStorage;
@@ -23,11 +22,7 @@ class PurposeRepository {
     }
 
     try {
-      final tokens = await _secureStorage?.readOrganTokens();
-      final String? rawToken = tokens?['access_token'];
-      final accessToken = rawToken?.trim();
-      final response = await client.dio.get(
-          'purpose/all', options: Options(headers: {'Authorization':'Bearer $accessToken'}));
+      final response = await client.dio.get('purpose/all');
       final List<dynamic> jsonList = response.data;
       return jsonList.map((e) => PurposeModel.fromJson(e)).toList();
     } catch (error) {
@@ -41,5 +36,5 @@ class PurposeRepository {
 final purposeRepositoryProvider = Provider<PurposeRepository>((ref) {
   final secureStorage = ref.watch(secureStorageServiceProvider);
   final apiClient = ref.watch(apiClientProvider);
-  return PurposeRepository(apiClient,secureStorage);
+  return PurposeRepository(apiClient, secureStorage);
 });

@@ -27,29 +27,23 @@ class MyApp extends ConsumerWidget {
       // 디자인 기준 해상도
       designSize: const Size(1280, 800),
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            fontFamily: 'Pretendard',
-            splashFactory: NoSplash.splashFactory,
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-          ),
-          builder: (context, child) {
-            return GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              // 화면 탭 시 키보드 포커스 해제
-              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-              child: child ?? const SizedBox.shrink(),
-            );
-          },
-          home: loginState.when(data: (isLogin) =>
-          isLogin ? const HomeScreen()
-              : const InstitutionLoginGateScreen(),
-              error: (err, stack) => const InstitutionLoginGateScreen(),
-      loading: () =>
-      const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),)),
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Pretendard',
+          splashFactory: NoSplash.splashFactory,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        builder: (context, child) {
+          return GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            // 화면 탭 시 키보드 포커스 해제
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: child ?? const SizedBox.shrink(),
+          );
+        },
+        home: const HomeScreen(),
+      ),
     );
   }
 }

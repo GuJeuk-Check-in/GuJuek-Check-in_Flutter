@@ -358,9 +358,8 @@ class _FacilityRegistrationDialogState
               },
               child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) => SignUpView()),
-                    (route) => false,
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const SignUpView()),
                   );
                 },
                 child: Container(
