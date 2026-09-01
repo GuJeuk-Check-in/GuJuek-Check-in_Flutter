@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:gujuek_check_in_flutter/core/storage/secure_storage_service.dart';
-
-import 'features/auth/presentation/ui/institution_login_gate_screen.dart';
 import 'features/home/presentation/ui/home_screen.dart';
 
 void main() async {
@@ -22,7 +18,6 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final loginState = ref.watch(loginStateProvider);
     return ScreenUtilInit(
       // 디자인 기준 해상도
       designSize: const Size(1280, 800),

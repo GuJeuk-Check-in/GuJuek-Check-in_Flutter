@@ -1,16 +1,13 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client.dart';
 import 'package:gujuek_check_in_flutter/core/network/api_client_provider.dart';
-import 'package:gujuek_check_in_flutter/core/storage/secure_storage_service.dart';
 import 'package:gujuek_check_in_flutter/features/auth/data/models/purpose/purpose_model.dart';
 
 class PurposeRepository {
-  PurposeRepository(this._client, this._secureStorage);
+  PurposeRepository(this._client);
 
   final ApiClient? _client;
-  final SecureStorageService? _secureStorage;
 
   // 방문 목적 목록을 서버에서 가져옴
   Future<List<PurposeModel>> fetchPurposes() async {
@@ -34,7 +31,6 @@ class PurposeRepository {
 
 // 전역에서 PurposeRepository를 주입하기 위한 Provider
 final purposeRepositoryProvider = Provider<PurposeRepository>((ref) {
-  final secureStorage = ref.watch(secureStorageServiceProvider);
   final apiClient = ref.watch(apiClientProvider);
-  return PurposeRepository(apiClient, secureStorage);
+  return PurposeRepository(apiClient);
 });
