@@ -6,9 +6,8 @@ part 'user_model.g.dart';
 enum Gender {
   @JsonValue('MAN')
   MAN,
-
   @JsonValue('WOMAN')
-  WOMAN
+  WOMAN,
 }
 
 @JsonSerializable()
@@ -23,6 +22,7 @@ class UserModel {
   final String residence; // String으로 저장
   final int maleCount;
   final int femaleCount;
+  final String visitTime;
 
   UserModel({
     required this.name,
@@ -31,19 +31,14 @@ class UserModel {
     required this.birthYMD,
     required this.privacyAgreed,
     required this.purpose,
-    required this.residence, required this.maleCount, required this.femaleCount,
+    required this.residence,
+    required this.maleCount,
+    required this.femaleCount,
+    required this.visitTime,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
+
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
-
-  // ResidenceEnum? get residenceEnum {
-  //   // 저장된 문자열을 enum으로 되돌림(없으면 null)
-  //   try {
-  //     return ResidenceEnum.values.firstWhere((e) => e.value == residence);
-  //   } catch (_) {
-  //     return null;
-  //   }
-  // }
-
 }

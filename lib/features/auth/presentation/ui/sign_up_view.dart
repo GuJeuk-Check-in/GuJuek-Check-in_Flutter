@@ -9,12 +9,14 @@ import 'package:gujuek_check_in_flutter/core/images.dart';
 import 'package:gujuek_check_in_flutter/core/widgets/dialogs/loading_dialog.dart';
 import 'package:gujuek_check_in_flutter/features/auth/data/sign_up_options.dart';
 import 'package:gujuek_check_in_flutter/features/auth/presentation/dialogs/check_id_dialog.dart';
+import 'package:gujuek_check_in_flutter/features/auth/presentation/state/residence_list_provider.dart';
 import 'package:gujuek_check_in_flutter/features/auth/presentation/state/sign_up_controller.dart';
 import 'package:gujuek_check_in_flutter/features/auth/presentation/state/sign_up_state.dart';
 import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/location_custom_drop_down_button.dart';
 import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/people_counter_widget.dart';
 import 'package:gujuek_check_in_flutter/features/auth/presentation/widgets/phone_input_formatter.dart';
+import 'package:intl/intl.dart';
 
 class SignUpView extends ConsumerStatefulWidget {
   const SignUpView({super.key});
@@ -32,6 +34,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
   String? _selectedAddress;
   bool _isPrivacyAgreed = false;
   int _selectedValue = 1;
+  String visitTime = DateFormat('yyyy-MM-ddTHH:mm:ss').format(DateTime.now());
 
   // 생년월일 관련 변수 추가
   int selectedYear = 2000;
@@ -62,21 +65,21 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
 
   // 입력 폼을 SignUpFormData로 변환해 제출
   void _submitSignUp() {
-    ref
-        .read(signUpControllerProvider.notifier)
-        .submit(
-          SignUpFormData(
-            name: nameController.text,
-            phone: phoneNumberController.text,
-            genderValue: _selectedValue,
-            birthYmd: apiDate,
-            privacyAgreed: _isPrivacyAgreed,
-            purpose: _selectedPurpose,
-            residence: _selectedAddress,
-            maleCount: maleCount,
-            femaleCount: femaleCount,
-          ),
-        );
+    ref.read(signUpControllerProvider.notifier).submit(
+      SignUpFormData(
+        name: nameController.text,
+        phone: phoneNumberController.text,
+        genderValue: _selectedValue,
+        birthYmd: apiDate,
+        privacyAgreed: _isPrivacyAgreed,
+        purpose: _selectedPurpose,
+        residence: _selectedAddress,
+        maleCount: maleCount,
+        femaleCount: femaleCount,
+        visitTime: visitTime,
+        idDate: idDate,
+      ),
+    );
   }
 
   void _showLoadingDialog() {
@@ -122,9 +125,9 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
     if (next.errorType == SignUpErrorType.duplicateUser) {
       _showDuplicateUserDialog(message);
     } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
     }
 
     ref.read(signUpControllerProvider.notifier).clearNotifications();
@@ -165,156 +168,30 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
       backgroundColor: GuJuekColor.white,
       body: Row(
         children: [
-          // 왼쪽 파란 배경 영역
           Expanded(
-            flex: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFF2DCBFA),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.r),
-                  bottomLeft: Radius.circular(20.r),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.asset(
+                  'assets/images/background/background.png',
+                  fit: BoxFit.cover,
                 ),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 39.h,
-                    left: 39.w,
-                    child: const _CircleDecoration(
-                      size: 32,
-                      color: GuJuekColor.white,
-                    ),
-                  ),
-                  Positioned(
-                    left: 136.w,
-                    top: 85.h,
-                    child: const _CircleDecoration(
-                      size: 68,
-                      color: Color(0xffAAE5F7),
-                    ),
-                  ),
-                  Positioned(
-                    right: 78.h,
-                    top: 157.h,
-                    child: const _CircleDecoration(
-                      size: 39,
-                      color: Color(0xFFAAE5F7),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 330.h,
-                    left: 36.w,
-                    child: const _CircleDecoration(
-                      size: 39,
-                      color: Color(0xffAAE5F7),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 228.h,
-                    left: 145.w,
-                    child: const _CircleDecoration(
-                      size: 68,
-                      color: Color(0xFFD4F2FB),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 308.h,
-                    right: 77.w,
-                    child: const _CircleDecoration(
-                      size: 39,
-                      color: Color(0xFFD4F2FB),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 75.h,
-                    right: 155.w,
-                    child: const _CircleDecoration(
-                      size: 39,
-                      color: Color(0xFFAAE5F7),
-                    ),
-                  ),
-                  Positioned(
-                    top: 96.h,
-                    left: -205.w,
-                    child: const _CircleDecoration(
-                      size: 260,
-                      color: GuJuekColor.white,
-                    ),
-                  ),
-                  Positioned(
-                    top: 103.h,
-                    left: -210.w,
-                    child: const _CircleDecoration(
-                      size: 237,
-                      color: Color(0xff2ABFEC),
-                    ),
-                  ),
-                  Positioned(
-                    top: -140.h,
-                    right: -140.w,
-                    child: const _CircleDecoration(
-                      size: 250,
-                      color: GuJuekColor.white,
-                    ),
-                  ),
-                  Positioned(
-                    top: -140.h,
-                    right: -160.w,
-                    child: const _CircleDecoration(
-                      size: 237,
-                      color: GuJuekColor.skyBlue,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 10.h,
-                    right: -180.w,
-                    child: const _CircleDecoration(
-                      size: 250,
-                      color: GuJuekColor.white,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 15.h,
-                    right: -200.w,
-                    child: const _CircleDecoration(
-                      size: 237,
-                      color: Color(0xff2ABFEC),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: -25.h,
-                    right: 330.w,
-                    child: const _CircleDecoration(
-                      size: 237,
-                      color: GuJuekColor.white,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: -30.h,
-                    left: -180.w,
-                    child: const _CircleDecoration(
-                      size: 237,
-                      color: Color(0xFF2ABFEC),
-                    ),
-                  ),
-                  Center(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 280.h),
-                        Text(
-                          '처음 방문 등록',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 60.sp,
-                            fontFamily: 'Jua',
-                          ),
+                Center(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 200.h),
+                      Text(
+                        '처음 방문 등록',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 60.sp,
+                          fontFamily: 'Jua',
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
 
@@ -349,7 +226,9 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               child: Container(
                                 width: 351.w,
                                 height: 60.h,
-                                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20.w,
+                                ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.r),
                                   border: Border.all(
@@ -358,7 +237,8 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                                   ),
                                 ),
                                 child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.center,
                                   children: [
                                     Image.asset(
                                       Images.calendarIcon,
@@ -368,7 +248,8 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                                     SizedBox(width: 10.w),
                                     Text(
                                       displayDate,
-                                      style: GuJuekTextStyle.hintText.copyWith(
+                                      style: GuJuekTextStyle.hintText
+                                          .copyWith(
                                         color: apiDate.isEmpty
                                             ? GuJuekColor.gray10
                                             : GuJuekColor.gray40,
@@ -402,7 +283,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                           _selectedPurpose = purpose!.purpose;
                         },
                         width: 800.w,
-                        height: 60.h,
+                        height: 50.h,
                         text: '방문 목적을 입력해주세요',
                         imagePath: Images.downIcon,
                         decoration: BoxDecoration(
@@ -425,24 +306,14 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               signUpGender,
                               '성별을 선택해주세요',
                               Images.genderIcon,
-                              (val) => setState(() => _selectedGender = val),
+                                  (val) => setState(() => _selectedGender = val),
                               showCustomInput: false,
                             ),
                           ),
                         ),
                         SizedBox(width: 20.w),
                         Expanded(
-                          child: buildColumn(
-                            '거주지',
-                            buildDropDownButton(
-                              _selectedAddress,
-                              signUpAddressOptions,
-                              '거주지를 선택해주세요',
-                              Images.homeIcon,
-                              (val) => setState(() => _selectedAddress = val),
-                              showCustomInput: true,
-                            ),
-                          ),
+                          child: buildColumn('거주지', buildResidenceDropDown()),
                         ),
                       ],
                     ),
@@ -535,14 +406,60 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
     );
   }
 
+  // 거주지 목록을 서버(/residence/all)에서 로드해 드롭다운으로 표시
+  Widget buildResidenceDropDown() {
+    final residenceListAsync = ref.watch(residenceListProvider);
+
+    return residenceListAsync.when(
+      loading: () => _residenceBox(
+        const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+      ),
+      error: (error, stackTrace) => _residenceBox(
+        Center(
+          child: Text('불러오기 실패', style: GuJuekTextStyle.hintText),
+        ),
+      ),
+      data: (residences) {
+        final options = residences.map((e) => e.residence).toList();
+        // 서버에 없는 값이 선택되어 있으면 초기화(404 방지)
+        if (_selectedAddress != null &&
+            !options.contains(_selectedAddress)) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) setState(() => _selectedAddress = null);
+          });
+        }
+        return buildDropDownButton(
+          _selectedAddress,
+          options,
+          '거주지를 선택해주세요',
+          Images.homeIcon,
+          (val) => setState(() => _selectedAddress = val),
+          showCustomInput: false,
+        );
+      },
+    );
+  }
+
+  Widget _residenceBox(Widget child) {
+    return Container(
+      width: 351.w,
+      height: 60.h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.r),
+        border: Border.all(width: 1.w, color: const Color(0xff404040)),
+      ),
+      child: child,
+    );
+  }
+
   Widget buildDropDownButton(
-    String? value,
-    List<String> items,
-    String text,
-    String imagePath,
-    ValueChanged<String?> onChanged, {
-    bool showCustomInput = false,
-  }) {
+      String? value,
+      List<String> items,
+      String text,
+      String imagePath,
+      ValueChanged<String?> onChanged, {
+        bool showCustomInput = false,
+      }) {
     // 현재 선택된 값이 items에 없으면 추가
     List<String> displayItems = List.from(items);
     if (value != null && !displayItems.contains(value)) {
@@ -571,7 +488,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                   items: [
                     // 기존 항목들 + 직접 입력된 값
                     ...displayItems.map(
-                      (e) => DropdownMenuItem<String>(
+                          (e) => DropdownMenuItem<String>(
                         value: e,
                         child: Center(
                           child: Text(
@@ -585,19 +502,19 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                       ),
                     ),
                     // 직접 입력 항목
-                    if(showCustomInput)
-                    DropdownMenuItem<String>(
-                      value: _customInputValue,
-                      child: Center(
-                        child: Text(
-                          '기타 입력',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.black,
+                    if (showCustomInput)
+                      DropdownMenuItem<String>(
+                        value: _customInputValue,
+                        child: Center(
+                          child: Text(
+                            '기타 입력',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),
-                    ),
                   ],
                   onChanged: (selected) async {
                     if (selected == null) return;
@@ -625,7 +542,9 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
     );
   }
 
-  Future<void> _showCustomAddressDialog(ValueChanged<String?> onChanged) async {
+  Future<void> _showCustomAddressDialog(
+      ValueChanged<String?> onChanged,
+      ) async {
     // 기타 입력 선택 시 별도 입력창 표시
     final controller = TextEditingController();
 
@@ -739,7 +658,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               },
                               children: List.generate(
                                 DateTime.now().year - 1950 + 1,
-                                (index) => Center(
+                                    (index) => Center(
                                   child: Text(
                                     '${1950 + index}',
                                     style: TextStyle(fontSize: 18.sp),
@@ -774,7 +693,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               },
                               children: List.generate(
                                 12,
-                                (index) => Center(
+                                    (index) => Center(
                                   child: Text(
                                     '${index + 1}',
                                     style: TextStyle(fontSize: 18.sp),
@@ -809,7 +728,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               },
                               children: List.generate(
                                 31,
-                                (index) => Center(
+                                    (index) => Center(
                                   child: Text(
                                     '${index + 1}',
                                     style: TextStyle(fontSize: 18.sp),
@@ -828,7 +747,6 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
               TextButton(
                 onPressed: () {
                   // 선택 날짜를 화면 표시/서버 전송 형식으로 저장
-                  // 날짜 저장
                   DateTime selectedDate = DateTime(
                     selectedYear,
                     selectedMonth,
@@ -837,12 +755,12 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
 
                   setState(() {
                     displayDate =
-                        '${selectedDate.year}/${selectedDate.month}/${selectedDate.day}';
+                    '${selectedDate.year}/${selectedDate.month}/${selectedDate.day}';
 
                     apiDate =
-                        '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}';
+                    '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}';
                     idDate =
-                        '${selectedDate.month.toString().padLeft(2, '0')}${selectedDate.day.toString().padLeft(2, '0')}';
+                    '${selectedDate.month.toString().padLeft(2, '0')}${selectedDate.day.toString().padLeft(2, '0')}';
                   });
 
                   debugPrint('화면 표시: $displayDate');
@@ -912,20 +830,4 @@ Widget buildCountingItem({
       PeopleCounterWidget(initialValue: initialValue, onChanged: onChanged),
     ],
   );
-}
-
-class _CircleDecoration extends StatelessWidget {
-  final double size;
-  final Color color;
-
-  const _CircleDecoration({super.key, required this.size, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size.w,
-      height: size.h,
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-    );
-  }
 }

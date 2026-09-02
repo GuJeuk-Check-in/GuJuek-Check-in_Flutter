@@ -24,7 +24,6 @@ class AuthRepository {
   AuthRepository(this._client);
 
   final ApiClient? _client;
-  // final SecureStorageService _secureStorage;
 
   Future<ApiResponse> signUp(UserModel user) async {
     final client = _client;
@@ -38,7 +37,6 @@ class AuthRepository {
         '/user/sign-up',
         data: user.toJson(),
         options: Options(
-          // headers: {'Authorization': 'Bearer $accessToken'},
           validateStatus: (status) {
             return status != null && status < 600;
           },
@@ -62,24 +60,17 @@ class AuthRepository {
       return ApiResponse(message: 'BASE_URL이 설정되지 않았습니다.');
     }
 
-    // final tokens = await _secureStorage.readOrganTokens();
-    // final accessToken = tokens['access_token'];
-    // if (accessToken == null || accessToken.isEmpty) {
-    //   return ApiResponse(message: '기관 로그인 토큰이 없습니다.');
-    // }
-
     try {
       final response = await client.dio.post(
         '/user/login',
         data: loginModel.toJson(),
         options: Options(
-          // headers: {'Authorization': 'Bearer $accessToken'},
           validateStatus: (status) => status != null && status < 600,
         ),
       );
       return ApiResponse(statusCode: response.statusCode, data: response.data);
     } on DioException catch (e) {
-      debugPrint('LOGIN DioException: ${e.message}');
+          debugPrint('LOGIN DioException: ${e.message}');
       return ApiResponse(
         statusCode: e.response?.statusCode,
         data: e.response?.data,
@@ -92,6 +83,5 @@ class AuthRepository {
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository(
     ref.watch(apiClientProvider),
-    // ref.watch(secureStorageServiceProvider),
   );
 });

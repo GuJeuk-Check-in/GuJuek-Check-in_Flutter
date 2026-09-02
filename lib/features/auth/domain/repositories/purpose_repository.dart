@@ -19,7 +19,7 @@ class PurposeRepository {
     }
 
     try {
-      final response = await client.dio.get('purpose/all');
+      final response = await client.dio.get('/purpose/all');
       final List<dynamic> jsonList = response.data;
       return jsonList.map((e) => PurposeModel.fromJson(e)).toList();
     } catch (error) {

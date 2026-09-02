@@ -23,9 +23,12 @@ dependencies:
   flutter_launcher_icons: ^0.14.4
   flutter_secure_storage: ^10.3.1
   jwt_decoder: ^2.0.1
+  intl: ^0.20.3
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
 
   flutter_lints: ^4.0.0
@@ -42,6 +45,7 @@ flutter:
     - assets/images/safety_rules/
     - assets/images/icons/
     - assets/images/button/
+    - assets/images/background/
 
   fonts:
     - family: Pretendard

@@ -47,6 +47,8 @@ class SignUpFormData {
     required this.residence,
     required this.maleCount,
     required this.femaleCount,
+    required this.visitTime,
+    required this.idDate,
   });
 
   final String name;
@@ -58,4 +60,8 @@ class SignUpFormData {
   final String? residence;
   final int maleCount;
   final int femaleCount;
+  final String visitTime;
+
+  // 생일 MMDD (아이디 = 이름 + 생일 형식 생성용)
+  final String idDate;
 }

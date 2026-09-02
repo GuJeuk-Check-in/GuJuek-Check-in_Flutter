@@ -41,6 +41,7 @@ class SignUpController extends StateNotifier<SignUpState> {
       residence: form.residence!,
       maleCount: form.maleCount,
       femaleCount: form.femaleCount,
+      visitTime: form.visitTime,
     );
 
     debugPrint('SIGN UP DATA: ${user.toJson()}');
@@ -67,7 +68,15 @@ class SignUpController extends StateNotifier<SignUpState> {
 
     final statusCode = response.statusCode ?? 0;
     if (statusCode == 200 || statusCode == 201) {
-      final generatedId = response.data?['userId']?.toString() ?? '';
+      // 서버가 201에 빈 본문을 반환하므로, 응답에 userId가 없으면
+      // '이름 + 생일(MMDD)' 규칙으로 클라이언트에서 아이디를 생성한다.
+      final data = response.data;
+      final serverId = data is List && data.isNotEmpty && data.first is Map
+          ? (data.first as Map)['userId']?.toString()
+          : (data is Map ? data['userId']?.toString() : null);
+      final generatedId = (serverId != null && serverId.isNotEmpty)
+          ? serverId
+          : '${form.name.trim()}${form.idDate}';
       state = state.copyWith(generatedId: generatedId);
       return;
     }
@@ -76,6 +85,21 @@ class SignUpController extends StateNotifier<SignUpState> {
       state = state.copyWith(
         errorType: SignUpErrorType.duplicateUser,
         message: '이미 존재하는 회원입니다.',
+      );
+      return;
+    }
+
+    if (statusCode == 400 || statusCode == 404) {
+      // 서버 유효성 실패(존재하지 않는 거주지/방문 목적, 필수값 누락 등)
+      final data = response.data;
+      final serverMessage = data is Map
+          ? (data['description'] ?? data['message'])?.toString()
+          : null;
+      state = state.copyWith(
+        errorType: SignUpErrorType.validation,
+        message: serverMessage?.isNotEmpty == true
+            ? serverMessage
+            : '입력한 정보를 다시 확인해주세요.',
       );
       return;
     }

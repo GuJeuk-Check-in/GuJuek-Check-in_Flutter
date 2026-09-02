@@ -15,6 +15,8 @@ class ApiClient {
     // .env의 BASE_URL을 기준으로 Dio 설정
 
     final baseUrl = dotenv.env['BASE_URL'];
+    print('🔍 BASE_URL: $baseUrl');
+
 
     if (baseUrl == null || baseUrl.isEmpty) {
       return null;
